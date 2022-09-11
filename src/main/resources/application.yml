@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  error:
+    path: /error
+spring:
+  application:
+    name: jiranibora
+  datasource:
+    url: jdbc:mysql://localhost:5000/jiranibora
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: cnd80751xh
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+    show-sql: true
+twilio:
+  auth-token:
+  account-sid:
+  trial-number:
+
