@@ -27,48 +27,48 @@ public class JwtFilter extends OncePerRequestFilter {
      }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-
-
-//        get the auth token
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+        String token = null;
         String username = null;
-        String  authorizationToken  = null;
-        try{
-           authorizationToken = request.getHeader("Authorization");
-        }catch(NullPointerException e){
-            System.out.println("No token passed");
-        }
-        assert authorizationToken !=null;
-        if(!authorizationToken.startsWith("Bearer")){
-            throw new IllegalArgumentException("Invalid auth token");
-        }
-        String token  = authorizationToken.split(" ")[1];
-//      extract the username
-        try{
-             username = jwt.getUsernameFromToken(token);
-        }catch(MalformedJwtException e){
-            throw new BadCredentialsException("Malformed token");
-        }
-//      Check whether the user is not authenticated but he/she has a valid token
-        if(username !=null && SecurityContextHolder.getContext().getAuthentication() !=null){
-//           Get the details of the token owner
-            AppUser appUser =(AppUser) appUserService.loadUserByUsername(username);
-            //Validate the token with the generated user
-            if(jwt.validateToken(token, appUser)){
-//                authenticate the user
-                UsernamePasswordAuthenticationToken authenticator = new UsernamePasswordAuthenticationToken(
-                        appUser,null, appUser.getAuthorities()
-                );
-                authenticator.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//                  set the authentication context to Spring security context
-                SecurityContextHolder.getContext().setAuthentication(authenticator);
+//        get the authorization
+        String authorization = request.getHeader("Authorization");
+        try {
+            if (authorization != null && authorization.startsWith("Bearer")) {
+                token = authorization.split(" ")[1];
+
+                username = jwt.getUsernameFromToken(token);
+
             }
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+// In other words we are checking if there is a user in the token and that user is not yet
+//            authenticated
+//            if so, then the user is logged in
+                AppUser appUser = (AppUser)appUserService.loadUserByUsername(username);
 
+//            Now, validate the details in the token against the actual user with the said username
+
+
+                if (jwt.validateToken(token, appUser)) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
+                            = new UsernamePasswordAuthenticationToken(appUser, null,
+                            appUser.getAuthorities());
+
+                    usernamePasswordAuthenticationToken.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                }
+
+
+//            We are done now proceed with the next filter chains
+
+            }
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            throw new BadCredentialsException ("The token passed has expired, please login again");
         }
-
-   filterChain.doFilter(request, response);
-
     }
 
 }

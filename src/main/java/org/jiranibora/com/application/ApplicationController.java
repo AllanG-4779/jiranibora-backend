@@ -3,8 +3,10 @@ package org.jiranibora.com.application;
 import lombok.AllArgsConstructor;
 import org.jiranibora.com.models.Application;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = {"*"})
 @AllArgsConstructor
+
 @RequestMapping("/application")
 
 public class ApplicationController {
@@ -26,6 +29,7 @@ public class ApplicationController {
     }
 
 //    approve a member
+
     @PostMapping("/exec/{memberId}")
     public ResponseEntity<?> approveMember(@PathVariable String memberId,
                                            @RequestParam String action, @RequestBody Optional<Reason> reason){

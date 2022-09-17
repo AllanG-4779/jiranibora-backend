@@ -1,9 +1,11 @@
 package org.jiranibora.com.auth;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
+@Slf4j
 public class AuthenticationController {
 
     private  final AuthenticationManager authenticationManager;
@@ -31,23 +34,30 @@ public class AuthenticationController {
 
     public AuthenticationResponse loginUser(@RequestBody AuthenticationRequest authRequest
                                            ) throws Exception {
-         try{
-             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-              authRequest.getMemberId(),authRequest.getPassword()
-             ));
+        try {
+            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authRequest.getMemberId(), authRequest.getPassword()
+            ));
+            if (auth.isAuthenticated()) {
+                AppUser appUser = (AppUser) appUserService.loadUserByUsername(authRequest.getMemberId());
 
-         }catch(BadCredentialsException e){
-             throw new Exception("Wrong username or password");
-         }
-       AppUser appUser = (AppUser) appUserService.loadUserByUsername(authRequest.getMemberId());
+                final String token = jwt.generateToken(appUser);
+                log.info("Logged in as " + appUser.getAuthorities());
+                return AuthenticationResponse.builder()
+                        .role(appUser.getRole())
+                        .access_token(token).build();
+            }
 
-       final String token = jwt.generateToken(appUser);
 
-       return AuthenticationResponse.builder()
-               .role(appUser.getRole())
-                 .access_token(token).build();
-
+        } catch (BadCredentialsException e) {
+            throw new Exception("Wrong username or password");
+        }
+        return AuthenticationResponse.builder()
+                .access_token(null)
+                .role("NOT authenticated")
+                .build();
     }
+
 
 
 
