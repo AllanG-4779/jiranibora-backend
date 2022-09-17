@@ -1,4 +1,4 @@
-package org.jiranibora.com.auth;
+package org.jiranibora.com.models;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;

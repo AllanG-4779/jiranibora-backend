@@ -12,7 +12,7 @@ spring:
     password: cnd80751xh
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     generate-ddl: true
     show-sql: true
 twilio:

@@ -1,4 +1,4 @@
-package org.jiranibora.com.auth;
+package org.jiranibora.com.application;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

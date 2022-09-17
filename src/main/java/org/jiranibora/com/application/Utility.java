@@ -1,8 +1,4 @@
-package org.jiranibora.com.auth;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+package org.jiranibora.com.application;
 
 import java.util.Arrays;
 import java.util.Random;

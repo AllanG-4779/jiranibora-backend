@@ -1,4 +1,4 @@
-package org.jiranibora.com.auth.exceptions;
+package org.jiranibora.com.application.exceptions;
 
 
 
