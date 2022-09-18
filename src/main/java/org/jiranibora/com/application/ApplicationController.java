@@ -16,7 +16,6 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = {"*"})
 @AllArgsConstructor
-
 @RequestMapping("/application")
 
 public class ApplicationController {

@@ -67,7 +67,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            throw new BadCredentialsException ("The token passed has expired, please login again");
+            throw new BadCredentialsException (e.getMessage());
         }
     }
 

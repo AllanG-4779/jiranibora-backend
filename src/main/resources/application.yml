@@ -6,9 +6,9 @@ spring:
   application:
     name: jiranibora
   datasource:
-    url: jdbc:mysql://localhost:5000/jiranibora
+    url: jdbc:mysql://db4free.net:3306/jiranibora
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
+    username: allang45
     password: cnd80751xh
   jpa:
     hibernate:
