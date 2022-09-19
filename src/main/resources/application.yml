@@ -5,18 +5,17 @@ server:
 spring:
   application:
     name: jiranibora
-  datasource:
-    url: jdbc:mysql://db4free.net:3306/jiranibora
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: allang45
-    password: cnd80751xh
+  config:
+    import: optional:secrets.yaml
   jpa:
     hibernate:
       ddl-auto: update
     generate-ddl: true
     show-sql: true
+
 twilio:
   auth-token:
   account-sid:
   trial-number:
+
 
