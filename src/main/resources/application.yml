@@ -1,6 +1,5 @@
 
-  error:
-    path: /error
+
 spring:
   application:
     name: jiranibora
@@ -11,6 +10,8 @@ spring:
       ddl-auto: update
     generate-ddl: true
     show-sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 twilio:
   auth-token:
