@@ -63,7 +63,7 @@ public class JWT {
     //2. Sign the JWT using the HS512 algorithm and secret key.
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 36* 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 3600* 1000))
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact();
     }
 
