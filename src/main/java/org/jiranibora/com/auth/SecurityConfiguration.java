@@ -29,7 +29,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
          this.appUserService = appUserService;
          this.filter = filter;
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

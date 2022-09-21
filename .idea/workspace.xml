@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="build was completed for production" />
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="build was completed for production">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,7 +123,9 @@
       <workItem from="1663330240292" duration="11192000" />
       <workItem from="1663408042084" duration="20571000" />
       <workItem from="1663483315505" duration="14357000" />
-      <workItem from="1663581521028" duration="12371000" />
+      <workItem from="1663581521028" duration="12773000" />
+      <workItem from="1663656305378" duration="598000" />
+      <workItem from="1663679183343" duration="865000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
