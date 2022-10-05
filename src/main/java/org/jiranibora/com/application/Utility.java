@@ -1,9 +1,11 @@
 package org.jiranibora.com.application;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.Random;
 
-
+@Component
 public class Utility {
     private static final Integer LENGTH = 10;
 

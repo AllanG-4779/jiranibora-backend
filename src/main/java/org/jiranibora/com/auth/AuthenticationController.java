@@ -47,8 +47,6 @@ public class AuthenticationController {
                         .role(appUser.getRole())
                         .access_token(token).build();
             }
-
-
         } catch (BadCredentialsException e) {
             throw new Exception("Wrong username or password");
         }

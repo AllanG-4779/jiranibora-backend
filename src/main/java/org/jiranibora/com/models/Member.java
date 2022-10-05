@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,4 +25,5 @@ public class Member {
     private Boolean isActive;
     private Boolean isEnabled;
     private String role;
+
 }

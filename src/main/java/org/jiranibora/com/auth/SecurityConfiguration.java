@@ -33,12 +33,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable().cors().and()
+
                 .authorizeRequests()
                 .antMatchers("/auth/login", "/application/apply").permitAll()
 
                 .antMatchers("/application/**").hasAnyAuthority("CHAIR")
+                .anyRequest().authenticated()
 
                 .and()
+
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
