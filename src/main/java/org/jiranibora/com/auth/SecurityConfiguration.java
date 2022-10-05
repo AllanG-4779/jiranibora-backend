@@ -35,10 +35,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable().cors().and()
 
                 .authorizeRequests()
-                .antMatchers("/auth/login", "/application/apply").permitAll()
-
-                .antMatchers("/application/**").hasAnyAuthority("CHAIR")
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
+//                .antMatchers("/auth/login", "/application/apply").permitAll()
+//
+//                .antMatchers("/application/**").hasAnyAuthority("CHAIR")
+//                .anyRequest().authenticated()
 
                 .and()
 

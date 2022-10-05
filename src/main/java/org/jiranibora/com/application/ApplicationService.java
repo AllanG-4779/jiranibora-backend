@@ -40,7 +40,6 @@ public class ApplicationService {
 
      Utility utility = new Utility();
         Application application = Application.builder()
-
                 .applicationRef(utility.randomApplicationID())
                 .amount(applicationRequest.getAmount())
                 .dob(applicationRequest.getDob())

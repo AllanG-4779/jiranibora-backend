@@ -20,6 +20,7 @@ target/
 .project
 .settings
 .springBeans
+gittoken
 .sts4-cache
 
 ### NetBeans ###

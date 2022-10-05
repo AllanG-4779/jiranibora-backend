@@ -15,7 +15,7 @@ public class JiraniBoraApplication
 {
     @PostConstruct
     public void initTwilio(){
-       // Twilio.init();
+    //    Twilio.init();
     }
     public static void main( String[] args )
     {
