@@ -15,11 +15,9 @@ import java.time.LocalDateTime;
 @Builder
 public class Contribution {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
-    @Column(unique = true, updatable = false)
     private String contId;
-    private Boolean status;
+    private String month;
+    private String status;
     private LocalDateTime openOn;
     private LocalDateTime closeOn;
 }

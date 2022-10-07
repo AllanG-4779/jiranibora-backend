@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LoanRepository extends JpaRepository<LoanApplication, String> {
-    @Query("SELECT loan FROM LoanApplication  loan WHERE  loan.memberId=?1 AND loan.status=false")
+    @Query("SELECT loan FROM LoanApplication  loan WHERE  loan.memberId=?1 AND loan.status='Pending'")
      LoanApplication findByMemberId(Member member);
 }

@@ -25,6 +25,8 @@ public class LoanApplication {
     public Boolean owner;
     public String fullName;
     public String nationalId;
-    public Boolean status;
+    public Boolean viewed;
+    public String status;
     public Integer duration;
+    
 }

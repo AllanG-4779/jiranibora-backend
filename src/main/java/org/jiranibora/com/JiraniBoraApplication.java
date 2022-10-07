@@ -1,6 +1,5 @@
 package org.jiranibora.com;
 
-import com.twilio.Twilio;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -22,3 +21,4 @@ public class JiraniBoraApplication
         SpringApplication.run(JiraniBoraApplication.class, args);
     }
 }
+// 

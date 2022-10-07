@@ -2,6 +2,8 @@ package org.jiranibora.com.application;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.auth.PasswordEncoderConfig;
 import org.jiranibora.com.models.Application;
@@ -12,33 +14,29 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
-
+@Slf4j
 @NoArgsConstructor
 @Data
 public class ApplicationService {
     private ApplicationRepository applicationRepository;
-    private  PasswordEncoderConfig passwordEncoderConfig;
+    private PasswordEncoderConfig passwordEncoderConfig;
     private AuthenticationRepository authenticationRepository;
 
     @Autowired
     public ApplicationService(ApplicationRepository applicationRepository,
-                              PasswordEncoderConfig passwordEncoderConfig,
-                              AuthenticationRepository authenticationRepository
-    ) {
+            PasswordEncoderConfig passwordEncoderConfig,
+            AuthenticationRepository authenticationRepository) {
         this.applicationRepository = applicationRepository;
         this.passwordEncoderConfig = passwordEncoderConfig;
         this.authenticationRepository = authenticationRepository;
     }
 
+    public ApplicationResponse addApplication(ApplicationRequest applicationRequest) {
+        // Generate a random ApplicationRef;
 
-
-    public ApplicationResponse addApplication(ApplicationRequest applicationRequest){
-//        Generate a random ApplicationRef;
-
-     Utility utility = new Utility();
+        Utility utility = new Utility();
         Application application = Application.builder()
                 .applicationRef(utility.randomApplicationID())
                 .amount(applicationRequest.getAmount())
@@ -52,25 +50,26 @@ public class ApplicationService {
                 .phoneNumber(applicationRequest.getPhoneNumber())
                 .viewed(false)
                 .build();
-                 applicationRepository.saveAndFlush(application);
+        applicationRepository.saveAndFlush(application);
 
-                 return ApplicationResponse.builder()
-                         .applicantId(application.getNationalId())
-                         .applicationRef(application.getApplicationRef())
-                         .time(LocalDateTime.now().toString())
-                         .build();
+        return ApplicationResponse.builder()
+                .applicantId(application.getNationalId())
+                .applicationRef(application.getApplicationRef())
+                .time(LocalDateTime.now().toString())
+                .build();
 
     }
-    public Boolean takeAction(String applicationRef, String action, String reason){
+
+    public Boolean takeAction(String applicationRef, String action, String reason) throws Exception {
 
         Application application = applicationRepository.findApplicationByApplicationRef(applicationRef);
         application.setActedUponAt(LocalDateTime.now());
         application.setViewed(true);
+    
 
-        if (Objects.equals(action, "approve")){
-            Member member = Member.
-                    builder()
-                    .memberId("JBM"+application.getApplicationRef().substring(3))
+        if (Objects.equals(action, "approve")) {
+            Member member = Member.builder()
+                    .memberId("JBM" + application.getApplicationRef().substring(3))
                     .isActive(true)
                     .isEnabled(true)
                     .password(passwordEncoderConfig.passwordEncoder().encode("1234"))
@@ -78,27 +77,33 @@ public class ApplicationService {
                     .role("USER")
                     .build();
 
-            try{
+            try {
                 authenticationRepository.saveAndFlush(member);
                 application.setStatus("Pending");
-            }catch (Exception e){
-                return false;
+               
+            } catch (Exception e) {
+                throw new Exception(e.getMessage());
             }
-        }else if(Objects.equals(action, "disapprove")){
-           application.setStatus("Declined");
-           application.setReasonIfDeclined(reason);
+        } else if (Objects.equals(action, "disapprove")) {
+            application.setStatus("Declined");
+            application.setReasonIfDeclined(reason);           
+        }
+        try {
+            applicationRepository.saveAndFlush(application);
+        } catch (Exception e) {
+            throw new Exception("Commiting new application failed");
         }
 
-        applicationRepository.saveAndFlush(application);
-//        upon approving a member update the application
+        // upon approving a member update the application
         return true;
     }
 
-//    fetch applications
-    public List<Application> getApplications(){
+    // fetch applications
+    public List<Application> getApplications() {
         return applicationRepository.findAll();
     }
-    public Application getApplication(int id){
+
+    public Application getApplication(int id) {
         return applicationRepository.findById(id).get();
     }
 }

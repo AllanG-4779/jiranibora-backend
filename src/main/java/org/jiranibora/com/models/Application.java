@@ -1,12 +1,9 @@
 package org.jiranibora.com.models;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

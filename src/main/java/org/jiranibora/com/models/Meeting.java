@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -16,7 +18,7 @@ import javax.persistence.Id;
 public class Meeting {
     @Id
     private String meetingId;
-    private String meetingDate;
+    private LocalDateTime meetingDate;
     private String status;
 
 }

@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -17,12 +15,16 @@ import java.time.LocalDateTime;
 public class Penalty {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String id;
+    private Long id;
     @Column(unique = true, updatable = false)
     private String penCode;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="contribution_id")
     private Contribution contributionId;
-    private Integer amount;
+    @ManyToOne
+    @JoinColumn(name="member_id")
+    private Member memberId;
+    private Double amount;
     private LocalDateTime datePenalized;
     private String status;
 }

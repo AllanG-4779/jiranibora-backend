@@ -3,7 +3,6 @@ package org.jiranibora.com.application;
 import lombok.AllArgsConstructor;
 import org.jiranibora.com.models.Application;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -31,14 +30,15 @@ public class ApplicationController {
 
     @PostMapping("/exec/{memberId}")
     public ResponseEntity<?> approveMember(@PathVariable String memberId,
-                                           @RequestParam String action, @RequestBody Optional<Reason> reason){
+                                           @RequestParam String action, @RequestBody Optional<Reason> reason) throws Exception{
 // The third parameter is used to set the reason if any for declining
         String reason2 = "";
         if(reason.isPresent()) reason2 = reason.get().getReason();
         Boolean status = applicationService.takeAction(memberId, action,reason2);
+
         Map<String, String> map = new LinkedHashMap<>();
 
-        if(status){
+        if(status==true){
             map.put("approve", "successful");
             return ResponseEntity.status(200).body(map);
         }
