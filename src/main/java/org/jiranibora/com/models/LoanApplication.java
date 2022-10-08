@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class LoanApplication {
     @Id
     public String applicationId;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name="member_id")
     public Member memberId;
     public LocalDateTime dateApplied;

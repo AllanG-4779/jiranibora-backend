@@ -19,13 +19,11 @@ public class Transactions {
     private Integer id;
     @Column(unique = true)
     private String trxCode;
-    @ManyToOne(targetEntity = PaymentCategory.class, optional = false, fetch = FetchType.LAZY)
-    private PaymentCategory paymentCategory;
+    private String paymentCategory; 
     @ManyToOne
-    @JoinColumn(name="member_id")
+    @JoinColumn(name = "member_id")
     private Member memberId;
     private Integer amount;
     private LocalDateTime transactionDate;
-
 
 }

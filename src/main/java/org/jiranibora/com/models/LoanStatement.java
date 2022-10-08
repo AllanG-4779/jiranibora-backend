@@ -25,7 +25,6 @@ public class LoanStatement {
     private LoanApplication loanId;
     private Double principle; 
     private Double interest;
-    private LocalDateTime issuedAt;
-    @Formula("interest + principle")
-    private Double outStanding;
+    private LocalDateTime issuedAt;    
+ 
 }

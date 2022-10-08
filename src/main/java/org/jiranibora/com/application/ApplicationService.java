@@ -2,7 +2,7 @@ package org.jiranibora.com.application;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.auth.PasswordEncoderConfig;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@Slf4j
+
 @NoArgsConstructor
 @Data
 public class ApplicationService {
@@ -79,7 +79,7 @@ public class ApplicationService {
 
             try {
                 authenticationRepository.saveAndFlush(member);
-                application.setStatus("Pending");
+                application.setStatus("Approved");
                
             } catch (Exception e) {
                 throw new Exception(e.getMessage());

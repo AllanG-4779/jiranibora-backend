@@ -6,6 +6,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
+import org.jiranibora.com.application.TransactionDto;
 import org.jiranibora.com.application.Utility;
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.models.Contribution;
@@ -108,7 +111,8 @@ public class ContributionService {
     }
 
     // Member's contribution
-    public ContributionResponse memberContribution(String contributionId, Integer amount) {
+    @Transactional(rollbackOn = Exception.class)
+    public ContributionResponse memberContribution(String contributionId, Integer amount) throws Exception {
         ContributionResponse contRes = new ContributionResponse();
         // Is there any contribution with such ID
 
@@ -145,26 +149,26 @@ public class ContributionService {
                 if (monthlyContributionAmount < amount || monthlyContributionAmount > amount) {
 
                     contRes.setCode(417);
-                    contRes.setMessage("Please pay only the exact amount corresponding to your monthly contribution");
+                    contRes.setMessage(
+                            "Please pay only the exact amount corresponding to your monthly contribution->KES "
+                                    + member.getPrevRef().getAmount());
                     return contRes;
                 }
                 // Call the payment service here
 
                 // @To-do PAYMENT SERVICE
 
-                if (currenContribution.getStatus() == "CLOSED") {
+                if (currenContribution.getStatus().equals("CLOSED")) {
 
                     contributionStatus = "LATE";
                 } else {
                     contributionStatus = "TIMELY";
                 }
-                // Find the authenticated user
 
                 // Now find the contribution
                 MemberContributionPK memberContributionPK = MemberContributionPK.builder()
                         .contributionId(contributionId)
                         .memberId(member.getMemberId())
-
                         .build();
                 MemberContribution memberContribution = MemberContribution.builder()
                         .memberContribution(memberContributionPK)
@@ -176,7 +180,22 @@ public class ContributionService {
                 memberContributionRepository.saveAndFlush(memberContribution);
                 contRes.setCode(200);
                 contRes.setMessage("Contribution made successfully");
-                return contRes;
+
+                // Register that transaction in a transaction table;
+                TransactionDto transactionDto = TransactionDto.builder()
+                        .amount(amount)
+                        .memberId(member)
+                        .transactionDate(LocalDateTime.now())
+                        .serviceId(contributionId)
+                        .paymentCategory("Contribution")
+                        .build();
+
+                Boolean result = utility.addTransaction(transactionDto);
+                if (result) {
+                    return contRes;
+                } else {
+                    throw new Exception("Transaction failed ");
+                }
 
             }
         }
@@ -191,7 +210,7 @@ public class ContributionService {
                 .memberId(latePayer)
                 .contributionId(contributionToDisable)
                 .datePenalized(LocalDateTime.now())
-                .penCode("PNT"+utility.randomApplicationID().substring(6))
+                .penCode("PNT" + utility.randomApplicationID().substring(6))
                 .status("Pending")
                 .amount(Integer.valueOf(latePayer.getPrevRef().getAmount()) * 0.2)
 

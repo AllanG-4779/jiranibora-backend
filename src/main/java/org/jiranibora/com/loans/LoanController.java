@@ -1,6 +1,5 @@
 package org.jiranibora.com.loans;
 
-import org.hibernate.annotations.ParamDef;
 import org.jiranibora.com.loans.dto.LoanApplicationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -49,22 +46,22 @@ public class LoanController {
     // Approve loan
 
     @PostMapping("/take/action/{loan_id}")
-    public ResponseEntity<?> approveLoan(@PathVariable String loan_id, @RequestParam(required = true) String action)
+    public ResponseEntity<LoanRes> approveLoan(@PathVariable String loan_id,
+            @RequestParam(required = true) String action)
             throws Exception {
-        Integer result = loanService.takeAction(loan_id, action);
-        HashMap<String, String> map = new LinkedHashMap<>();
-        if (result == 0) {
-            map.put("message", "Action executed successfully");
-            map.put("code", "200");
+        LoanRes loanRes = loanService.takeAction(loan_id, action);
 
-        } else {
-            map.put("message", "Action failed");
-            map.put("code", "500");
-
-        }
-        map.put("action", action);
-
-        return ResponseEntity.status(Integer.valueOf(map.get("code"))).body(map);
+        return ResponseEntity.status(Integer.valueOf(loanRes.getCode())).body(loanRes);
 
     }
+    // Repay loan
+
+    @PostMapping("/client/repay")
+    private ResponseEntity<LoanRes> repayLoan(@RequestParam(required = true) Integer amount) {
+
+        LoanRes loanRes = loanService.repayLoan(amount);
+        return ResponseEntity.status(loanRes.getCode()).body(loanRes);
+
+    }
+
 }

@@ -2,8 +2,6 @@ package org.jiranibora.com.contributions;
 
 import java.util.LinkedHashMap;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@Slf4j
+
 @CrossOrigin(origins = "*")
 @RequestMapping("/cont")
 public class ContributionController {
@@ -78,7 +75,7 @@ public class ContributionController {
     // Member contribution endpoint
     @PostMapping("/contribute")
     public ResponseEntity<?> makeContribution(@RequestParam(required = true) String contributionId,
-            @RequestParam(required = true) Integer amount) {
+            @RequestParam(required = true) Integer amount) throws Exception {
 
         ContributionResponse contributionResult = contributionService.memberContribution(contributionId, amount);
 
