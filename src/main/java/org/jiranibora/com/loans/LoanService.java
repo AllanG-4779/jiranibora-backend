@@ -7,7 +7,10 @@ import org.jiranibora.com.loans.dto.LoanApplicationDto;
 import org.jiranibora.com.models.LoanApplication;
 import org.jiranibora.com.models.LoanStatement;
 import org.jiranibora.com.models.Member;
+import org.jiranibora.com.models.OverdueCharges;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,31 +19,38 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 @Service
+@EnableScheduling
 @Slf4j
 public class LoanService {
     private final LoanRepository loanRepository;
     private final AuthenticationRepository authRepository;
     private final Utility utility;
     private final LoanStatementRepo loanStatementRepo;
+    private final OverdueChargesRepository overdueChargesRepository;
 
     @Autowired
     public LoanService(LoanRepository loanRepository,
-            AuthenticationRepository authRepository, Utility utility,
+            AuthenticationRepository authRepository, Utility utility, OverdueChargesRepository overdueChargesRepository,
             LoanStatementRepo loanStatementRepo) {
         this.loanRepository = loanRepository;
         this.authRepository = authRepository;
         this.utility = utility;
         this.loanStatementRepo = loanStatementRepo;
+        this.overdueChargesRepository = overdueChargesRepository;
 
     }
 
-    public LoanApplicationDto addLoan(LoanApplicationDto loanApplicationDto) throws Exception {
+    public LoanRes addLoan(LoanApplicationDto loanApplicationDto) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
             throw new Exception("You are not authenticated");
@@ -50,7 +60,15 @@ public class LoanService {
         // Check if there is an existing application on file;
         LoanApplication alreadyApplied = loanRepository.findByMemberId(member);
         if (alreadyApplied != null) {
-            throw new UnsupportedOperationException("Some other loan has not been processed");
+            return LoanRes.builder().code(403).message("You have an existing loan please wait for it to be approved.")
+                    .build();
+        }
+        // Check if the applicant has a loan that has not been repaid;
+        Optional<LoanStatement> loanStatement = loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
+                .filter(each -> each.getPrinciple() > 0 || each.getInterest() > 0).findFirst();
+        if (loanStatement.isPresent()) {
+            Double owedAmount = loanStatement.get().getInterest() + loanStatement.get().getPrinciple();
+            return LoanRes.builder().code(403).message("You have a loan pending repayment, KES " + owedAmount).build();
         }
 
         LoanApplication loanApplication = LoanApplication.builder()
@@ -66,7 +84,7 @@ public class LoanService {
                 .viewed(false)
                 .build();
         loanRepository.saveAndFlush(loanApplication);
-        return loanApplicationDto;
+        return LoanRes.builder().code(201).message("Loan application was submitted").build();
     }
 
     public LoanRes takeAction(String loan_id, String action) throws Exception {
@@ -94,7 +112,7 @@ public class LoanService {
 
                         .loanId(loanApplication)
                         .principle(Double.valueOf(loanApplication.getAmount()))
-                        .issuedAt(LocalDateTime.now())
+                        .expectedOn(LocalDateTime.now().plusMinutes(loanApplication.getDuration()))
                         .interest(loanApplication.amount * loanApplication.duration
                                 * interest)
 
@@ -116,7 +134,7 @@ public class LoanService {
     // Loan repayment endpoint
     @Transactional
 
-    public LoanRes repayLoan(Integer amount) {
+    public LoanRes repayLoan(Double amount) {
         // Check if the member is logged in
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -171,8 +189,55 @@ public class LoanService {
                 .build();
 
         utility.addTransaction(transactionDto);
-        
 
         return LoanRes.builder().code(200).message("Transaction successful").build();
+    }
+
+    @Scheduled(initialDelay = 4000L, fixedDelayString = "PT30S")
+    @Transactional
+    public void findAndUpdateInterestsForOverdueLoans() {
+        List<LoanStatement> overdue = loanStatementRepo.findAll().stream().filter(
+                each -> each.getExpectedOn().isBefore(LocalDateTime.now())
+                        && each.getPrinciple() > 0)
+                .collect(Collectors.toList());
+        if (overdue.size() > 0) {
+            Double loanIterestPercentage = 0.0;
+            Long timeElapsedSinceLastUpdate = 1L;
+
+            for (LoanStatement loanStatement : overdue) {
+                Double overdueCharge = 0.0;
+                if (loanStatement.getLoanId().getOwner()) {
+                    loanIterestPercentage = .2;
+                } else {
+                    loanIterestPercentage = .3;
+                }
+                // Incase of a system downtime and the update is not recorded please get the
+                // elapsed time
+                timeElapsedSinceLastUpdate = (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+                        - loanStatement.getExpectedOn().toEpochSecond(ZoneOffset.UTC)) / 60;
+                System.out.println(timeElapsedSinceLastUpdate);        
+
+                overdueCharge = loanIterestPercentage * loanStatement.getPrinciple() * (timeElapsedSinceLastUpdate+1);
+
+                loanStatement.setInterest(
+                        loanStatement.getInterest() + overdueCharge);
+                loanStatement.setExpectedOn(LocalDateTime.now().plusMinutes(1));
+                loanStatementRepo.saveAndFlush(loanStatement);
+                // Add the record as well in the overdue charges table
+
+                OverdueCharges overdueCharges = OverdueCharges.builder()
+                        .loanId(loanStatement.getLoanId())
+                        .overdueCharge(overdueCharge)
+                        .lastModified(LocalDateTime.now())
+
+                        .build();
+                overdueChargesRepository.saveAndFlush(overdueCharges);
+                System.out.println("The account for " + loanStatement.getLoanId().getMemberId().getFullName()
+                        + " was charged KES " + overdueCharge + " for late additional charges");
+
+            }
+        } else {
+            System.out.println("There are no loan defaulters in the system currently");
+        }
     }
 }

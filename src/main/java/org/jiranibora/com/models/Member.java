@@ -27,4 +27,8 @@ public class Member {
     @OneToMany(fetch = FetchType.EAGER)
     private List<LoanStatement> myLoans;
 
+    public String getFullName() {
+        return this.prevRef.getFirstName() + " " + this.prevRef.getLastName() + " of ID " + this.memberId;
+    }
+
 }

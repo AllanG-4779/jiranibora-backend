@@ -23,7 +23,7 @@ public class Transactions {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member memberId;
-    private Integer amount;
+    private Double amount;
     private LocalDateTime transactionDate;
 
 }

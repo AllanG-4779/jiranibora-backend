@@ -25,6 +25,6 @@ public class LoanStatement {
     private LoanApplication loanId;
     private Double principle; 
     private Double interest;
-    private LocalDateTime issuedAt;    
+    private LocalDateTime expectedOn;    
  
 }

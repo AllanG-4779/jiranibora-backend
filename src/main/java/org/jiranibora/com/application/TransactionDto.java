@@ -17,7 +17,7 @@ public class TransactionDto {
     private String serviceId;
     private String paymentCategory;
     private Member memberId;
-    private Integer amount;
+    private Double amount;
     private LocalDateTime transactionDate;
 
 }

@@ -3,6 +3,8 @@ package org.jiranibora.com.models;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,6 +20,7 @@ import lombok.*;
 @Builder
 public class OverdueCharges {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long entryId;
     @ManyToOne
     @JoinColumn(name="loan_id")

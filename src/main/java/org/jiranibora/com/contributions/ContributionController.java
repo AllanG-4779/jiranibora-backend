@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 
 @CrossOrigin(origins = "*")
@@ -75,7 +74,7 @@ public class ContributionController {
     // Member contribution endpoint
     @PostMapping("/contribute")
     public ResponseEntity<?> makeContribution(@RequestParam(required = true) String contributionId,
-            @RequestParam(required = true) Integer amount) throws Exception {
+            @RequestParam(required = true) Double amount) throws Exception {
 
         ContributionResponse contributionResult = contributionService.memberContribution(contributionId, amount);
 
