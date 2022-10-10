@@ -1,4 +1,4 @@
-package org.jiranibora.com.penalty;
+package org.jiranibora.com.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PenaltyResponse {
+public class PaymentResponse {
     private Integer code;
     private String message;
 }

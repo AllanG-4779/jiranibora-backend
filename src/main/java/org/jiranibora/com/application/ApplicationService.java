@@ -2,7 +2,7 @@ package org.jiranibora.com.application;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.RequiredArgsConstructor;
 
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.auth.PasswordEncoderConfig;
@@ -17,26 +17,20 @@ import java.util.Objects;
 
 @Service
 
-@NoArgsConstructor
 @Data
+@RequiredArgsConstructor
 public class ApplicationService {
     private ApplicationRepository applicationRepository;
     private PasswordEncoderConfig passwordEncoderConfig;
     private AuthenticationRepository authenticationRepository;
+    private final Utility utility;
 
-    @Autowired
-    public ApplicationService(ApplicationRepository applicationRepository,
-            PasswordEncoderConfig passwordEncoderConfig,
-            AuthenticationRepository authenticationRepository) {
-        this.applicationRepository = applicationRepository;
-        this.passwordEncoderConfig = passwordEncoderConfig;
-        this.authenticationRepository = authenticationRepository;
-    }
+    
 
     public ApplicationResponse addApplication(ApplicationRequest applicationRequest) {
         // Generate a random ApplicationRef;
 
-        Utility utility = new Utility();
+    
         Application application = Application.builder()
                 .applicationRef(utility.randomApplicationID())
                 .amount(applicationRequest.getAmount())

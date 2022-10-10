@@ -1,6 +1,7 @@
 package org.jiranibora.com.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class FinePrimaryKey implements Serializable {
 
     private String fineCategory;

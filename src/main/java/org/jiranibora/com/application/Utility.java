@@ -1,8 +1,13 @@
 package org.jiranibora.com.application;
 
+import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.contributions.TransactionRepository;
+import org.jiranibora.com.models.Member;
 import org.jiranibora.com.models.Transactions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -12,14 +17,14 @@ import java.util.Random;
 public class Utility {
   private static final Integer LENGTH = 10;
   private TransactionRepository transactionRepository;
+  private final AuthenticationRepository authenticationRepository;
 
   @Autowired
-  public Utility(TransactionRepository tRepository) {
+  public Utility(TransactionRepository tRepository, AuthenticationRepository authenticationRepository) {
     this.transactionRepository = tRepository;
+    this.authenticationRepository = authenticationRepository;
   }
 
-  public Utility() {
-}
 
 public String randomApplicationID() {
 
@@ -53,6 +58,16 @@ public String randomApplicationID() {
       System.out.println(e.getMessage());
       return false;
     }
+
+  }
+
+  public Member getAuthentication() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+      return null;
+    }
+
+    return authenticationRepository.findMemberByMemberId(authentication.getName());
 
   }
 }

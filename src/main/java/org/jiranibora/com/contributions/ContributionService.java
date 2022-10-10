@@ -16,7 +16,7 @@ import org.jiranibora.com.models.Member;
 import org.jiranibora.com.models.MemberContribution;
 import org.jiranibora.com.models.MemberContributionPK;
 import org.jiranibora.com.models.Penalty;
-import org.jiranibora.com.penalty.PenaltyRepository;
+import org.jiranibora.com.payment.PenaltyRepository;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

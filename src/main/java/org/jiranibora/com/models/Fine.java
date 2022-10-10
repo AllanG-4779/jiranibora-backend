@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -17,22 +16,24 @@ import java.time.LocalDateTime;
 
 public class Fine {
 
-   @EmbeddedId
-   private FinePrimaryKey fineId ;
+    @EmbeddedId
+    private FinePrimaryKey fineId;
 
-   @ManyToOne
-   @MapsId("fineCategory")
-   @JoinColumn(name="fine_category")
+    @ManyToOne
+    @MapsId("fineCategory")
+    @JoinColumn(name = "fine_category")
     private FineCategory fineCategory;
     @ManyToOne(targetEntity = Member.class)
 
     @MapsId("memberId")
-    @JoinColumn(name="member_id")
+    @JoinColumn(name = "member_id")
     private Member memberId;
     @ManyToOne(targetEntity = Meeting.class)
     @MapsId("meetingId")
-    @JoinColumn(name="meeting_id")
-
+    @JoinColumn(name = "meeting_id")
     private Meeting meetingId;
     private LocalDateTime dateEnforced;
+    private Boolean paid;
+
+    
 }

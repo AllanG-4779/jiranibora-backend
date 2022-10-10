@@ -17,7 +17,7 @@ public class FineCategory {
     private String fineCategoryId;
     @Column(unique = true)
     private String fineName;
-    private Integer chargeableAmount;
+    private Double chargeableAmount;
 
 
 }
