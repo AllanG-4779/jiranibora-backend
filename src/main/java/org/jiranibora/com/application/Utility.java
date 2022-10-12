@@ -66,6 +66,7 @@ public String randomApplicationID() {
     if (!authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
       return null;
     }
+    System.out.println("The user is "+ authentication.getName());
 
     return authenticationRepository.findMemberByMemberId(authentication.getName());
 

@@ -18,13 +18,14 @@ public class Penalty {
     private Long id;
     @Column(unique = true, updatable = false)
     private String penCode;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="contribution_id")
+    @ManyToOne()
+    @JoinColumn(name = "contribution_id")
     private Contribution contributionId;
     @ManyToOne
-    @JoinColumn(name="member_id")
+    @JoinColumn(name = "member_id")
     private Member memberId;
     private Double amount;
     private LocalDateTime datePenalized;
     private String status;
+    
 }

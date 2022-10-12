@@ -28,7 +28,7 @@ public class Member {
     private List<LoanStatement> myLoans;
 
     public String getFullName() {
-        return this.prevRef.getFirstName() + " " + this.prevRef.getLastName() + " of ID " + this.memberId;
+        return this.prevRef.getFirstName() + " " + this.prevRef.getLastName() + " ID " + this.memberId;
     }
 
 }
