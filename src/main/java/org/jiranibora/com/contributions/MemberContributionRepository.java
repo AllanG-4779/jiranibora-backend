@@ -11,8 +11,10 @@ import org.jiranibora.com.models.Member;
 
 public interface MemberContributionRepository extends JpaRepository<MemberContribution, MemberContributionPK> {
 
-    Optional<MemberContribution> findMemberContributionByMemberId(Member memberId);
+    Optional<MemberContribution> findById(MemberContributionPK contriPk);
+
+    List<MemberContribution> findByMemberId(Member memberId);
+
     List<MemberContribution> findAllByContributionId(Contribution contributionId);
-    
 
 }

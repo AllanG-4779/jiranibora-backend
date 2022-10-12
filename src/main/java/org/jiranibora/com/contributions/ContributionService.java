@@ -117,7 +117,7 @@ public class ContributionService {
         // Is there any contribution with such ID
 
         Contribution currenContribution = contributionRepository.findByContId(contributionId);
-
+       
         if (currenContribution == null) {
             contRes.setCode(404);
             contRes.setMessage("No Contribution was found");
@@ -137,9 +137,14 @@ public class ContributionService {
             } else {
                 Member member = authenticationRepository.findMemberByMemberId(authentication.getName());
                 String contributionStatus;
+                 MemberContributionPK memberContributionPK = MemberContributionPK.builder()
+                        .contributionId(contributionId)
+                        .memberId(member.getMemberId())
+                        .build();
+
                 // If the member has already contributed...
                 Optional<MemberContribution> alreadyContributed = memberContributionRepository
-                        .findMemberContributionByMemberId(member);
+                        .findById(memberContributionPK);
                 if (alreadyContributed.isPresent()) {
                     contRes.setCode(409);
                     contRes.setMessage("You have already made your contribution for this");
@@ -166,10 +171,7 @@ public class ContributionService {
                 }
 
                 // Now find the contribution
-                MemberContributionPK memberContributionPK = MemberContributionPK.builder()
-                        .contributionId(contributionId)
-                        .memberId(member.getMemberId())
-                        .build();
+                
                 MemberContribution memberContribution = MemberContribution.builder()
                         .memberContribution(memberContributionPK)
                         .memberId(member)
