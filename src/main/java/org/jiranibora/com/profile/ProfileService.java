@@ -124,4 +124,20 @@ public class ProfileService {
                 return contribution;
 
         }
+
+        public List<TransactionResDto> getAllTransactions() {
+
+                Member member = utility.getAuthentication();
+
+                List<Transactions> myTransactions = transactionRepository.findByMemberId(member);
+
+                return myTransactions.stream()
+                                .map(each -> TransactionResDto.builder().transactionAmount(each.getAmount())
+                                                .transactionDate(each.getTransactionDate().toString())
+                                                .transactionId(each.getTrxCode().split("_")[0])
+                                                .transactioncategory(each.getPaymentCategory()).build())
+                                .collect(Collectors.toList());
+
+        }
+
 }

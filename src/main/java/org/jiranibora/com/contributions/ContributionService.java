@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.jiranibora.com.application.TransactionDto;
 import org.jiranibora.com.application.Utility;
 import org.jiranibora.com.auth.AuthenticationRepository;
+import org.jiranibora.com.contributions.MemberContributionDto.MemberContributionDtoBuilder;
 import org.jiranibora.com.models.Contribution;
 import org.jiranibora.com.models.Member;
 import org.jiranibora.com.models.MemberContribution;
@@ -22,23 +23,29 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class ContributionService {
     private final Utility utility;
     private final ContributionRepository contributionRepository;
     private final AuthenticationRepository authenticationRepository;
     private final MemberContributionRepository memberContributionRepository;
     private final PenaltyRepository penaltyRepository;
+    private final TransactionRepository transactionRepository;
 
-    public ContributionService(Utility utility, ContributionRepository contributionRepository,
-            AuthenticationRepository authenticationRepository,
-            MemberContributionRepository memberContributionRepository, PenaltyRepository penaltyRepository) {
-        this.contributionRepository = contributionRepository;
-        this.memberContributionRepository = memberContributionRepository;
-        this.utility = utility;
-        this.authenticationRepository = authenticationRepository;
-        this.penaltyRepository = penaltyRepository;
-    }
+    // public ContributionService(Utility utility, ContributionRepository
+    // contributionRepository,
+    // AuthenticationRepository authenticationRepository,
+    // MemberContributionRepository memberContributionRepository, PenaltyRepository
+    // penaltyRepository) {
+    // this.contributionRepository = contributionRepository;
+    // this.memberContributionRepository = memberContributionRepository;
+    // this.utility = utility;
+    // this.authenticationRepository = authenticationRepository;
+    // this.penaltyRepository = penaltyRepository;
+    // }
 
     public Boolean openContribution(ContributionDto contributionDto) throws Exception {
 
@@ -112,12 +119,12 @@ public class ContributionService {
 
     // Member's contribution
     @Transactional(rollbackOn = Exception.class)
-    public ContributionResponse memberContribution(String contributionId, Double amount) throws Exception {
+    public ContributionResponse memberContribution(String contributionId) throws Exception {
         ContributionResponse contRes = new ContributionResponse();
         // Is there any contribution with such ID
 
         Contribution currenContribution = contributionRepository.findByContId(contributionId);
-       
+
         if (currenContribution == null) {
             contRes.setCode(404);
             contRes.setMessage("No Contribution was found");
@@ -137,7 +144,7 @@ public class ContributionService {
             } else {
                 Member member = authenticationRepository.findMemberByMemberId(authentication.getName());
                 String contributionStatus;
-                 MemberContributionPK memberContributionPK = MemberContributionPK.builder()
+                MemberContributionPK memberContributionPK = MemberContributionPK.builder()
                         .contributionId(contributionId)
                         .memberId(member.getMemberId())
                         .build();
@@ -151,14 +158,16 @@ public class ContributionService {
                     return contRes;
                 }
                 Integer monthlyContributionAmount = Integer.valueOf(member.getPrevRef().getAmount());
-                if (monthlyContributionAmount < amount || monthlyContributionAmount > amount) {
+                // if (monthlyContributionAmount < amount || monthlyContributionAmount > amount)
+                // {
 
-                    contRes.setCode(417);
-                    contRes.setMessage(
-                            "Please pay only the exact amount corresponding to your monthly contribution->KES "
-                                    + member.getPrevRef().getAmount());
-                    return contRes;
-                }
+                // contRes.setCode(417);
+                // contRes.setMessage(
+                // "Please pay only the exact amount corresponding to your monthly
+                // contribution->KES "
+                // + member.getPrevRef().getAmount());
+                // return contRes;
+                // }
                 // Call the payment service here
 
                 // @To-do PAYMENT SERVICE
@@ -171,7 +180,7 @@ public class ContributionService {
                 }
 
                 // Now find the contribution
-                
+
                 MemberContribution memberContribution = MemberContribution.builder()
                         .memberContribution(memberContributionPK)
                         .memberId(member)
@@ -185,7 +194,7 @@ public class ContributionService {
 
                 // Register that transaction in a transaction table;
                 TransactionDto transactionDto = TransactionDto.builder()
-                        .amount(amount)
+                        .amount(Double.valueOf(monthlyContributionAmount))
                         .memberId(member)
                         .transactionDate(LocalDateTime.now())
                         .serviceId(contributionId)
@@ -204,6 +213,17 @@ public class ContributionService {
 
     }
 
+    public List<MemberContributionDto> getMemberContributions() throws Exception {
+        Member member = utility.getAuthentication();
+        if (member == null) {
+            throw new Exception("You are not authenticated");
+        }
+        List<MemberContribution> memberCont = memberContributionRepository.findByMemberId(member);
+        return memberCont.stream()
+                .map(each -> buildMemberContribution(each))
+                .collect(Collectors.toList());
+    }
+
     // build member for penalties
     public Penalty getPenalties(String eachID, Contribution contributionToDisable) {
         Member latePayer = authenticationRepository.findMemberByMemberId(eachID);
@@ -215,8 +235,38 @@ public class ContributionService {
                 .penCode("PNT" + utility.randomApplicationID().substring(6))
                 .status("Pending")
                 .amount(Integer.valueOf(latePayer.getPrevRef().getAmount()) * 0.2)
-
                 .build();
+    }
+
+    public MemberContributionDto buildMemberContribution(MemberContribution currenContribution) {
+        // find the date from the transaction list where the member made the
+        // contribution so that you can ext
+        MemberContributionDtoBuilder memberContributionDto = MemberContributionDto.builder();
+        try {
+            LocalDateTime dateContribution = transactionRepository
+                    .findByMemberIdAndPaymentCategory(currenContribution.getMemberId(),
+                            "Contribution")
+                    .stream()
+                    .filter(each -> each.getTrxCode().split("_")[1]
+                            .equals(currenContribution.getMemberContribution().getContributionId()))
+                    .findFirst().get().getTransactionDate();
+
+            memberContributionDto.date(dateContribution);
+
+        } catch (Exception e) {
+
+            memberContributionDto.date(LocalDateTime.now()).build();
+        }
+
+        return memberContributionDto
+                .contributionId(currenContribution.getContributionId().getContId())
+                .penalty(currenContribution.getStatus().equals("LATE")
+                        ? Double.valueOf(currenContribution.getMemberId().getPrevRef().getAmount()) * 0.2
+                        : 0.0)
+                .contributionId(currenContribution.getContributionId().getContId())
+                .month(currenContribution.getContributionId().getMonth())
+                .status(currenContribution.getStatus()).build();
+
     }
 
 }

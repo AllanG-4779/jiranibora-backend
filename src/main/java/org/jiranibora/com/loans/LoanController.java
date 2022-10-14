@@ -1,16 +1,22 @@
 package org.jiranibora.com.loans;
 
 import org.jiranibora.com.loans.dto.LoanApplicationDto;
+import org.jiranibora.com.loans.dto.LoanResponseDto;
+import org.jiranibora.com.loans.dto.MemberLoanProfileDto;
+import org.jiranibora.com.models.LoanStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -31,12 +37,13 @@ public class LoanController {
             throws Exception {
 
         // try {
-            LoanRes loanRes = loanService.addLoan(loanApplicationDto);
-        //     return ResponseEntity.status(200).body(loanResponse);
+        LoanRes loanRes = loanService.addLoan(loanApplicationDto);
+        // return ResponseEntity.status(200).body(loanResponse);
         // } catch (UnsupportedOperationException formatException) {
-        //     return ResponseEntity.status(HttpStatus.CONFLICT).body(loanApplicationDto);
+        // return ResponseEntity.status(HttpStatus.CONFLICT).body(loanApplicationDto);
         // } catch (Exception ex) {
-        //     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loanApplicationDto);
+        // return
+        // ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loanApplicationDto);
         // }
         return ResponseEntity.status(loanRes.getCode()).body(loanRes);
 
@@ -61,6 +68,13 @@ public class LoanController {
         LoanRes loanRes = loanService.repayLoan(amount);
         return ResponseEntity.status(loanRes.getCode()).body(loanRes);
 
+    }
+
+    // Give me the loans for a particular user
+    @GetMapping("/client/all")
+    public ResponseEntity<?> getAllLoans() {
+        MemberLoanProfileDto userStatement = loanService.getAllStatementsforUser();
+        return ResponseEntity.status(200).body(userStatement);
     }
 
 }

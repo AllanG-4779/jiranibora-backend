@@ -11,6 +11,8 @@ public interface TransactionRepository extends JpaRepository<Transactions, Integ
     // get the total contributions for a particular member
 
     List<Transactions> findByMemberIdAndPaymentCategory(Member member, String paymentCategory);
+
+    List<Transactions> findByMemberId(Member memberId);
     
 
 }

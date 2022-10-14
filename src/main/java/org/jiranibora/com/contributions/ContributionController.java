@@ -1,10 +1,13 @@
 package org.jiranibora.com.contributions;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.jiranibora.com.models.MemberContribution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = { "*" })
 @RequestMapping("/cont")
 public class ContributionController {
     private ContributionService contributionService;
@@ -73,12 +76,17 @@ public class ContributionController {
 
     // Member contribution endpoint
     @PostMapping("/contribute")
-    public ResponseEntity<?> makeContribution(@RequestParam(required = true) String contributionId,
-            @RequestParam(required = true) Double amount) throws Exception {
+    public ResponseEntity<?> makeContribution(@RequestParam(required = true) String contributionId) throws Exception {
 
-        ContributionResponse contributionResult = contributionService.memberContribution(contributionId, amount);
+        ContributionResponse contributionResult = contributionService.memberContribution(contributionId);
 
         return ResponseEntity.status(contributionResult.getCode()).body(contributionResult);
 
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getMemberContributions() throws Exception {
+        List<MemberContributionDto> memberConts = contributionService.getMemberContributions();
+        return ResponseEntity.status(200).body(memberConts);
     }
 }

@@ -4,6 +4,9 @@ import org.jiranibora.com.application.TransactionDto;
 import org.jiranibora.com.application.Utility;
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.loans.dto.LoanApplicationDto;
+import org.jiranibora.com.loans.dto.LoanResponseDto;
+import org.jiranibora.com.loans.dto.LoanSummaryDto;
+import org.jiranibora.com.loans.dto.MemberLoanProfileDto;
 import org.jiranibora.com.models.LoanApplication;
 import org.jiranibora.com.models.LoanStatement;
 import org.jiranibora.com.models.Member;
@@ -17,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice.Return;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -94,6 +98,7 @@ public class LoanService {
             if (!loanApplication.viewed) {
                 // update the loan to viewed
                 loanApplication.setViewed(true);
+                loanApplication.setDateViewed(LocalDateTime.now());
                 if (Objects.equals(action, "approve")) {
                     loanApplication.setStatus("Approved");
                 } else {
@@ -215,9 +220,9 @@ public class LoanService {
                 // elapsed time
                 timeElapsedSinceLastUpdate = (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
                         - loanStatement.getExpectedOn().toEpochSecond(ZoneOffset.UTC)) / 60;
-                System.out.println(timeElapsedSinceLastUpdate);        
+                System.out.println(timeElapsedSinceLastUpdate);
 
-                overdueCharge = loanIterestPercentage * loanStatement.getPrinciple() * (timeElapsedSinceLastUpdate+1);
+                overdueCharge = loanIterestPercentage * loanStatement.getPrinciple() * (timeElapsedSinceLastUpdate + 1);
 
                 loanStatement.setInterest(
                         loanStatement.getInterest() + overdueCharge);
@@ -239,5 +244,41 @@ public class LoanService {
         } else {
             System.out.println("There are no loan defaulters in the system currently");
         }
+    }
+
+    public MemberLoanProfileDto getAllStatementsforUser() {
+        Member member = utility.getAuthentication();
+
+        List<LoanStatement> individualStatement = loanStatementRepo.findAllByMemberId(member.getMemberId());
+
+        List<LoanResponseDto> loanResList = individualStatement.stream().map(each -> buildLoanDto(each))
+                .collect(Collectors.toList());
+
+        LoanSummaryDto loanSummary = LoanSummaryDto.builder()
+                .allTimeInterest(overdueChargesRepository.findAllTimeInterestCharged(member.getMemberId()))
+                .allTimeBorrowing(loanRepository.findTotalLoanDisbursedToMember(member.getMemberId()))
+                .build();
+        return MemberLoanProfileDto.builder().loanResponseList(loanResList).loanSummary(loanSummary).build();
+
+    }
+
+    public LoanResponseDto buildLoanDto(LoanStatement loanStatement) {
+
+        Double totalInterestCharged = overdueChargesRepository
+                .findInterestCharged(loanStatement.getLoanId().getApplicationId());
+        Double initialInterest = loanStatement.getLoanId().getAmount()
+                * (loanStatement.getLoanId().getOwner() ? 0.2 : .3);
+        Double outStandingAmount = loanStatement.getInterest() + loanStatement.getPrinciple();
+
+        return LoanResponseDto.builder()
+                .loanId(loanStatement.getLoanId().getApplicationId())
+                .amount(Double.valueOf(loanStatement.getLoanId().getAmount()))
+                .dateApplied(loanStatement.getLoanId().getDateApplied())
+                .dateApproved(loanStatement.getLoanId().getDateViewed())
+                .initialDuration(loanStatement.getLoanId().getDuration())
+                .initialInterest(initialInterest)
+                .extraInterest(totalInterestCharged - initialInterest)
+                .status(outStandingAmount > 0 ? "In progress" : "Completed")
+                .build();
     }
 }

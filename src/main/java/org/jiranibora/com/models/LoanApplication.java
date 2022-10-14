@@ -17,7 +17,7 @@ public class LoanApplication {
     @Id
     public String applicationId;
     @ManyToOne()
-    @JoinColumn(name="member_id")
+    @JoinColumn(name = "member_id")
     public Member memberId;
     public LocalDateTime dateApplied;
     public Integer amount;
@@ -28,5 +28,6 @@ public class LoanApplication {
     public Boolean viewed;
     public String status;
     public Integer duration;
-    
+    public LocalDateTime dateViewed;
+
 }

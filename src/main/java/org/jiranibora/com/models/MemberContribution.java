@@ -1,5 +1,7 @@
 package org.jiranibora.com.models;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -29,8 +31,9 @@ public class MemberContribution {
     @MapsId("contributionId")
     @JoinColumn(name = "contribution_id")
     private Contribution contributionId;
+  
+    private LocalDateTime datedone;
 
     private String status;
-    
 
 }
