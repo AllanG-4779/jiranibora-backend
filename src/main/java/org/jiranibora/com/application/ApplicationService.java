@@ -1,5 +1,6 @@
 package org.jiranibora.com.application;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.Objects;
 @Service
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ApplicationService {
     private ApplicationRepository applicationRepository;
     private PasswordEncoderConfig passwordEncoderConfig;
