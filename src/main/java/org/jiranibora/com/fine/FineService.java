@@ -1,6 +1,8 @@
 package org.jiranibora.com.fine;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.meetings.MeetingRepository;
@@ -11,7 +13,6 @@ import org.jiranibora.com.models.Meeting;
 import org.jiranibora.com.models.Member;
 import org.jiranibora.com.payment.FineCategoryRepository;
 import org.jiranibora.com.payment.FineRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -43,12 +44,34 @@ public class FineService {
             return FineRes.builder().code(404).message("A fine is only applicable to valid and open meeting").build();
 
         }
+        List<Fine> existingFines = fineRepository.findAllByMeetingIdAndMemberId(meetingExist, memberExist);
+        if (fineCategory.equals("lateness")) {
+            if (existingFines.stream().filter(each -> each.getFineCategory().getFineName().equals("absenteeism"))
+                    .collect(Collectors.toList()).size() > 0) {
+                return FineRes.builder().code(403).message("A member cannot be late and absent at the same tme")
+                        .build();
+
+            }
+        }
+        if (fineCategory.equals("absenteeism")) {
+            if (existingFines.stream().filter(each -> each.getFineCategory().getFineName().equals("latenes"))
+                    .collect(Collectors.toList()).size() > 0) {
+                return FineRes.builder().code(403).message("A member cannot be late and absent at the same tme")
+                        .build();
+
+            }
+        }
 
         FinePrimaryKey finePrimaryKey = FinePrimaryKey.builder()
                 .memberId(memberId)
                 .meetingId(meetingId)
                 .fineCategory(fineCategoryExist.getFineCategoryId())
                 .build();
+        if (fineRepository.findById(finePrimaryKey).isPresent()) {
+            return FineRes.builder().code(409).message(fineCategory + " fine has already been applied to account")
+                    .build();
+
+        }
         Fine fine = Fine.builder()
                 .dateEnforced(LocalDateTime.now())
                 .fineId(finePrimaryKey)
@@ -62,5 +85,21 @@ public class FineService {
         return FineRes.builder().code(200).message("Fine added successfully to account").build();
 
     }
+
+    public List<PendingFinesDto> getAllPending() {
+        List<Fine> allPending = fineRepository.findByPaid(false);
+
+        return allPending.stream().map(each -> PendingFinesDto.builder()
+                .amount(each.getFineCategory().getChargeableAmount())
+                .dateFined(each.getDateEnforced())
+                .name(each.getMemberId().getPrevRef().getFirstName() + " "
+                        + each.getMemberId().getPrevRef().getLastName())
+                .memberId(each.getMemberId().getMemberId())
+                .meetingId(each.getMeetingId().getMeetingId())
+                .phone(each.getMemberId().getPrevRef().getPhoneNumber())
+                .fine(each.getFineCategory().getFineName())
+                .build()).collect(Collectors.toList());
+
+    };
 
 }

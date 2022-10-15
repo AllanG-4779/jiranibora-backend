@@ -1,6 +1,7 @@
 package org.jiranibora.com.meetings;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class MeetingService {
         this.utility = utility;
     }
 
-    public Boolean startNewMeeting() {
+    public Boolean startNewMeeting(String month) {
         // prevent a meeting start if there is already one active
         // Find the meeting first
         Meeting existingMeeting = meetingRepository.findByStatus("ON");
@@ -29,6 +30,7 @@ public class MeetingService {
         Meeting meeting = Meeting
                 .builder()
                 .meetingDate(LocalDateTime.now())
+                .month(month)
                 .meetingId("MEET" + utility.randomApplicationID().substring(6))
                 .status("ON")
                 .build();
@@ -61,5 +63,8 @@ public class MeetingService {
         }
       return true;
     
+    }
+    public List<Meeting> getAllMeetings(){
+        return meetingRepository.findAll();
     }
 }

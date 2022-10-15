@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -19,6 +20,8 @@ public class Meeting {
     @Id
     private String meetingId;
     private LocalDateTime meetingDate;
+    @Column(unique = true, length = 20, updatable = false)
+    private String month;
     private String status;
 
 }

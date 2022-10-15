@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.jiranibora.com.application.TransactionDto;
 import org.jiranibora.com.application.Utility;
+import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.contributions.TransactionRepository;
 import org.jiranibora.com.meetings.MeetingRepository;
 import org.jiranibora.com.models.Fine;
@@ -19,26 +20,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class PaymentService {
     private final PenaltyRepository penaltyRepository;
     private final FineRepository fineRepository;
     private final Utility utility;
     private final MeetingRepository meetingRepository;
     private final FineCategoryRepository fineCategoryRepository;
-
-    @Autowired
-    public PaymentService(PenaltyRepository penaltyRepository,
-            TransactionRepository transactionRepository, Utility utility, FineRepository fineRepository,
-            MeetingRepository meetingRepository,
-            FineCategoryRepository fineCategoryRepository) {
-        this.penaltyRepository = penaltyRepository;
-        this.fineRepository = fineRepository;
-        this.utility = utility;
-        this.meetingRepository = meetingRepository;
-        this.fineCategoryRepository = fineCategoryRepository;
-
-    }
+    private final AuthenticationRepository authenticationRepository;
 
     @Transactional
     public PaymentResponse resolvePenaltyService(String penaltyId) {
@@ -83,9 +75,14 @@ public class PaymentService {
     }
 
     @Transactional
-    public PaymentResponse resolveFineService(String category, String meetingId) {
+    public PaymentResponse resolveFineService(String category, String meetingId, String payer) {
+        Member member = null;
+        if (payer != null) {
+            member = authenticationRepository.findMemberByMemberId(payer);
 
-        Member member = utility.getAuthentication();
+        } else {
+            member = utility.getAuthentication();
+        }
 
         if (member == null) {
             return PaymentResponse.builder().code(403).message("You are not authenticated").build();
@@ -118,7 +115,6 @@ public class PaymentService {
         }
 
         Fine fineToResolve = fineToResolveDoExist.get();
-
 
         // Checking whether the ID provided belongs to the member
         if (!fineToResolve.getMemberId().getMemberId().equals(member.getMemberId())) {
