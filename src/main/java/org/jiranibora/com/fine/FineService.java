@@ -102,4 +102,33 @@ public class FineService {
 
     };
 
+    public SecretaryHomePageDto giveSecreataryHomepageSomeData() {
+        // get all the meetings
+        Long meetingCount = meetingRepository.count();
+        // Total pending fines
+        List<PendingFinesDto> pending = fineRepository.findByPaid(false).stream()
+                .map(this::buildPendingFineObject).collect(Collectors.toList());
+        Double paidFines = fineRepository.findByPaid(true).stream()
+                .mapToDouble(each -> each.getFineCategory().getChargeableAmount()).sum();
+        Double totalPending = pending.stream().mapToDouble(PendingFinesDto::getAmount).sum();
+
+        List<FinePerMeeting> fines = fineRepository.findFinePerMeeting();
+
+
+        return SecretaryHomePageDto.builder().totalMeetings(meetingCount).totalFinesCollected(paidFines)
+                .totalPendingFines(totalPending).latestFines(pending).meetinglyFine(fines).build();
+    }
+
+    public PendingFinesDto buildPendingFineObject(Fine fine) {
+        return PendingFinesDto.builder()
+                .amount(fine.getFineCategory().getChargeableAmount())
+                .memberId(fine.getMemberId().getMemberId())
+                .dateFined(fine.getDateEnforced())
+                .fine(fine.getFineCategory().getFineName())
+                .name(fine.getMemberId().getPrevRef().getFirstName() + " "
+                        + fine.getMemberId().getPrevRef().getLastName())
+
+                .build();
+    }
+
 }

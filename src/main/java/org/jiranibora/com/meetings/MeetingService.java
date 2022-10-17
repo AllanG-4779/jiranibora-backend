@@ -24,7 +24,9 @@ public class MeetingService {
         // prevent a meeting start if there is already one active
         // Find the meeting first
         Meeting existingMeeting = meetingRepository.findByStatus("ON");
-        if (Objects.nonNull(existingMeeting)) {
+        Meeting monthTaken = meetingRepository.findByMonth(month);
+
+        if (Objects.nonNull(existingMeeting)|| Objects.nonNull(monthTaken)) {
             return false;
         }
         Meeting meeting = Meeting

@@ -13,6 +13,8 @@ public interface TransactionRepository extends JpaRepository<Transactions, Integ
     List<Transactions> findByMemberIdAndPaymentCategory(Member member, String paymentCategory);
 
     List<Transactions> findByMemberId(Member memberId);
+
+    List<Transactions> findAllByPaymentCategory(String category);
     
 
 }

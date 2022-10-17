@@ -1,12 +1,11 @@
 package org.jiranibora.com.loans;
 
+import lombok.AllArgsConstructor;
 import org.jiranibora.com.application.TransactionDto;
 import org.jiranibora.com.application.Utility;
 import org.jiranibora.com.auth.AuthenticationRepository;
-import org.jiranibora.com.loans.dto.LoanApplicationDto;
-import org.jiranibora.com.loans.dto.LoanResponseDto;
-import org.jiranibora.com.loans.dto.LoanSummaryDto;
-import org.jiranibora.com.loans.dto.MemberLoanProfileDto;
+import org.jiranibora.com.contributions.MemberContributionRepository;
+import org.jiranibora.com.loans.dto.*;
 import org.jiranibora.com.models.LoanApplication;
 import org.jiranibora.com.models.LoanStatement;
 import org.jiranibora.com.models.Member;
@@ -35,24 +34,15 @@ import javax.transaction.Transactional;
 @Service
 @EnableScheduling
 @Slf4j
+@AllArgsConstructor
 public class LoanService {
     private final LoanRepository loanRepository;
     private final AuthenticationRepository authRepository;
     private final Utility utility;
     private final LoanStatementRepo loanStatementRepo;
     private final OverdueChargesRepository overdueChargesRepository;
+    private final MemberContributionRepository memberContributionRepository;
 
-    @Autowired
-    public LoanService(LoanRepository loanRepository,
-            AuthenticationRepository authRepository, Utility utility, OverdueChargesRepository overdueChargesRepository,
-            LoanStatementRepo loanStatementRepo) {
-        this.loanRepository = loanRepository;
-        this.authRepository = authRepository;
-        this.utility = utility;
-        this.loanStatementRepo = loanStatementRepo;
-        this.overdueChargesRepository = overdueChargesRepository;
-
-    }
 
     public LoanRes addLoan(LoanApplicationDto loanApplicationDto) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -71,7 +61,7 @@ public class LoanService {
         Optional<LoanStatement> loanStatement = loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
                 .filter(each -> each.getPrinciple() > 0 || each.getInterest() > 0).findFirst();
         if (loanStatement.isPresent()) {
-            Double owedAmount = loanStatement.get().getInterest() + loanStatement.get().getPrinciple();
+            double owedAmount = loanStatement.get().getInterest() + loanStatement.get().getPrinciple();
             return LoanRes.builder().code(403).message("You have a loan pending repayment, KES " + owedAmount).build();
         }
 
@@ -93,32 +83,32 @@ public class LoanService {
 
     public LoanRes takeAction(String loan_id, String action) throws Exception {
 
-        LoanApplication loanApplication = loanRepository.findById(loan_id).get();
-        if (loanApplication != null) {
-            if (!loanApplication.viewed) {
+        Optional<LoanApplication >loanApplication = loanRepository.findById(loan_id);
+        if (loanApplication.isPresent()) {
+            if (!loanApplication.get().viewed) {
                 // update the loan to viewed
-                loanApplication.setViewed(true);
-                loanApplication.setDateViewed(LocalDateTime.now());
+                loanApplication.get().setViewed(true);
+                loanApplication.get().setDateViewed(LocalDateTime.now());
                 if (Objects.equals(action, "approve")) {
-                    loanApplication.setStatus("Approved");
+                    loanApplication.get().setStatus("Approved");
                 } else {
-                    loanApplication.setStatus("Declined");
+                    loanApplication.get().setStatus("Declined");
                 }
-                loanRepository.saveAndFlush(loanApplication);
+                loanRepository.saveAndFlush(loanApplication.get());
                 // Now initialize the loan statement
                 // Determine the interest
                 Double interest = 0.0;
-                if (loanApplication.owner) {
+                if (loanApplication.get().owner) {
                     interest = .2;
                 } else {
                     interest = .3;
                 }
                 LoanStatement loanStatement = LoanStatement.builder()
 
-                        .loanId(loanApplication)
-                        .principle(Double.valueOf(loanApplication.getAmount()))
-                        .expectedOn(LocalDateTime.now().plusMinutes(loanApplication.getDuration()))
-                        .interest(loanApplication.amount * loanApplication.duration
+                        .loanId(loanApplication.get())
+                        .principle(Double.valueOf(loanApplication.get().getAmount()))
+                        .expectedOn(LocalDateTime.now().plusMinutes(loanApplication.get().getDuration()))
+                        .interest(loanApplication.get().amount * loanApplication.get().duration
                                 * interest)
 
                         .build();
@@ -165,14 +155,14 @@ public class LoanService {
         Double existingInterest = existingLoan.getInterest();
         Double existingPrincipal = existingLoan.getPrinciple();
 
-        if (Double.valueOf(amount) > (existingInterest + existingPrincipal)) {
+        if (amount > (existingInterest + existingPrincipal)) {
             return LoanRes.builder().code(417)
                     .message("Loan balance less than the amount. Outstanding loan amount is KES "
                             + (existingInterest + existingPrincipal))
                     .build();
         }
         // Check if the amount is just for the principal only
-        Double newPrincipal = existingPrincipal - amount.doubleValue();
+        double newPrincipal = existingPrincipal - amount;
         Double newInterest = existingInterest;
         if (newPrincipal < 0) {
             newInterest = existingInterest + newPrincipal;
@@ -280,5 +270,19 @@ public class LoanService {
                 .extraInterest(totalInterestCharged - initialInterest)
                 .status(outStandingAmount > 0 ? "In progress" : "Completed")
                 .build();
+    }
+    public List<LoanApplicationDto> findAllNewApplications(){
+        return loanRepository.findByViewed(false).stream().map(each->
+                LoanApplicationDto.builder()
+                        .amount(each.getAmount())
+                        .duration(each.getDuration())
+                        .fullName(each.getMemberId().getPrevRef().getFirstName()+" "+ each.getMemberId().getPrevRef().getLastName())
+                        .owner(each.getOwner())
+                        .memberId(each.getMemberId().getMemberId())
+                        .loanId(each.applicationId)
+                        . contribution(memberContributionRepository.findByMemberId(each.memberId).stream()
+                                .mapToDouble(contribution-> Double.parseDouble(contribution.getMemberId().getPrevRef().getAmount())).sum())
+                        .build()).collect(Collectors.toList());
+
     }
 }

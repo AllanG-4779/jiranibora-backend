@@ -3,6 +3,7 @@ package org.jiranibora.com.loans;
 import org.jiranibora.com.loans.dto.LoanApplicationDto;
 import org.jiranibora.com.loans.dto.LoanResponseDto;
 import org.jiranibora.com.loans.dto.MemberLoanProfileDto;
+import org.jiranibora.com.models.LoanApplication;
 import org.jiranibora.com.models.LoanStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class LoanController {
             throws Exception {
         LoanRes loanRes = loanService.takeAction(loan_id, action);
 
-        return ResponseEntity.status(Integer.valueOf(loanRes.getCode())).body(loanRes);
+        return ResponseEntity.status(loanRes.getCode()).body(loanRes);
 
     }
     // Repay loan
@@ -76,5 +77,12 @@ public class LoanController {
         MemberLoanProfileDto userStatement = loanService.getAllStatementsforUser();
         return ResponseEntity.status(200).body(userStatement);
     }
+    @GetMapping("/all/pending")
+        public ResponseEntity<?> getAllPendingApplications(){
+       List<LoanApplicationDto> newApplications =  loanService.findAllNewApplications();
+        return ResponseEntity.status(200).body(newApplications);
+    }
+
+
 
 }

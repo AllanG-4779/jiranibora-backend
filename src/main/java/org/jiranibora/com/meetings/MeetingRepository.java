@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface MeetingRepository extends JpaRepository<Meeting, String> {
 
     Meeting findByStatus(String status);
+    Meeting  findByMonth(String month);
   
 }

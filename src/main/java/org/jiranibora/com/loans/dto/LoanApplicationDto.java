@@ -20,4 +20,8 @@ public class LoanApplicationDto {
     private Boolean owner;
     private String fullName;
     private String nationalId;
+    private String memberId;
+    private String loanId;
+    private Double contribution;
+
 }

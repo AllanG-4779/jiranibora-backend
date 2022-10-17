@@ -33,4 +33,10 @@ public class FineController {
         return ResponseEntity.status(200).body(pendingList);
     }
 
+    // Secretary homepage API
+    @GetMapping(value = "/fine/get/info")
+    public SecretaryHomePageDto getHomePageData() {
+        return fineService.giveSecreataryHomepageSomeData();
+    }
+
 }
