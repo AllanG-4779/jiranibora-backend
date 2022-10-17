@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="Changed the token expiry time">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/PendingLoansDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerHomeDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/TransactionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/TransactionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/fine/FineController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/fine/FineController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/fine/FineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/fine/FineService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/dto/LoanApplicationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/dto/LoanApplicationDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/FineRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/FineRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,6 +154,8 @@
       <workItem from="1665930486107" duration="726000" />
       <workItem from="1665939612558" duration="9216000" />
       <workItem from="1665976913952" duration="5457000" />
+      <workItem from="1666002473439" duration="1501000" />
+      <workItem from="1666005727558" duration="263000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>

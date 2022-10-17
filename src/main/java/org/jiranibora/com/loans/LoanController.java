@@ -64,9 +64,9 @@ public class LoanController {
     // Repay loan
 
     @PostMapping("/client/repay")
-    private ResponseEntity<LoanRes> repayLoan(@RequestParam(required = true) Double amount) {
+    private ResponseEntity<LoanRes> repayLoan(@RequestParam(required = true) Double amount, @RequestParam(required=false) String memberId) {
 
-        LoanRes loanRes = loanService.repayLoan(amount);
+        LoanRes loanRes = loanService.repayLoan(amount, memberId);
         return ResponseEntity.status(loanRes.getCode()).body(loanRes);
 
     }

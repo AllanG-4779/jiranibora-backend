@@ -43,7 +43,6 @@ public class LoanService {
     private final OverdueChargesRepository overdueChargesRepository;
     private final MemberContributionRepository memberContributionRepository;
 
-
     public LoanRes addLoan(LoanApplicationDto loanApplicationDto) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
@@ -83,7 +82,7 @@ public class LoanService {
 
     public LoanRes takeAction(String loan_id, String action) throws Exception {
 
-        Optional<LoanApplication >loanApplication = loanRepository.findById(loan_id);
+        Optional<LoanApplication> loanApplication = loanRepository.findById(loan_id);
         if (loanApplication.isPresent()) {
             if (!loanApplication.get().viewed) {
                 // update the loan to viewed
@@ -128,18 +127,25 @@ public class LoanService {
 
     // Loan repayment endpoint
     @Transactional
-
-    public LoanRes repayLoan(Double amount) {
+    public LoanRes repayLoan(Double amount, String memberId) {
         // Check if the member is logged in
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (!authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+        Member member;
+        if (memberId != null) {
+            member = authRepository.findMemberByMemberId(memberId);
+        } else {
+            member = utility.getAuthentication();
+        }
+        if (member == null) {
             return LoanRes.builder().code(403).message("You are not authenticated").build();
         }
-        // Check whether the member has a loan
-        Member loggedInMember = authRepository.findMemberByMemberId(authentication.getName());
 
-        log.error("The logged in members has the following loans" + loggedInMember.getMyLoans());
+        // Check whether the member has a loan
+        // Member loggedInMember =
+        // authRepository.findMemberByMemberId(authentication.getName());
+        //
+        // log.error("The logged in members has the following loans" +
+        // loggedInMember.getMyLoans());
 
         Optional<LoanStatement> existingLoanObj = loanStatementRepo.findAllByMemberId(authentication.getName()).stream()
                 .filter(each -> (each.getPrinciple() + each.getInterest()) > 0.0)
@@ -176,7 +182,7 @@ public class LoanService {
 
         TransactionDto transactionDto = TransactionDto.builder()
                 .amount(amount)
-                .memberId(loggedInMember)
+                .memberId(member)
                 .paymentCategory("Loan Repayment")
                 .serviceId(existingLoan.getLoanId().applicationId)
                 .transactionDate(LocalDateTime.now())
@@ -191,13 +197,14 @@ public class LoanService {
     @Scheduled(initialDelay = 4000L, fixedDelayString = "PT30S")
     @Transactional
     public void findAndUpdateInterestsForOverdueLoans() {
+        final int updateTimeline = 1;
         List<LoanStatement> overdue = loanStatementRepo.findAll().stream().filter(
-                each -> each.getExpectedOn().isBefore(LocalDateTime.now())
-                        && each.getPrinciple() > 0)
+                each -> each.getPrinciple() > 0 && LocalDateTime.now().isAfter(each.getExpectedOn()))
                 .collect(Collectors.toList());
+
         if (overdue.size() > 0) {
             Double loanIterestPercentage = 0.0;
-            Long timeElapsedSinceLastUpdate = 1L;
+            double timeElapsedSinceLastUpdate;
 
             for (LoanStatement loanStatement : overdue) {
                 Double overdueCharge = 0.0;
@@ -208,15 +215,35 @@ public class LoanService {
                 }
                 // Incase of a system downtime and the update is not recorded please get the
                 // elapsed time
-                timeElapsedSinceLastUpdate = (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
-                        - loanStatement.getExpectedOn().toEpochSecond(ZoneOffset.UTC)) / 60;
-                System.out.println(timeElapsedSinceLastUpdate);
+                if (LocalDateTime.now().equals(loanStatement.getExpectedOn())) {
+                    overdueCharge = loanStatement.getPrinciple() * loanIterestPercentage + loanStatement.getInterest();
+                    loanStatement.setExpectedOn(LocalDateTime.now().plusMinutes(updateTimeline));
+                    loanStatement.setInterest(overdueCharge);
 
-                overdueCharge = loanIterestPercentage * loanStatement.getPrinciple() * (timeElapsedSinceLastUpdate + 1);
+                } else if (LocalDateTime.now().isAfter(loanStatement.getExpectedOn())) {
+                    // get elapsed time
+                    Long secondsElapsed = (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+                            - loanStatement.getExpectedOn().toEpochSecond(ZoneOffset.UTC));
 
-                loanStatement.setInterest(
-                        loanStatement.getInterest() + overdueCharge);
-                loanStatement.setExpectedOn(LocalDateTime.now().plusMinutes(1));
+                    timeElapsedSinceLastUpdate = secondsElapsed / (updateTimeline * 60);
+
+                    if (timeElapsedSinceLastUpdate >= 1) {
+                        // Update the loan
+                        overdueCharge = loanStatement.getPrinciple() * loanIterestPercentage
+                                * Math.floor(timeElapsedSinceLastUpdate) + loanStatement.getInterest();
+                        loanStatement.setInterest(overdueCharge);
+
+                        log.info("Due to system down time " + loanStatement.getLoanId().getMemberId().getFullName()
+                                + " was charged " + timeElapsedSinceLastUpdate + " times");
+
+                    }
+                    loanStatement.setExpectedOn(LocalDateTime.now()
+                            .plusSeconds(secondsElapsed % (updateTimeline * 60)));
+                    log.info("System down time recovered as the next update will take place after "
+                            + secondsElapsed % (updateTimeline * 60));
+
+                }
+
                 loanStatementRepo.saveAndFlush(loanStatement);
                 // Add the record as well in the overdue charges table
 
@@ -227,12 +254,8 @@ public class LoanService {
 
                         .build();
                 overdueChargesRepository.saveAndFlush(overdueCharges);
-                System.out.println("The account for " + loanStatement.getLoanId().getMemberId().getFullName()
-                        + " was charged KES " + overdueCharge + " for late additional charges");
 
             }
-        } else {
-            System.out.println("There are no loan defaulters in the system currently");
         }
     }
 
@@ -271,18 +294,21 @@ public class LoanService {
                 .status(outStandingAmount > 0 ? "In progress" : "Completed")
                 .build();
     }
-    public List<LoanApplicationDto> findAllNewApplications(){
-        return loanRepository.findByViewed(false).stream().map(each->
-                LoanApplicationDto.builder()
-                        .amount(each.getAmount())
-                        .duration(each.getDuration())
-                        .fullName(each.getMemberId().getPrevRef().getFirstName()+" "+ each.getMemberId().getPrevRef().getLastName())
-                        .owner(each.getOwner())
-                        .memberId(each.getMemberId().getMemberId())
-                        .loanId(each.applicationId)
-                        . contribution(memberContributionRepository.findByMemberId(each.memberId).stream()
-                                .mapToDouble(contribution-> Double.parseDouble(contribution.getMemberId().getPrevRef().getAmount())).sum())
-                        .build()).collect(Collectors.toList());
+
+    public List<LoanApplicationDto> findAllNewApplications() {
+        return loanRepository.findByViewed(false).stream().map(each -> LoanApplicationDto.builder()
+                .amount(each.getAmount())
+                .duration(each.getDuration())
+                .fullName(each.getMemberId().getPrevRef().getFirstName() + " "
+                        + each.getMemberId().getPrevRef().getLastName())
+                .owner(each.getOwner())
+                .memberId(each.getMemberId().getMemberId())
+                .loanId(each.applicationId)
+                .contribution(memberContributionRepository.findByMemberId(each.memberId).stream()
+                        .mapToDouble(
+                                contribution -> Double.parseDouble(contribution.getMemberId().getPrevRef().getAmount()))
+                        .sum())
+                .build()).collect(Collectors.toList());
 
     }
 }
