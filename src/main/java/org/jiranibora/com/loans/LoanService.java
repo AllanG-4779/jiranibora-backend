@@ -129,7 +129,7 @@ public class LoanService {
     @Transactional
     public LoanRes repayLoan(Double amount, String memberId) {
         // Check if the member is logged in
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
         Member member;
         if (memberId != null) {
             member = authRepository.findMemberByMemberId(memberId);
@@ -147,7 +147,7 @@ public class LoanService {
         // log.error("The logged in members has the following loans" +
         // loggedInMember.getMyLoans());
 
-        Optional<LoanStatement> existingLoanObj = loanStatementRepo.findAllByMemberId(authentication.getName()).stream()
+        Optional<LoanStatement> existingLoanObj = loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
                 .filter(each -> (each.getPrinciple() + each.getInterest()) > 0.0)
                 .findFirst();
 
@@ -197,7 +197,7 @@ public class LoanService {
     @Scheduled(initialDelay = 4000L, fixedDelayString = "PT30S")
     @Transactional
     public void findAndUpdateInterestsForOverdueLoans() {
-        final int updateTimeline = 1;
+        final int updateTimeline = 10;
         List<LoanStatement> overdue = loanStatementRepo.findAll().stream().filter(
                 each -> each.getPrinciple() > 0 && LocalDateTime.now().isAfter(each.getExpectedOn()))
                 .collect(Collectors.toList());
@@ -216,35 +216,36 @@ public class LoanService {
                 // Incase of a system downtime and the update is not recorded please get the
                 // elapsed time
                 if (LocalDateTime.now().equals(loanStatement.getExpectedOn())) {
-                    overdueCharge = loanStatement.getPrinciple() * loanIterestPercentage + loanStatement.getInterest();
+                    overdueCharge = loanStatement.getPrinciple() * loanIterestPercentage;
                     loanStatement.setExpectedOn(LocalDateTime.now().plusMinutes(updateTimeline));
-                    loanStatement.setInterest(overdueCharge);
+                    loanStatement.setInterest(overdueCharge+loanStatement.getInterest());                  
 
                 } else if (LocalDateTime.now().isAfter(loanStatement.getExpectedOn())) {
                     // get elapsed time
                     Long secondsElapsed = (LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
                             - loanStatement.getExpectedOn().toEpochSecond(ZoneOffset.UTC));
 
-                    timeElapsedSinceLastUpdate = secondsElapsed / (updateTimeline * 60);
+                    timeElapsedSinceLastUpdate = (secondsElapsed / (updateTimeline * 60)) + 1;
+                    log.error("" + secondsElapsed);
 
                     if (timeElapsedSinceLastUpdate >= 1) {
                         // Update the loan
-                        overdueCharge = loanStatement.getPrinciple() * loanIterestPercentage
-                                * Math.floor(timeElapsedSinceLastUpdate) + loanStatement.getInterest();
-                        loanStatement.setInterest(overdueCharge);
+                        overdueCharge = (loanStatement.getPrinciple() * loanIterestPercentage
+                                * Math.floor(timeElapsedSinceLastUpdate));
+                        loanStatement.setInterest(overdueCharge + loanStatement.getInterest());
 
                         log.info("Due to system down time " + loanStatement.getLoanId().getMemberId().getFullName()
                                 + " was charged " + timeElapsedSinceLastUpdate + " times");
 
                     }
                     loanStatement.setExpectedOn(LocalDateTime.now()
-                            .plusSeconds(secondsElapsed % (updateTimeline * 60)));
+                            .plusSeconds((updateTimeline * 60) - secondsElapsed % (updateTimeline * 60)));
                     log.info("System down time recovered as the next update will take place after "
-                            + secondsElapsed % (updateTimeline * 60));
-
+                            + ((updateTimeline * 60) + (-(secondsElapsed % (updateTimeline * 60)))));
+                    loanStatementRepo.saveAndFlush(loanStatement);
                 }
-
                 loanStatementRepo.saveAndFlush(loanStatement);
+
                 // Add the record as well in the overdue charges table
 
                 OverdueCharges overdueCharges = OverdueCharges.builder()
