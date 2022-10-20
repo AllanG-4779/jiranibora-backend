@@ -3,7 +3,6 @@ package org.jiranibora.com.contributions;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.jiranibora.com.models.MemberContribution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,33 +14,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import lombok.AllArgsConstructor;
 
+@RestController
+@AllArgsConstructor
 @CrossOrigin(origins = { "*" })
 @RequestMapping("/cont")
 public class ContributionController {
     private ContributionService contributionService;
     private LinkedHashMap<String, String> contributionMap;
-
-    @Autowired
-    public ContributionController(ContributionService contributionService) {
-        this.contributionService = contributionService;
-    }
+    private ContributionRepository contributionRepository;
 
     @PostMapping("/new")
-    public ResponseEntity<?> startNewContribution(@RequestBody(required = true) ContributionDto contributionDto)
+    public ResponseEntity<?> startNewContribution(@RequestParam(required = true) Integer duration)
             throws Exception {
         contributionMap = new LinkedHashMap<>();
 
-        Boolean result = contributionService.openContribution(contributionDto);
+        Integer result = contributionService.openContribution(duration);
 
-        if (result) {
+        if (result == 0) {
             contributionMap.put("code", "200");
             contributionMap.put("message", "Your contribution was initiated successfully");
-        } else {
+        } else if (result == 1) {
             contributionMap.put("code", "409");
             contributionMap.put("message",
                     "There is an existing contribution, please end it before starting a new one");
+        } else {
+            contributionMap.put("code", "403");
+            contributionMap.put("message",
+                    "All the 12 contributions for the year has been exhausted");
         }
         return ResponseEntity.status(Integer.valueOf(contributionMap.get("code"))).body(contributionMap);
 
@@ -88,5 +89,17 @@ public class ContributionController {
     public ResponseEntity<?> getMemberContributions() throws Exception {
         List<MemberContributionDto> memberConts = contributionService.getMemberContributions();
         return ResponseEntity.status(200).body(memberConts);
+    }
+    @GetMapping("/active")
+    public ResponseEntity<?> getActiveContribution(){
+        return ResponseEntity.status(200).body(contributionRepository.findByStatus("ON"));
+    }
+    @GetMapping("/howmany")
+    public ResponseEntity<Long> getContributionsHeldCount(){
+        return ResponseEntity.status(200).body(contributionRepository.count());
+    }
+    @GetMapping("/jb/all")
+    public ResponseEntity<?> getAllContributionsHeld(){
+        return ResponseEntity.status(200).body(contributionService.getAllContributions());
     }
 }

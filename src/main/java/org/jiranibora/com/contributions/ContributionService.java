@@ -1,6 +1,7 @@
 package org.jiranibora.com.contributions;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,14 +19,19 @@ import org.jiranibora.com.models.MemberContribution;
 import org.jiranibora.com.models.MemberContributionPK;
 import org.jiranibora.com.models.Penalty;
 import org.jiranibora.com.payment.PenaltyRepository;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
+@EnableScheduling
 @AllArgsConstructor
 public class ContributionService {
     private final Utility utility;
@@ -34,31 +40,26 @@ public class ContributionService {
     private final MemberContributionRepository memberContributionRepository;
     private final PenaltyRepository penaltyRepository;
     private final TransactionRepository transactionRepository;
+    public final String[] months = { "January", "February", "March", "April", "May", "June", "July", "August",
+            "September", "October", "November", "December" };
 
-    // public ContributionService(Utility utility, ContributionRepository
-    // contributionRepository,
-    // AuthenticationRepository authenticationRepository,
-    // MemberContributionRepository memberContributionRepository, PenaltyRepository
-    // penaltyRepository) {
-    // this.contributionRepository = contributionRepository;
-    // this.memberContributionRepository = memberContributionRepository;
-    // this.utility = utility;
-    // this.authenticationRepository = authenticationRepository;
-    // this.penaltyRepository = penaltyRepository;
-    // }
-
-    public Boolean openContribution(ContributionDto contributionDto) throws Exception {
+    public Integer openContribution(Integer duration) throws Exception {
 
         Contribution existing = contributionRepository.findByStatus("ON");
 
         if (Objects.nonNull(existing)) {
-            return false;
+            return 1;
+        }
+        Long monthCount = (contributionRepository.count());
+        if (monthCount >= 12) {
+            return 2;
         }
 
         Contribution contribution = Contribution.builder()
                 .contId("CNT" + utility.randomApplicationID().substring(6))
-                .closeOn(LocalDateTime.now().plusMinutes(contributionDto.getDuration()))
-                .month(contributionDto.getMonth())
+                .monthCount(monthCount.intValue() + 1)
+                .closeOn(LocalDateTime.now().plusMinutes(duration))
+                .month(months[monthCount.intValue()])
                 .status("ON")
                 .openOn(LocalDateTime.now())
                 .build();
@@ -68,7 +69,7 @@ public class ContributionService {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return true;
+        return 0;
     }
 
     // Close the contribution
@@ -77,41 +78,6 @@ public class ContributionService {
         if (!Objects.nonNull(contributionToDisable) || contributionToDisable.getStatus().equals("CLOSED")) {
             return false;
         } else {
-            contributionToDisable.setCloseOn(LocalDateTime.now());
-            contributionToDisable.setStatus("CLOSED");
-            // Add Penalties to all the member who have not contributed
-            // Get all the members who has not contributed
-            List<Member> allMembers = authenticationRepository.findAll();
-
-            List<MemberContribution> allMemberContribution = memberContributionRepository
-                    .findAllByContributionId(contributionToDisable);
-
-            List<Member> notContributed = allMembers.stream().filter(each ->
-
-            // Get the list of members who have contributed
-            allMemberContribution.stream()
-                    .noneMatch(
-                            eachContribution -> eachContribution.getMemberId().getMemberId().equals(each.getMemberId()))
-
-            ).collect(Collectors.toList());
-
-            // The returned members have not contributed, fine them
-
-            List<String> latePaymentsIds = notContributed.stream().map(eachMember -> eachMember.getMemberId())
-                    .collect(Collectors.toList());
-
-            // For each of those MemberIds, create a Penalty profile and save
-            List<Penalty> latePayments = latePaymentsIds.stream()
-                    .map(eachID -> getPenalties(eachID, contributionToDisable)).collect(Collectors.toList());
-
-            penaltyRepository.saveAllAndFlush(latePayments);
-
-            try {
-                contributionRepository.saveAndFlush(contributionToDisable);
-
-            } catch (Exception e) {
-                throw new Exception(e.getMessage());
-            }
 
         }
         return true;
@@ -158,19 +124,6 @@ public class ContributionService {
                     return contRes;
                 }
                 Integer monthlyContributionAmount = Integer.valueOf(member.getPrevRef().getAmount());
-                // if (monthlyContributionAmount < amount || monthlyContributionAmount > amount)
-                // {
-
-                // contRes.setCode(417);
-                // contRes.setMessage(
-                // "Please pay only the exact amount corresponding to your monthly
-                // contribution->KES "
-                // + member.getPrevRef().getAmount());
-                // return contRes;
-                // }
-                // Call the payment service here
-
-                // @To-do PAYMENT SERVICE
 
                 if (currenContribution.getStatus().equals("CLOSED")) {
 
@@ -266,6 +219,88 @@ public class ContributionService {
                 .contributionId(currenContribution.getContributionId().getContId())
                 .month(currenContribution.getContributionId().getMonth())
                 .status(currenContribution.getStatus()).build();
+
+    }
+
+    // Auto close the contribution
+    @Scheduled(initialDelay = 200L, fixedDelayString = "PT1M")
+    public void closeContribution() throws Exception {
+        log.info("Checking the outdated contributions");
+        Optional<Contribution> contributionOption = contributionRepository.findAll().stream()
+                .filter(each -> each.getStatus().equals(("ON")) && LocalDateTime.now().isAfter(each.getCloseOn()))
+                .findFirst();
+        if (contributionOption.isPresent()) {
+            Contribution contributionToDisable = contributionOption.get();
+
+            contributionToDisable.setCloseOn(LocalDateTime.now());
+            contributionToDisable.setStatus("CLOSED");
+            // Add Penalties to all the member who have not contributed
+            // Get all the members who has not contributed
+            List<Member> allMembers = authenticationRepository.findAll();
+
+            List<MemberContribution> allMemberContribution = memberContributionRepository
+                    .findAllByContributionId(contributionToDisable);
+            // Get the list of members who have contributed
+            List<Member> notContributed = allMembers.stream().filter(each ->
+
+            allMemberContribution.stream()
+                    .noneMatch(
+                            eachContribution -> eachContribution.getMemberId().getMemberId().equals(each.getMemberId()))
+
+            ).collect(Collectors.toList());
+
+            // The returned members have not contributed, fine them
+
+            List<String> latePaymentsIds = notContributed.stream().map(eachMember -> eachMember.getMemberId())
+                    .collect(Collectors.toList());
+
+            // For each of those MemberIds, create a Penalty profile and save
+            List<Penalty> latePayments = latePaymentsIds.stream()
+                    .map(eachID -> getPenalties(eachID, contributionToDisable)).collect(Collectors.toList());
+
+            penaltyRepository.saveAllAndFlush(latePayments);
+
+            try {
+                contributionRepository.saveAndFlush(contributionToDisable);
+
+            } catch (Exception e) {
+                throw new Exception(e.getMessage());
+            }
+
+        } else {
+            System.out.println("No contribution was found");
+        }
+
+    }
+
+    // Get me all the contributions in the system has had
+    public List<ContributionInfoDto> getAllContributions() {
+        Collection<Contribution> allContributions = contributionRepository.findClosed("CLOSED");
+
+        return allContributions.stream()
+                .map(each -> buildContributionInfoDto(each)).collect(Collectors.toList());
+
+        // Collection<Penalty> allPenalties = penaltyRepository.findByContributionId();
+
+    }
+
+    public ContributionInfoDto buildContributionInfoDto(Contribution contribution) {
+
+        Integer lockedMembers = penaltyRepository.findByContributionId(contribution).size();
+        Double expectedPenalties = penaltyRepository.findByContributionId(contribution).stream()
+                .mapToDouble(each -> each.getAmount()).sum();
+        List<MemberContribution> allMemberCont = memberContributionRepository.findAllByContributionId(contribution);
+        Double amountColleted = allMemberCont.stream()
+                .mapToDouble(each -> Double.valueOf(each.getMemberId().getPrevRef().getAmount())).sum();
+
+        return ContributionInfoDto.builder()
+                .contributionId(contribution.getMonth())
+                .amountCollected(amountColleted)
+                .lockedMembers(lockedMembers)
+                .expectedPenalties(expectedPenalties)
+                .closeDate(contribution.getCloseOn())
+                .openDate(contribution.getOpenOn())
+                .build();
 
     }
 

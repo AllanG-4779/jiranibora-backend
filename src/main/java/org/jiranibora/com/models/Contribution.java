@@ -16,6 +16,9 @@ import java.time.LocalDateTime;
 public class Contribution {
     @Id
     private String contId;
+    @Column(unique = true)
+    private Integer monthCount;
+    @Column(unique = true)
     private String month;
     private String status;
     private LocalDateTime openOn;
