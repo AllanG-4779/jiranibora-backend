@@ -17,6 +17,7 @@ public class LoanResponseDto {
     private Double initialInterest;
     private Double extraInterest;
     private String status;
+   
     
 
 }

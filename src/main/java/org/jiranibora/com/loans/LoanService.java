@@ -90,28 +90,29 @@ public class LoanService {
                 loanApplication.get().setDateViewed(LocalDateTime.now());
                 if (Objects.equals(action, "approve")) {
                     loanApplication.get().setStatus("Approved");
+                    Double interest = 0.0;
+                    if (loanApplication.get().owner) {
+                        interest = .2;
+                    } else {
+                        interest = .3;
+                    }
+                    LoanStatement loanStatement = LoanStatement.builder()
+
+                            .loanId(loanApplication.get())
+                            .principle(Double.valueOf(loanApplication.get().getAmount()))
+                            .expectedOn(LocalDateTime.now().plusMinutes(loanApplication.get().getDuration()))
+                            .interest(loanApplication.get().amount * loanApplication.get().duration
+                                    * interest)
+
+                            .build();
+                    loanStatementRepo.saveAndFlush(loanStatement);
                 } else {
                     loanApplication.get().setStatus("Declined");
                 }
                 loanRepository.saveAndFlush(loanApplication.get());
                 // Now initialize the loan statement
                 // Determine the interest
-                Double interest = 0.0;
-                if (loanApplication.get().owner) {
-                    interest = .2;
-                } else {
-                    interest = .3;
-                }
-                LoanStatement loanStatement = LoanStatement.builder()
-
-                        .loanId(loanApplication.get())
-                        .principle(Double.valueOf(loanApplication.get().getAmount()))
-                        .expectedOn(LocalDateTime.now().plusMinutes(loanApplication.get().getDuration()))
-                        .interest(loanApplication.get().amount * loanApplication.get().duration
-                                * interest)
-
-                        .build();
-                loanStatementRepo.saveAndFlush(loanStatement);
+             
                 return LoanRes.builder().code(200)
                         .message("The loan was " + action + " successfully").build();
 
@@ -129,7 +130,7 @@ public class LoanService {
     @Transactional
     public LoanRes repayLoan(Double amount, String memberId) {
         // Check if the member is logged in
-        
+
         Member member;
         if (memberId != null) {
             member = authRepository.findMemberByMemberId(memberId);
@@ -218,7 +219,7 @@ public class LoanService {
                 if (LocalDateTime.now().equals(loanStatement.getExpectedOn())) {
                     overdueCharge = loanStatement.getPrinciple() * loanIterestPercentage;
                     loanStatement.setExpectedOn(LocalDateTime.now().plusMinutes(updateTimeline));
-                    loanStatement.setInterest(overdueCharge+loanStatement.getInterest());                  
+                    loanStatement.setInterest(overdueCharge + loanStatement.getInterest());
 
                 } else if (LocalDateTime.now().isAfter(loanStatement.getExpectedOn())) {
                     // get elapsed time
@@ -269,8 +270,17 @@ public class LoanService {
                 .collect(Collectors.toList());
 
         LoanSummaryDto loanSummary = LoanSummaryDto.builder()
-                .allTimeInterest(overdueChargesRepository.findAllTimeInterestCharged(member.getMemberId()))
+                // Take all time overdue charges plus the initial interest for each loan.
+                .allTimeInterest(overdueChargesRepository.findAllTimeInterestCharged(member.getMemberId())
+                        + loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
+                                .mapToDouble(
+                                        each -> each.getLoanId().getOwner() ? each.getLoanId().getAmount() * 0.2
+                                                * each.getLoanId().duration
+                                                : each.getLoanId().getAmount() * 0.3 * each.getLoanId().duration)
+                                .sum())
+
                 .allTimeBorrowing(loanRepository.findTotalLoanDisbursedToMember(member.getMemberId()))
+                .declined(loanRepository.findByStatusAndMemberId("Declined", member).size())
                 .build();
         return MemberLoanProfileDto.builder().loanResponseList(loanResList).loanSummary(loanSummary).build();
 
@@ -278,10 +288,12 @@ public class LoanService {
 
     public LoanResponseDto buildLoanDto(LoanStatement loanStatement) {
 
-        Double totalInterestCharged = overdueChargesRepository
-                .findInterestCharged(loanStatement.getLoanId().getApplicationId());
-        Double initialInterest = loanStatement.getLoanId().getAmount()
+        Double initialInterest = loanStatement.getLoanId().getAmount() * loanStatement.getLoanId().getDuration()
                 * (loanStatement.getLoanId().getOwner() ? 0.2 : .3);
+
+        Double totalInterestCharged = (overdueChargesRepository
+                .findInterestCharged(loanStatement.getLoanId().getApplicationId()));
+
         Double outStandingAmount = loanStatement.getInterest() + loanStatement.getPrinciple();
 
         return LoanResponseDto.builder()
@@ -291,7 +303,8 @@ public class LoanService {
                 .dateApproved(loanStatement.getLoanId().getDateViewed())
                 .initialDuration(loanStatement.getLoanId().getDuration())
                 .initialInterest(initialInterest)
-                .extraInterest(totalInterestCharged - initialInterest)
+
+                .extraInterest(totalInterestCharged)
                 .status(outStandingAmount > 0 ? "In progress" : "Completed")
                 .build();
     }

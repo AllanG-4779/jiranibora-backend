@@ -18,4 +18,6 @@ public interface LoanRepository extends JpaRepository<LoanApplication, String> {
 
     List<LoanApplication> findByViewed(Boolean viewed);
 
+    List<LoanApplication> findByStatusAndMemberId(String status, Member member);
+
 }

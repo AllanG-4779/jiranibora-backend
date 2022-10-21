@@ -10,4 +10,5 @@ import lombok.Data;
 public class LoanSummaryDto {
     private Double allTimeBorrowing;
     private Double allTimeInterest;
+    private Integer declined;
 }
