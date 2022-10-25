@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="Changed the token expiry time">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/MpesaConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/MpesaController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/MpesaService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/STKPushRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/TokenDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/Utility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/MemberContribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/MemberContribution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,6 +163,8 @@
       <workItem from="1666629661715" duration="5993000" />
       <workItem from="1666668718860" duration="1678000" />
       <workItem from="1666675679010" duration="4785000" />
+      <workItem from="1666694383248" duration="2212000" />
+      <workItem from="1666716760778" duration="2183000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -297,11 +286,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/STKPushRequest.java</url>
           <line>13</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java</url>
-          <line>57</line>
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="org.springframework.security.authentication.BadCredentialsException" package="org.springframework.security.authentication" />
