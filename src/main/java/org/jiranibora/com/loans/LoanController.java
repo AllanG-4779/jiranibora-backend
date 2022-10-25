@@ -1,5 +1,6 @@
 package org.jiranibora.com.loans;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.jiranibora.com.loans.dto.LoanApplicationDto;
 import org.jiranibora.com.loans.dto.LoanResponseDto;
 import org.jiranibora.com.loans.dto.MemberLoanProfileDto;
@@ -64,7 +65,7 @@ public class LoanController {
     // Repay loan
 
     @PostMapping("/client/repay")
-    private ResponseEntity<LoanRes> repayLoan(@RequestParam(required = true) Double amount, @RequestParam(required=false) String memberId) {
+    private ResponseEntity<LoanRes> repayLoan(@RequestParam(required = true) Double amount, @RequestParam(required=false) String memberId) throws JsonProcessingException {
 
         LoanRes loanRes = loanService.repayLoan(amount, memberId);
         return ResponseEntity.status(loanRes.getCode()).body(loanRes);

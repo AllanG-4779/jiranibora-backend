@@ -1,29 +1,31 @@
 package org.jiranibora.com.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.AllArgsConstructor;
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.contributions.TransactionRepository;
 import org.jiranibora.com.models.Member;
 import org.jiranibora.com.models.Transactions;
+import org.jiranibora.com.mpesa.MpesaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.TransactionalException;
 import java.util.Arrays;
 import java.util.Random;
 
 @Component
+@AllArgsConstructor
 public class Utility {
   private static final Integer LENGTH = 10;
   private TransactionRepository transactionRepository;
   private final AuthenticationRepository authenticationRepository;
 
-  @Autowired
-  public Utility(TransactionRepository tRepository, AuthenticationRepository authenticationRepository) {
-    this.transactionRepository = tRepository;
-    this.authenticationRepository = authenticationRepository;
-  }
+  private final MpesaService mpesaService;
 
 
 public String randomApplicationID() {
@@ -43,7 +45,13 @@ public String randomApplicationID() {
 
   }
 
-  public Boolean addTransaction(TransactionDto transactionDto) {
+  public Boolean addTransaction(TransactionDto transactionDto) throws JsonProcessingException {
+   // mpesa payment is added here
+    HttpStatus resposestatus  = mpesaService.sendMoney(String.valueOf(transactionDto.getAmount().intValue()),
+            "254"+transactionDto.getMemberId().getPrevRef().getPhoneNumber());
+    if (!resposestatus.is2xxSuccessful()){
+      throw new TransactionalException("Failed", new Throwable());
+    }
     Transactions transaction = Transactions.builder()
         .amount(transactionDto.getAmount())
         .trxCode("TRX" + this.randomApplicationID().substring(4) + "_" + transactionDto.getServiceId())

@@ -1,6 +1,7 @@
 package org.jiranibora.com.contributions;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,7 @@ import org.jiranibora.com.models.MemberContribution;
 import org.jiranibora.com.models.MemberContributionPK;
 import org.jiranibora.com.models.Penalty;
 import org.jiranibora.com.payment.PenaltyRepository;
+import org.springframework.boot.autoconfigure.web.format.DateTimeFormatters;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -138,6 +140,7 @@ public class ContributionService {
                         .memberContribution(memberContributionPK)
                         .memberId(member)
                         .contributionId(currenContribution)
+                        .datedone(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                         .status(contributionStatus)
                         .build();
 

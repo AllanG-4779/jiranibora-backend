@@ -5,9 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="Changed the token expiry time">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/MpesaConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/MpesaController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/MpesaService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/STKPushRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/TokenDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/Utility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/MemberContribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/MemberContribution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +64,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
@@ -108,6 +121,9 @@
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpringBootOptions">
+    <option name="showAdditionalConfigNotification" value="false" />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="" />
@@ -156,6 +172,10 @@
       <workItem from="1665976913952" duration="5457000" />
       <workItem from="1666002473439" duration="1501000" />
       <workItem from="1666005727558" duration="263000" />
+      <workItem from="1666620643622" duration="2178000" />
+      <workItem from="1666629661715" duration="5993000" />
+      <workItem from="1666668718860" duration="1678000" />
+      <workItem from="1666675679010" duration="4785000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -259,6 +279,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="minor change" />
     <MESSAGE value="Changed the optional keys for push to github" />
     <MESSAGE value="changed server port" />
@@ -268,5 +289,25 @@
     <MESSAGE value="matched the frontend session expiry with the backend" />
     <MESSAGE value="Changed the token expiry time" />
     <option name="LAST_COMMIT_MESSAGE" value="Changed the token expiry time" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/STKPushRequest.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.security.authentication.BadCredentialsException" package="org.springframework.security.authentication" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

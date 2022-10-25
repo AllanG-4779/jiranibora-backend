@@ -1,5 +1,6 @@
 package org.jiranibora.com.loans;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.jiranibora.com.application.TransactionDto;
 import org.jiranibora.com.application.Utility;
@@ -128,7 +129,7 @@ public class LoanService {
 
     // Loan repayment endpoint
     @Transactional
-    public LoanRes repayLoan(Double amount, String memberId) {
+    public LoanRes repayLoan(Double amount, String memberId) throws JsonProcessingException {
         // Check if the member is logged in
 
         Member member;

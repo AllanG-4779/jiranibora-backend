@@ -32,7 +32,7 @@ public class MemberContribution {
     @JoinColumn(name = "contribution_id")
     private Contribution contributionId;
   
-    private LocalDateTime datedone;
+    private String datedone;
 
     private String status;
 

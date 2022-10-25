@@ -1,5 +1,6 @@
 package org.jiranibora.com.payment;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,14 +23,14 @@ public class PaymentController {
     }
 
     @PutMapping("/penalty")
-    public ResponseEntity<PaymentResponse> resolvePenalty(@RequestParam(required = true) String penaltyId) {
+    public ResponseEntity<PaymentResponse> resolvePenalty(@RequestParam(required = true) String penaltyId) throws JsonProcessingException {
         PaymentResponse penaltyResponse = paymentService.resolvePenaltyService(penaltyId);
         return ResponseEntity.status(penaltyResponse.getCode()).body(penaltyResponse);
     }
 
     @PutMapping("/fine/{category}/{meetingId}")
     public ResponseEntity<PaymentResponse> resolveFine(@PathVariable(required = true) String meetingId,
-            @PathVariable String category, @RequestParam(required = false) String memberId) {
+            @PathVariable String category, @RequestParam(required = false) String memberId) throws JsonProcessingException {
 
         PaymentResponse fineResponse = paymentService.resolveFineService(category, meetingId, memberId);
 

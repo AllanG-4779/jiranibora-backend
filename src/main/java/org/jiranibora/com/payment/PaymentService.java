@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.jiranibora.com.application.TransactionDto;
 import org.jiranibora.com.application.Utility;
 import org.jiranibora.com.auth.AuthenticationRepository;
@@ -33,7 +34,7 @@ public class PaymentService {
     private final AuthenticationRepository authenticationRepository;
 
     @Transactional
-    public PaymentResponse resolvePenaltyService(String penaltyId) {
+    public PaymentResponse resolvePenaltyService(String penaltyId) throws JsonProcessingException {
 
         Member member = utility.getAuthentication();
 
@@ -75,7 +76,7 @@ public class PaymentService {
     }
 
     @Transactional
-    public PaymentResponse resolveFineService(String category, String meetingId, String payer) {
+    public PaymentResponse resolveFineService(String category, String meetingId, String payer) throws JsonProcessingException {
         Member member = null;
         if (payer != null) {
             member = authenticationRepository.findMemberByMemberId(payer);
