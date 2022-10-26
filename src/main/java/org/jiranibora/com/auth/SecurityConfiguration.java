@@ -31,13 +31,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
 
-                .antMatchers("/login","/**/login", "/application/apply").permitAll()
+                .antMatchers("/login", "/**/login", "/application/apply").permitAll()
                 .antMatchers("/application/**").hasAnyAuthority("CHAIR")
                 .antMatchers("/cont/**", "/loan/**").hasAnyAuthority("TRE", "USER")
                 .antMatchers("/admin/treasurer/**").hasAuthority("TRE")
                 .antMatchers("/fine/apply", "/fine/get/**", "/meeting/**", "/member/to/**").hasAuthority("SEC")
-                .antMatchers("/loan/client/**").hasAnyAuthority("USER", "TRE")
-                .antMatchers("/pay/**").hasAnyAuthority( "TRE", "USER", "SEC")
+                .antMatchers("/loan/**").hasAnyAuthority("USER", "TRE")
+                .antMatchers("/pay/**").hasAnyAuthority("TRE", "USER", "SEC")
                 .anyRequest().authenticated()
                 .and()
 

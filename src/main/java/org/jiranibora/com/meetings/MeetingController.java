@@ -39,7 +39,7 @@ public class MeetingController {
             meetingMap.put("message", "There is an existing meeting, please end it before starting a new one");
         }
 
-        return ResponseEntity.status(Integer.valueOf(meetingMap.get("code"))).body(meetingMap);
+        return ResponseEntity.status(Integer.parseInt(meetingMap.get("code"))).body(meetingMap);
     }
 
     @PutMapping("/stop")
@@ -55,7 +55,7 @@ public class MeetingController {
             meetingMap.put("message", "No such meeting exists");
         }
 
-        return ResponseEntity.status(Integer.valueOf(meetingMap.get("code"))).body(meetingMap);
+        return ResponseEntity.status(Integer.parseInt(meetingMap.get("code"))).body(meetingMap);
     }
 
     @GetMapping("/all")

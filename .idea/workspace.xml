@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="Changed the token expiry time">
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="changed the user roles">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +164,9 @@
       <workItem from="1666668718860" duration="1678000" />
       <workItem from="1666675679010" duration="4785000" />
       <workItem from="1666694383248" duration="2212000" />
-      <workItem from="1666716760778" duration="2183000" />
+      <workItem from="1666716760778" duration="2400000" />
+      <workItem from="1666760946291" duration="1914000" />
+      <workItem from="1666767353306" duration="3087000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -250,7 +252,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663759146129</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="changed the user roles">
+      <created>1666725355560</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1666725355560</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,7 +286,8 @@
     <MESSAGE value="build was completed for production" />
     <MESSAGE value="matched the frontend session expiry with the backend" />
     <MESSAGE value="Changed the token expiry time" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed the token expiry time" />
+    <MESSAGE value="changed the user roles" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed the user roles" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

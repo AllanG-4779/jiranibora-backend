@@ -43,6 +43,7 @@ public class LoanService {
     private final LoanStatementRepo loanStatementRepo;
     private final OverdueChargesRepository overdueChargesRepository;
     private final MemberContributionRepository memberContributionRepository;
+    final int updateTimeline = 10;
 
     public LoanRes addLoan(LoanApplicationDto loanApplicationDto) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -101,7 +102,7 @@ public class LoanService {
 
                             .loanId(loanApplication.get())
                             .principle(Double.valueOf(loanApplication.get().getAmount()))
-                            .expectedOn(LocalDateTime.now().plusMinutes(loanApplication.get().getDuration()))
+                            .expectedOn(LocalDateTime.now().plusMinutes(loanApplication.get().getDuration() *   updateTimeline ))
                             .interest(loanApplication.get().amount * loanApplication.get().duration
                                     * interest)
 
@@ -199,7 +200,7 @@ public class LoanService {
     @Scheduled(initialDelay = 4000L, fixedDelayString = "PT30S")
     @Transactional
     public void findAndUpdateInterestsForOverdueLoans() {
-        final int updateTimeline = 10;
+       
         List<LoanStatement> overdue = loanStatementRepo.findAll().stream().filter(
                 each -> each.getPrinciple() > 0 && LocalDateTime.now().isAfter(each.getExpectedOn()))
                 .collect(Collectors.toList());
