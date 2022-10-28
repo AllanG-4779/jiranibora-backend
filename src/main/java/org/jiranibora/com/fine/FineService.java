@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.jiranibora.com.application.Utility;
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.meetings.MeetingRepository;
 import org.jiranibora.com.models.Fine;
@@ -15,16 +16,18 @@ import org.jiranibora.com.payment.FineCategoryRepository;
 import org.jiranibora.com.payment.FineRepository;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class FineService {
 
     private final FineCategoryRepository fineCategoryRepository;
     private final FineRepository fineRepository;
     private final AuthenticationRepository authenticationRepository;
     private final MeetingRepository meetingRepository;
+    private Utility utility;
 
     public FineRes addFine(String meetingId, String memberId, String fineCategory) {
         // Check if there is fine with that Id
@@ -114,7 +117,6 @@ public class FineService {
 
         List<FinePerMeeting> fines = fineRepository.findFinePerMeeting();
 
-
         return SecretaryHomePageDto.builder().totalMeetings(meetingCount).totalFinesCollected(paidFines)
                 .totalPendingFines(totalPending).latestFines(pending).meetinglyFine(fines).build();
     }
@@ -131,4 +133,20 @@ public class FineService {
                 .build();
     }
 
+    public FineRes addFineCategory(FineCategoryDto fineCategoryDto) {
+
+        String fineId = fineCategoryDto.getFineName().substring(0, 3).toUpperCase()
+                + utility.randomApplicationID().substring(5);
+
+        FineCategory fineCategory = FineCategory.builder()
+                .fineCategoryId(fineId)
+                .chargeableAmount(fineCategoryDto.getAmount())
+                .fineName(fineCategoryDto.getFineName())
+                .build();
+
+        fineCategoryRepository.save(fineCategory);
+
+        return FineRes.builder().code(200).message("Fine added successfully").build();
+
+    }
 }
