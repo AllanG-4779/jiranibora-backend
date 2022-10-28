@@ -19,20 +19,21 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
     private final JWT jwt;
     private final AppUserService appUserService;
-     @Autowired
+
+    @Autowired
     public JwtFilter(JWT jwt, AppUserService appUserService) {
         this.jwt = jwt;
 
-         this.appUserService = appUserService;
-     }
+        this.appUserService = appUserService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
         String token = null;
         String username = null;
-//        get the authorization
+        // get the authorization
         String authorization = request.getHeader("Authorization");
         try {
             if (authorization != null && authorization.startsWith("Bearer")) {
@@ -42,33 +43,32 @@ public class JwtFilter extends OncePerRequestFilter {
 
             }
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-// In other words we are checking if there is a user in the token and that user is not yet
-//            authenticated
-//            if so, then the user is logged in
-                AppUser appUser = (AppUser)appUserService.loadUserByUsername(username);
+                // In other words we are checking if there is a user in the token and that user
+                // is not yet
+                // authenticated
+                // if so, then the user is logged in
+                AppUser appUser = (AppUser) appUserService.loadUserByUsername(username);
 
-//            Now, validate the details in the token against the actual user with the said username
-
+                // Now, validate the details in the token against the actual user with the said
+                // username
 
                 if (jwt.validateToken(token, appUser)) {
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                            = new UsernamePasswordAuthenticationToken(appUser, null,
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                            appUser, null,
                             appUser.getAuthorities());
 
                     usernamePasswordAuthenticationToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
+                            new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
 
-
-//            We are done now proceed with the next filter chains
+                // We are done now proceed with the next filter chains
 
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new BadCredentialsException (e.getMessage());
+            throw new BadCredentialsException("Something went wrong" + e.getMessage());
         }
     }
 
