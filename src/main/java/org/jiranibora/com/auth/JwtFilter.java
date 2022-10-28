@@ -67,7 +67,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("This is the error"+e.getMessage());
             throw new BadCredentialsException("Something went wrong" + e.getMessage());
         }
     }
