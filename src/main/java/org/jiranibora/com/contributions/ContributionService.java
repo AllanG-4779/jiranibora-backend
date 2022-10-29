@@ -94,6 +94,7 @@ public class ContributionService {
         Contribution currenContribution = contributionRepository.findByContId(contributionId);
 
         if (currenContribution == null) {
+            log.debug("This is what we have ", contributionId, currenContribution);
             contRes.setCode(404);
             contRes.setMessage("No Contribution was found");
             return contRes;
@@ -103,14 +104,14 @@ public class ContributionService {
             // Is the person authenticated, i.e is there a securityContext in place?
 
             Member member = utility.getAuthentication();
-                    
+
             if (member == null) {
                 contRes.setCode(403);
                 contRes.setMessage("You are not authenticated");
                 return contRes;
 
             } else {
-                
+
                 String contributionStatus;
                 MemberContributionPK memberContributionPK = MemberContributionPK.builder()
                         .contributionId(contributionId)
@@ -128,8 +129,17 @@ public class ContributionService {
                 Integer monthlyContributionAmount = Integer.valueOf(member.getPrevRef().getAmount());
 
                 if (currenContribution.getStatus().equals("CLOSED")) {
-
                     contributionStatus = "LATE";
+                    Penalty penalty = Penalty.builder()
+                            .amount(Double.valueOf(member.getPrevRef().getAmount()) * .2)
+                            .memberId(member)
+                            .contributionId(currenContribution)
+                            .penCode("PEN" + utility.randomApplicationID().substring(0, 6))
+                            .datePenalized(LocalDateTime.now())
+                            .build();
+
+                    penaltyRepository.save(penalty);
+
                 } else {
                     contributionStatus = "TIMELY";
                 }
