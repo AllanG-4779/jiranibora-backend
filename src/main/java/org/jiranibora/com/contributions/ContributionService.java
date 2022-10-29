@@ -102,15 +102,15 @@ public class ContributionService {
         else {
             // Is the person authenticated, i.e is there a securityContext in place?
 
-            Authentication authentication = SecurityContextHolder.getContext()
-                    .getAuthentication();
-            if (!authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
+            Member member = utility.getAuthentication();
+                    
+            if (member == null) {
                 contRes.setCode(403);
                 contRes.setMessage("You are not authenticated");
                 return contRes;
 
             } else {
-                Member member = authenticationRepository.findMemberByMemberId(authentication.getName());
+                
                 String contributionStatus;
                 MemberContributionPK memberContributionPK = MemberContributionPK.builder()
                         .contributionId(contributionId)
