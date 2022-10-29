@@ -1,6 +1,8 @@
 package org.jiranibora.com.auth;
 
 import io.jsonwebtoken.MalformedJwtException;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class JwtFilter extends OncePerRequestFilter {
     private final JWT jwt;
     private final AppUserService appUserService;
@@ -39,6 +42,8 @@ public class JwtFilter extends OncePerRequestFilter {
             if (authorization != null && authorization.startsWith("Bearer")) {
                 token = authorization.split(" ")[1];
 
+                log.debug("Something went wrong here");
+                log.debug("Here is the token", token);
                 username = jwt.getUsernameFromToken(token);
 
             }
