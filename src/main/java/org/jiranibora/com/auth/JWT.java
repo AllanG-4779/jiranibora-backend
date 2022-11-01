@@ -53,6 +53,7 @@ public class JWT {
 
         claims.put("member_id", userDetails.getUsername());
         claims.put("name", userDetails.getFullName());
+        claims.put("phone",userDetails.getPhone());
         
         return doGenerateToken(claims, userDetails.getUsername());
     }

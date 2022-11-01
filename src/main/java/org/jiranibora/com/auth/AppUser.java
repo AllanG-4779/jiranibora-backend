@@ -16,6 +16,7 @@ public class AppUser implements UserDetails {
     private final Boolean isEnabled;
     private final String fullName;
     private final String roles;
+    private final String phone;
 
 
 
@@ -27,6 +28,7 @@ public class AppUser implements UserDetails {
         this.authorityList = Arrays.stream(member.getRole().split(";"))
                 .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         this.roles = member.getRole();
+        this.phone   = member.getPrevRef().getPhoneNumber();
 
     }
 
@@ -47,6 +49,9 @@ public class AppUser implements UserDetails {
 
     public String getFullName() {
        return  fullName;
+    }
+    public String getPhone(){
+        return  phone;
     }
 
 

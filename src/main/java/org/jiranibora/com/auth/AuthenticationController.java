@@ -42,7 +42,12 @@ public class AuthenticationController {
                 log.info("Logged in as " + appUser.getAuthorities());
                 return AuthenticationResponse.builder()
                         .role(appUser.getRole())
-                        .access_token(token).build();
+                        .access_token(token)
+                        .phone(appUser.getPhone())
+                        .memberId(appUser.getUsername())
+                        .fullName(appUser.getFullName())
+                        .build();
+
             }
         } catch (BadCredentialsException e) {
             throw new Exception("Wrong username or password");
