@@ -1,5 +1,18 @@
 package org.jiranibora.com.contributions;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.jiranibora.com.application.TransactionDto;
+import org.jiranibora.com.application.Utility;
+import org.jiranibora.com.auth.AuthenticationRepository;
+import org.jiranibora.com.contributions.MemberContributionDto.MemberContributionDtoBuilder;
+import org.jiranibora.com.models.*;
+import org.jiranibora.com.payment.PenaltyRepository;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -7,29 +20,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-
-import org.jiranibora.com.application.TransactionDto;
-import org.jiranibora.com.application.Utility;
-import org.jiranibora.com.auth.AuthenticationRepository;
-import org.jiranibora.com.contributions.MemberContributionDto.MemberContributionDtoBuilder;
-import org.jiranibora.com.models.Contribution;
-import org.jiranibora.com.models.Member;
-import org.jiranibora.com.models.MemberContribution;
-import org.jiranibora.com.models.MemberContributionPK;
-import org.jiranibora.com.models.Penalty;
-import org.jiranibora.com.payment.PenaltyRepository;
-import org.springframework.boot.autoconfigure.web.format.DateTimeFormatters;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -52,16 +42,16 @@ public class ContributionService {
         if (Objects.nonNull(existing)) {
             return 1;
         }
-        Long monthCount = (contributionRepository.count());
+        long monthCount = (contributionRepository.count());
         if (monthCount >= 12) {
             return 2;
         }
 
         Contribution contribution = Contribution.builder()
                 .contId("CNT" + utility.randomApplicationID().substring(6))
-                .monthCount(monthCount.intValue() + 1)
+                .monthCount((int) monthCount + 1)
                 .closeOn(LocalDateTime.now().plusMinutes(duration))
-                .month(months[monthCount.intValue()])
+                .month(months[(int) monthCount])
                 .status("ON")
                 .openOn(LocalDateTime.now())
                 .build();
@@ -75,7 +65,7 @@ public class ContributionService {
     }
 
     // Close the contribution
-    public Boolean disableContribution(String contId) throws Exception {
+    public Boolean disableContribution(String contId) {
         Contribution contributionToDisable = contributionRepository.findByContId(contId);
         if (!Objects.nonNull(contributionToDisable) || contributionToDisable.getStatus().equals("CLOSED")) {
             return false;
@@ -94,7 +84,7 @@ public class ContributionService {
         Contribution currenContribution = contributionRepository.findByContId(contributionId);
 
         if (currenContribution == null) {
-            log.debug("This is what we have ", contributionId, currenContribution);
+
             contRes.setCode(404);
             contRes.setMessage("No Contribution was found");
             return contRes;

@@ -138,8 +138,8 @@ public class TreasurerService {
                                 .netContribution(netContribution)
                                 .netShares(Double.valueOf(roundTo2dp.format(netShares)))
                                 .loans(Double.valueOf(roundTo2dp.format(loans)))
-                                .interestEarned(interestEarned)
-                                .finalPayout(finalPayout)
+                                .interestEarned(Double.valueOf(roundTo2dp.format(interestEarned)))
+                                .finalPayout(Double.valueOf(roundTo2dp.format(finalPayout)))
 
                                 .build();
 
