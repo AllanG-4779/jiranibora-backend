@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="reformatting the authentication result">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PenaltyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PenaltyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +170,7 @@
       <workItem from="1666760946291" duration="1914000" />
       <workItem from="1666767353306" duration="3087000" />
       <workItem from="1667278461378" duration="3128000" />
-      <workItem from="1667318628384" duration="209000" />
+      <workItem from="1667318628384" duration="2517000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -268,7 +270,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667280113886</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="reformatting the authentication result">
+      <created>1667318927504</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1667318927504</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

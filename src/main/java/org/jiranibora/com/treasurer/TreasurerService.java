@@ -111,9 +111,9 @@ public class TreasurerService {
                 Double fines = fineRepository.findByPaidAndMemberId(false, member).stream()
                                 .mapToDouble(each -> each.getFineCategory().getChargeableAmount()).sum();
                 Double penalties = penaltyRepository.findByStatusAndMemberId("Pending", member).stream()
-                                .mapToDouble(each -> each.getAmount()).sum();
+                                .mapToDouble(Penalty::getAmount).sum();
                 Double totalContribution = memberContributionRepository.findByMemberId(member).stream()
-                                .mapToDouble(each -> Double.valueOf(each.getMemberId().getPrevRef().getAmount())).sum();
+                                .mapToDouble(each -> Double.parseDouble(each.getMemberId().getPrevRef().getAmount())).sum();
 
                 Double totalDeductions = (fines + penalties + loans);
 

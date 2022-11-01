@@ -130,15 +130,19 @@ public class ContributionService {
 
                 if (currenContribution.getStatus().equals("CLOSED")) {
                     contributionStatus = "LATE";
-                    Penalty penalty = Penalty.builder()
-                            .amount(Double.valueOf(member.getPrevRef().getAmount()) * .2)
-                            .memberId(member)
-                            .contributionId(currenContribution)
-                            .penCode("PEN" + utility.randomApplicationID().substring(0, 6))
-                            .datePenalized(LocalDateTime.now())
-                            .build();
+//                    Check if the automatic penalty adder did not penalize the contributor
+                    if(penaltyRepository.findPenaltyByContributionIdAndMemberId(currenContribution, member).isEmpty()){
+                        Penalty penalty = Penalty.builder()
+                                .amount(Double.valueOf(member.getPrevRef().getAmount()) * .2)
+                                .memberId(member)
+                                .contributionId(currenContribution)
+                                .penCode("PEN" + utility.randomApplicationID().substring(0, 6))
+                                .datePenalized(LocalDateTime.now())
+                                .build();
 
-                    penaltyRepository.save(penalty);
+                        penaltyRepository.save(penalty);
+                    }
+
 
                 } else {
                     contributionStatus = "TIMELY";
