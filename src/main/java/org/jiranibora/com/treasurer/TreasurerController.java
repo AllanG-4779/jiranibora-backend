@@ -26,4 +26,10 @@ public class TreasurerController {
         return ResponseEntity.status(200).body(treasurerService.getMemberEarnings());
     }
 
+    @GetMapping("/report")
+    public  ResponseEntity<JBPerformanceDto> getReport(){
+        JBPerformanceDto performanceDto = treasurerService.getJiraniBoraPerformance();
+        return ResponseEntity.status(200).body(performanceDto);
+    }
+
 }

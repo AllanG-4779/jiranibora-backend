@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jiranibora.com.auth.AuthenticationRepository;
 import org.jiranibora.com.contributions.MemberContributionRepository;
 import org.jiranibora.com.contributions.TransactionRepository;
+import org.jiranibora.com.fine.FineController;
 import org.jiranibora.com.loans.LoanRepository;
 import org.jiranibora.com.loans.LoanStatementRepo;
 import org.jiranibora.com.models.*;
@@ -15,7 +16,9 @@ import org.jiranibora.com.payment.PenaltyRepository;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,14 +29,16 @@ public class TreasurerService {
         private final LoanRepository loanRepository;
         private final LoanStatementRepo loanStatementRepo;
         private final PenaltyRepository penaltyRepository;
-        private final MemberContributionRepository contributionRepository;
+
         private final AuthenticationRepository authenticationRepository;
         private final MemberContributionRepository memberContributionRepository;
         private final FineRepository fineRepository;
 
+
+
         public TreasurerHomeDto getAccountStatus() {
                 // Get total Contributions;
-                Double totalContributions = contributionRepository.findAll().stream()
+                Double totalContributions = memberContributionRepository.findAll().stream()
                                 .mapToDouble(each -> Double.parseDouble(each.getMemberId().getPrevRef().getAmount()))
                                 .sum();
 
@@ -94,15 +99,15 @@ public class TreasurerService {
         public List<MemberEarningDto> getMemberEarnings() {
                 List<Member> members = authenticationRepository.findAll();
 
-                return members.stream().map(each -> buildMemberEarningDto(each)).collect(Collectors.toList());
+                return members.stream().map(this::buildMemberEarningDto).collect(Collectors.toList());
 
         }
 
         public MemberEarningDto buildMemberEarningDto(Member member) {
 
-                Double totalJiraniBoraContribution = getSharableIncome().getContributionsAfter();
+                Double totalJiraniBoraContribution = getSharableIncome().getContributionsBefore();
 
-                Double sharableIncome = getSharableIncome().getEarningAfter();
+                Double sharableIncome = getSharableIncome().getEarningBefore();
 
                 Double totalShares = totalJiraniBoraContribution / 500;
 
@@ -149,60 +154,128 @@ public class TreasurerService {
         // up until the time of end year.
 
         public EarningSummary getSharableIncome() {
-                Double contributionBefore = contributionRepository.findAll().stream()
+                Double contributionBefore = memberContributionRepository.findAll().stream()
                                 .mapToDouble(each -> Double.parseDouble(each.getMemberId().getPrevRef().getAmount()))
                                 .sum();
                 Double earningBefore = getAccountStatus().getInterestEarned()
                                 + getAccountStatus().getEarningFromPenalties();
-                Double contributionAfter = contributionBefore;
-                Double earningAfter = earningBefore;
-
-                List<Member> members = authenticationRepository.findAll();
-
-                for (Member member : members) {
-
-                        contributionAfter -= eachMemberNetIncome(member);
-                        earningAfter += eachMemberNetIncome(member);
-
-                }
+//                Double contributionAfter = contributionBefore;
+//                Double earningAfter = earningBefore;
+//
+//                List<Member> members = authenticationRepository.findAll();
+//
+//                for (Member member : members) {
+//
+//                        contributionAfter -= eachMemberNetIncome(member);
+//                        earningAfter += eachMemberNetIncome(member);
+//
+//                }
 
                 return EarningSummary.builder()
-                                .earningBefore(earningBefore).earningAfter(earningAfter)
-                                .contributionsAfter(contributionAfter).contributionsBefore(contributionBefore)
+                                .earningBefore(earningBefore)
+                                .contributionsBefore(contributionBefore)
                                 .build();
         }
 
-        public Double eachMemberNetIncome(Member member) {
-                // This method is responsible for deducting all the outstanding loans, fines,
-                // and penalties before calculating the final pay for a user
+//        public Double eachMemberNetIncome(Member member) {
+//                // This method is responsible for deducting all the outstanding loans, fines,
+//                // and penalties before calculating the final pay for a user
+//
+//                Double loans = loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
+//                                .mapToDouble(each -> (each.getInterest() + each.getPrinciple())).sum();
+//
+//                Double fines = fineRepository.findByPaidAndMemberId(false, member).stream()
+//                                .mapToDouble(each -> each.getFineCategory().getChargeableAmount()).sum();
+//
+//                Double penalties = penaltyRepository.findByStatusAndMemberId("Pending", member).stream()
+//                                .mapToDouble(Penalty::getAmount).sum();
+//
+//                Double totalContribution = memberContributionRepository.findByMemberId(member).stream()
+//                                .mapToDouble(each -> Double.parseDouble(each.getMemberId().getPrevRef().getAmount())).sum();
+//
+//                Double deductions = loans + fines + penalties;
+//
+//                double netContribution = totalContribution - deductions;
+//
+//                if (netContribution < 0) {
+//                        // increment the income by the total number of contributions
+//                        // deduct the sharable income by the same amount;
+//                        return totalContribution;
+//
+//                } else {
+//                        // increment the income by the sum of fines, penalties and loans
+//                        // deduct the contribution b the same amount
+//                        return deductions;
+//                }
+//
+//        }
 
-                Double loans = loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
-                                .mapToDouble(each -> (each.getInterest() + each.getPrinciple())).sum();
+        public JBPerformanceDto getJiraniBoraPerformance(){
+//            Get all members whose number of contribution is less than half the number of total contributions
+                List<Member> members = authenticationRepository.findAll();
+            long number_dormant = members.stream().filter(this::isMemberDormant).count();
+//             total member loans
 
-                Double fines = fineRepository.findByPaidAndMemberId(false, member).stream()
-                                .mapToDouble(each -> each.getFineCategory().getChargeableAmount()).sum();
+            double totalLoans = loanRepository.findAllByStatus("Approved").stream().mapToDouble(LoanApplication::getAmount).sum() ;
 
-                Double penalties = penaltyRepository.findByStatusAndMemberId("Pending", member).stream()
-                                .mapToDouble(each -> each.getAmount()).sum();
+            double totalLoansPaid = transactionRepository.findAllByPaymentCategory("Loan Repayment").stream().mapToDouble(Transactions::getAmount).sum();
 
-                Double totalContribution = contributionRepository.findByMemberId(member).stream()
-                                .mapToDouble(each -> Double.valueOf(each.getMemberId().getPrevRef().getAmount())).sum();
+            double penaltiesPaid = transactionRepository.findAllByPaymentCategory("Penalty").stream().mapToDouble(Transactions::getAmount).sum();
 
-                Double deductions = loans + fines + penalties;
+            double finesIssued = fineRepository.findAll().stream().mapToDouble(each->each.getFineCategory().getChargeableAmount()).sum();
 
-                Double netContribution = totalContribution - deductions;
+            double finesPaid = transactionRepository.findAllByPaymentCategory("Fine").stream().mapToDouble(Transactions::getAmount).sum();
+            double totalPenalties = penaltyRepository.findAll().stream().mapToDouble(Penalty::getAmount).sum();
 
-                if (netContribution < 0) {
-                        // increment the income by the total number of contributions
-                        // deduct the sharabe income by the same amount;
-                        return totalContribution;
+            double totalContribution = memberContributionRepository.findAll().stream()
+                    .mapToDouble(each-> Double.parseDouble(each.getMemberId().getPrevRef().getAmount())).sum();
+            long totalMembers = authenticationRepository.findAll().size();
+            Double totalIncome = penaltiesPaid + totalContribution+ (totalLoansPaid - totalLoans);
 
-                } else {
-                        // increment the income by the sum of fines, penalties and loans
-                        // deduct the contribution b the same amount
-                        return deductions;
-                }
+            DecimalFormat formatter = new DecimalFormat("#,###.##", new DecimalFormatSymbols(Locale.ENGLISH));
+
+                return JBPerformanceDto.builder()
+                        .activeMembers((int) (totalMembers - number_dormant))
+                        .dormantMembers((int) number_dormant)
+                        .finesIssued(Double.valueOf(formatter.format(finesIssued)))
+                        .finesPaid(Double.valueOf(formatter.format(finesPaid)))
+                        .InterestEarned(Double.valueOf(formatter.format(totalLoansPaid - totalLoans)))
+                        .memberDeposits(Double.valueOf(formatter.format(totalContribution)))
+                        .totalPenalties(Double.valueOf(formatter.format(totalPenalties)))
+                        .loanToMembers(Double.valueOf(formatter.format(totalLoans)))
+                        .paidPenalties(Double.valueOf(formatter.format(totalPenalties - finesPaid)))
+                        .membersWithAbsoluteNoEarning((int) members.stream().filter(this::isLiabilityMoreThanContributions).count())
+                        .sharableIncome(getSharableIncome().getContributionsBefore()+getSharableIncome().getEarningBefore())
+                        .build();
 
         }
+//        Helper method
+        public boolean isMemberDormant (Member member){
+                long numberOfContribution = memberContributionRepository.findByMemberId(member).size();
+                if(numberOfContribution <5){
+                  return  true;
+                }
+                return false;
+        }
+
+        public boolean isLiabilityMoreThanContributions (Member member){
+
+                Double unPaidLoans = loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
+                        .mapToDouble(each->each.getInterest()+each.getPrinciple()).sum();
+                Double unPaidPenalties = penaltyRepository.findByStatusAndMemberId("Pending", member)
+                        .stream().mapToDouble(Penalty::getAmount).sum();
+                Double fineUnPaid = fineRepository.findByPaidAndMemberId(false, member).stream()
+                        .mapToDouble(each->each.getFineCategory().getChargeableAmount()).sum();
+                Double paidFines = fineRepository.findByPaidAndMemberId(true, member).stream()
+                        .mapToDouble(each->each.getFineCategory().getChargeableAmount()).sum();
+                Double totalContribution = memberContributionRepository.findByMemberId(member)
+                        .stream().mapToDouble(each-> Double.parseDouble(each.getMemberId().getPrevRef().getAmount())).sum();
+                if((totalContribution - (unPaidLoans + unPaidPenalties+fineUnPaid))>1){
+                        return true;
+                }else{
+                        return false;
+                }
+        }
+
 
 }

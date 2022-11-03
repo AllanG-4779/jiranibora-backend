@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="bug-the double penalizing members both when the application is closed and when they make a late contribution">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/JBPerformanceDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/EarningSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/EarningSummary.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -170,6 +172,8 @@
       <workItem from="1666767353306" duration="3087000" />
       <workItem from="1667278461378" duration="3128000" />
       <workItem from="1667318628384" duration="2917000" />
+      <workItem from="1667482177580" duration="4083000" />
+      <workItem from="1667497984614" duration="4230000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>

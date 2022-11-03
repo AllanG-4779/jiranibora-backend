@@ -10,8 +10,8 @@ import lombok.Data;
 
 public class EarningSummary {
     private Double contributionsBefore;
-    private Double contributionsAfter;
+
     private Double earningBefore;
-    private Double earningAfter;
+
     
 }
