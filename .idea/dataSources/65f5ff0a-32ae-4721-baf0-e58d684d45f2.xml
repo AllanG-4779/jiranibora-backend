@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="jiranibora@db4free.net">
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.39">
-    <root id="1">
-      <DefaultCasing>exact</DefaultCasing>
-      <DefaultEngine>InnoDB</DefaultEngine>
-      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
-      <Grants>jiranibora|schema||allang45||ALTER|G
-jiranibora|schema||allang45||ALTER ROUTINE|G
-jiranibora|schema||allang45||CREATE|G
-jiranibora|schema||allang45||CREATE ROUTINE|G
-jiranibora|schema||allang45||CREATE TEMPORARY TABLES|G
-jiranibora|schema||allang45||CREATE VIEW|G
-jiranibora|schema||allang45||DELETE|G
-jiranibora|schema||allang45||DROP|G
-jiranibora|schema||allang45||EVENT|G
-jiranibora|schema||allang45||EXECUTE|G
-jiranibora|schema||allang45||INDEX|G
-jiranibora|schema||allang45||INSERT|G
-jiranibora|schema||allang45||LOCK TABLES|G
-jiranibora|schema||allang45||REFERENCES|G
-jiranibora|schema||allang45||SELECT|G
-jiranibora|schema||allang45||SHOW VIEW|G
-jiranibora|schema||allang45||TRIGGER|G
-jiranibora|schema||allang45||UPDATE|G</Grants>
-      <ServerVersion>8.0.30</ServerVersion>
-    </root>
+    <root id="1"/>
     <collation id="2" parent="1" name="armscii8_general_ci">
       <Charset>armscii8</Charset>
       <DefaultForCharset>1</DefaultForCharset>

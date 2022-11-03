@@ -232,7 +232,7 @@ public class TreasurerService {
             long totalMembers = authenticationRepository.findAll().size();
             Double totalIncome = penaltiesPaid + totalContribution+ (totalLoansPaid - totalLoans);
 
-            DecimalFormat formatter = new DecimalFormat("#,###.##", new DecimalFormatSymbols(Locale.ENGLISH));
+            DecimalFormat formatter = new DecimalFormat("0.00");
 
                 return JBPerformanceDto.builder()
                         .activeMembers((int) (totalMembers - number_dormant))
