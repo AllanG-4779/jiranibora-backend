@@ -243,7 +243,8 @@ public class TreasurerService {
                         .memberDeposits(Double.valueOf(formatter.format(totalContribution)))
                         .totalPenalties(Double.valueOf(formatter.format(totalPenalties)))
                         .loanToMembers(Double.valueOf(formatter.format(totalLoans)))
-                        .paidPenalties(Double.valueOf(formatter.format(totalPenalties - finesPaid)))
+                        .repaidLoans(totalLoansPaid)
+                        .paidPenalties(Double.valueOf(formatter.format(totalPenalties - penaltiesPaid)))
                         .membersWithAbsoluteNoEarning((int) members.stream().filter(this::isLiabilityMoreThanContributions).count())
                         .sharableIncome(getSharableIncome().getContributionsBefore()+getSharableIncome().getEarningBefore())
                         .build();

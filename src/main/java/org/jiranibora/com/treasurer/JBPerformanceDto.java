@@ -12,6 +12,7 @@ public class JBPerformanceDto {
     private Integer dormantMembers;
     private Double memberDeposits;
     private Double loanToMembers;
+    private Double repaidLoans;
     private Double InterestEarned;
     private Double finesIssued;
     private Double totalPenalties;
