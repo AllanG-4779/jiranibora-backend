@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.jiranibora.com.auth.AuthenticationRepository;
+import org.jiranibora.com.contributions.ContributionRepository;
 import org.jiranibora.com.contributions.MemberContributionRepository;
 import org.jiranibora.com.contributions.TransactionRepository;
 import org.jiranibora.com.fine.FineController;
@@ -33,6 +34,7 @@ public class TreasurerService {
         private final AuthenticationRepository authenticationRepository;
         private final MemberContributionRepository memberContributionRepository;
         private final FineRepository fineRepository;
+        private final ContributionRepository contributions;
 
 
 
@@ -230,7 +232,7 @@ public class TreasurerService {
             double totalContribution = memberContributionRepository.findAll().stream()
                     .mapToDouble(each-> Double.parseDouble(each.getMemberId().getPrevRef().getAmount())).sum();
             long totalMembers = authenticationRepository.findAll().size();
-            Double totalIncome = penaltiesPaid + totalContribution+ (totalLoansPaid - totalLoans);
+            Double totalIncome = penaltiesPaid + totalContribution+ getAccountStatus().getInterestEarned();
 
             DecimalFormat formatter = new DecimalFormat("0.00");
 
@@ -239,24 +241,23 @@ public class TreasurerService {
                         .dormantMembers((int) number_dormant)
                         .finesIssued(Double.valueOf(formatter.format(finesIssued)))
                         .finesPaid(Double.valueOf(formatter.format(finesPaid)))
-                        .InterestEarned(Double.valueOf(formatter.format(totalLoansPaid - totalLoans)))
+                        .InterestEarned(Double.valueOf(formatter.format(getAccountStatus().getInterestEarned())))
                         .memberDeposits(Double.valueOf(formatter.format(totalContribution)))
                         .totalPenalties(Double.valueOf(formatter.format(totalPenalties)))
                         .loanToMembers(Double.valueOf(formatter.format(totalLoans)))
-                        .repaidLoans(totalLoansPaid-(totalLoansPaid-totalLoans))
+                        .repaidLoans(totalLoansPaid-getAccountStatus().getInterestEarned())
                         .paidPenalties(Double.valueOf(formatter.format(penaltiesPaid)))
                         .membersWithAbsoluteNoEarning((int) members.stream().filter(this::isLiabilityMoreThanContributions).count())
                         .sharableIncome(getSharableIncome().getContributionsBefore()+getSharableIncome().getEarningBefore())
+                        .totalCollection(Double.valueOf(formatter.format(totalIncome)))
                         .build();
 
         }
 //        Helper method
         public boolean isMemberDormant (Member member){
+               long doneContributions = contributions.count();
                 long numberOfContribution = memberContributionRepository.findByMemberId(member).size();
-                if(numberOfContribution <5){
-                  return  true;
-                }
-                return false;
+            return numberOfContribution < (.5 * doneContributions);
         }
 
         public boolean isLiabilityMoreThanContributions (Member member){
@@ -269,13 +270,9 @@ public class TreasurerService {
                         .mapToDouble(each->each.getFineCategory().getChargeableAmount()).sum();
                 Double paidFines = fineRepository.findByPaidAndMemberId(true, member).stream()
                         .mapToDouble(each->each.getFineCategory().getChargeableAmount()).sum();
-                Double totalContribution = memberContributionRepository.findByMemberId(member)
+                double totalContribution = memberContributionRepository.findByMemberId(member)
                         .stream().mapToDouble(each-> Double.parseDouble(each.getMemberId().getPrevRef().getAmount())).sum();
-                if((totalContribution - (unPaidLoans + unPaidPenalties+fineUnPaid))>1){
-                        return true;
-                }else{
-                        return false;
-                }
+            return (totalContribution - (unPaidLoans + unPaidPenalties + fineUnPaid)) > 1;
         }
 
 

@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="bg-number-format exception" />
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="treasuer remote modification">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/JBPerformanceDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/JBPerformanceDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -168,7 +172,8 @@
       <workItem from="1667318628384" duration="2917000" />
       <workItem from="1667482177580" duration="4083000" />
       <workItem from="1667497984614" duration="4666000" />
-      <workItem from="1667503745717" duration="914000" />
+      <workItem from="1667503745717" duration="2024000" />
+      <workItem from="1667538190844" duration="2970000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -296,7 +301,21 @@
       <option name="project" value="LOCAL" />
       <updated>1667504210034</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="treasuer remote modification">
+      <created>1667504879994</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1667504879994</updated>
+    </task>
+    <task id="LOCAL-00020" summary="treasuer remote modification">
+      <created>1667505620429</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1667505620429</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -328,7 +347,8 @@
     <MESSAGE value="bug-the double penalizing members both when the application is closed and when they make a late contribution" />
     <MESSAGE value="treasurer report" />
     <MESSAGE value="bg-number-format exception" />
-    <option name="LAST_COMMIT_MESSAGE" value="bg-number-format exception" />
+    <MESSAGE value="treasuer remote modification" />
+    <option name="LAST_COMMIT_MESSAGE" value="treasuer remote modification" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

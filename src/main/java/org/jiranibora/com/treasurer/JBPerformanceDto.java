@@ -20,4 +20,5 @@ public class JBPerformanceDto {
     private Double finesPaid;
     private Integer membersWithAbsoluteNoEarning;
     private Double sharableIncome;
+    private Double totalCollection;
 }
