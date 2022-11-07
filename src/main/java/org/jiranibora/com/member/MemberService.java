@@ -10,10 +10,7 @@ import org.jiranibora.com.contributions.TransactionRepository;
 import org.jiranibora.com.loans.LoanRepository;
 import org.jiranibora.com.loans.LoanStatementRepo;
 import org.jiranibora.com.meetings.MeetingRepository;
-import org.jiranibora.com.member.dto.Contributions;
-import org.jiranibora.com.member.dto.Fines;
-import org.jiranibora.com.member.dto.Loans;
-import org.jiranibora.com.member.dto.Summary;
+import org.jiranibora.com.member.dto.*;
 import org.jiranibora.com.models.Fine;
 import org.jiranibora.com.models.Meeting;
 import org.jiranibora.com.models.Member;
@@ -56,7 +53,7 @@ public class MemberService {
                 .memberId(member.getMemberId()).build();
     }
 
-    public Object getMemberStatement(){
+    public MemberEarningDto getMemberStatement(){
      Member member = utility.getAuthentication();
      List<Fines> finesList = fineRepository.findAllByMemberId(member).stream().map(each->Fines.builder()
              .fineCategory(each.getFineCategory().getFineName())
@@ -84,7 +81,8 @@ public class MemberService {
              .totalDeductions(treasurerService.buildMemberEarningDto(member).getTotalContribution()-treasurerService.buildMemberEarningDto(member).getNetContribution())
              .netEarning(treasurerService.buildMemberEarningDto(member).getFinalPayout())
              .build();
-     return null;
+     return MemberEarningDto.builder().summary(summary)
+             .loans(loans).fines(finesList).contributions(memberConts).build();
 
     }
 
