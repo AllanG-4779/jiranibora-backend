@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="treasuer remote modification">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/dto/Contributions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/dto/Fines.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/dto/Loans.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/dto/MemberEarningDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/dto/Summary.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/JBPerformanceDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/JBPerformanceDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/treasurer/TreasurerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanStatementRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanStatementRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/FineRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/FineRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +180,11 @@
       <workItem from="1667482177580" duration="4083000" />
       <workItem from="1667497984614" duration="4666000" />
       <workItem from="1667503745717" duration="2024000" />
-      <workItem from="1667538190844" duration="2970000" />
+      <workItem from="1667538190844" duration="3389000" />
+      <workItem from="1667813074967" duration="2413000" />
+      <workItem from="1667825328368" duration="671000" />
+      <workItem from="1667829125347" duration="2726000" />
+      <workItem from="1667839720945" duration="2439000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -315,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667505620429</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="treasuer remote modification">
+      <created>1667542717171</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1667542717171</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

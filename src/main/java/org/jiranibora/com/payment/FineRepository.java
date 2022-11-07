@@ -15,6 +15,7 @@ public interface FineRepository extends JpaRepository<Fine, FinePrimaryKey> {
     List<Fine> findByPaidAndMemberId(Boolean paid, Member memberId);
 
     List<Fine> findAllByMeetingIdAndMemberId(Meeting meetingId, Member memberId);
+    List<Fine> findAllByMemberId(Member member);
 
     List<Fine> findByPaid(Boolean paid);
     // Find list of meetings and Sums
