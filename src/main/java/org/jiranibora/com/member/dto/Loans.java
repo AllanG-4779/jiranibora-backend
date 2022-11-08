@@ -13,5 +13,5 @@ public class Loans {
     private LocalDateTime dateApproved;
     private Double principalAmount;
     private Double pendingAmount;
-    private Double interestAccured;
+    private Double pendingInterests;
 }

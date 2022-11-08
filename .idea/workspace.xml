@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="member earning completed">
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="bug-loan statement repository">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/MemberService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +177,7 @@
       <workItem from="1667829125347" duration="2726000" />
       <workItem from="1667839720945" duration="2759000" />
       <workItem from="1667846845992" duration="1307000" />
-      <workItem from="1667870482208" duration="2014000" />
+      <workItem from="1667870482208" duration="2758000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -348,7 +347,21 @@
       <option name="project" value="LOCAL" />
       <updated>1667848176292</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="bug-loan statement repository">
+      <created>1667873582590</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1667873582590</updated>
+    </task>
+    <task id="LOCAL-00026" summary="bug-loan statement repository">
+      <created>1667873847024</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1667873847024</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -383,7 +396,8 @@
     <MESSAGE value="treasuer remote modification" />
     <MESSAGE value="addig member payout" />
     <MESSAGE value="member earning completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="member earning completed" />
+    <MESSAGE value="bug-loan statement repository" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug-loan statement repository" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
