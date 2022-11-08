@@ -68,8 +68,8 @@ public class MemberService {
      List<Loans> loans = loanRepository.findByStatusAndMemberId("Approved", member).stream().map(each->
              Loans.builder()
                      .dateApproved(each.dateViewed)
-                     .interestAccured(loanStatementRepo.findByApplicationId(each.applicationId).getInterest() )
-                     .pendingAmount(loanStatementRepo.findByApplicationId(each.applicationId).getPrinciple())
+                     .interestAccured(loanStatementRepo.findByApplicationId(each).getInterest() )
+                     .pendingAmount(loanStatementRepo.findByApplicationId(each).getPrinciple())
                      .principalAmount(each.getAmount().doubleValue())
 
                      .build()

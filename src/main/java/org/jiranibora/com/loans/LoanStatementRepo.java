@@ -13,6 +13,6 @@ public interface LoanStatementRepo extends JpaRepository<LoanStatement, Long> {
 
     @Query("SELECT  statement FROM LoanStatement statement WHERE statement.loanId.memberId.memberId=?1 ")
     List<LoanStatement> findAllByMemberId(String memberId);
-    LoanStatement findByApplicationId(String loanApplication);
+    LoanStatement findByApplicationId(LoanApplication loanApplication);
 
 }
