@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="bug-loan statement repository">
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="tiny model dto tweak">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/fine/FineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/fine/FineService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Meeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Meeting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +183,9 @@
       <workItem from="1667829125347" duration="2726000" />
       <workItem from="1667839720945" duration="2759000" />
       <workItem from="1667846845992" duration="1307000" />
-      <workItem from="1667870482208" duration="2758000" />
+      <workItem from="1667870482208" duration="3657000" />
+      <workItem from="1667965704224" duration="1159000" />
+      <workItem from="1668075317860" duration="3752000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -361,7 +369,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667873847024</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="tiny model dto tweak">
+      <created>1667874470837</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1667874470837</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -397,7 +412,8 @@
     <MESSAGE value="addig member payout" />
     <MESSAGE value="member earning completed" />
     <MESSAGE value="bug-loan statement repository" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug-loan statement repository" />
+    <MESSAGE value="tiny model dto tweak" />
+    <option name="LAST_COMMIT_MESSAGE" value="tiny model dto tweak" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

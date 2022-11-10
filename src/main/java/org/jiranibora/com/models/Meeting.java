@@ -20,7 +20,7 @@ public class Meeting {
     @Id
     private String meetingId;
     private LocalDateTime meetingDate;
-    @Column(unique = true, length = 20, updatable = false)
+    @Column( length = 20, updatable = false)
     private String month;
     private String status;
 

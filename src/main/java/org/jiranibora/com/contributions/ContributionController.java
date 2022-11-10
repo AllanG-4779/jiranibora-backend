@@ -63,7 +63,7 @@ public class ContributionController {
             throw new Exception("No Contribution was found with that ID");
         }
 
-        return ResponseEntity.status(Integer.valueOf(contributionMap.get("code"))).body(contributionMap);
+        return ResponseEntity.status(Integer.parseInt(contributionMap.get("code"))).body(contributionMap);
     }
 
     // Member contribution endpoint

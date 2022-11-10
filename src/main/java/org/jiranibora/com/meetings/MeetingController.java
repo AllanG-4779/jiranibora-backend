@@ -27,9 +27,9 @@ public class MeetingController {
         this.meetingService = meetingService;
     }
 
-    @PostMapping("/start/{month}")
-    public ResponseEntity<?> startMeeting(@PathVariable(required = true) String month) {
-        Boolean result = meetingService.startNewMeeting(month);
+    @PostMapping("/start")
+    public ResponseEntity<?> startMeeting() {
+        Boolean result = meetingService.startNewMeeting();
 
         if (result) {
             meetingMap.put("code", "200");

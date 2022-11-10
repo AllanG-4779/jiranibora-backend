@@ -49,21 +49,35 @@ public class FineService {
         }
         List<Fine> existingFines = fineRepository.findAllByMeetingIdAndMemberId(meetingExist, memberExist);
         if (fineCategory.equals("lateness")) {
-            if (existingFines.stream().filter(each -> each.getFineCategory().getFineName().equals("absenteeism"))
-                    .collect(Collectors.toList()).size() > 0) {
-                return FineRes.builder().code(403).message("A member cannot be late and absent at the same tme")
+            if (existingFines.stream().anyMatch(each -> each.getFineCategory().getFineName().equals("absenteeism"))) {
+                return FineRes.builder().code(403).message("Fine cannot be applied, member is already marked as absent")
                         .build();
 
             }
         }
         if (fineCategory.equals("absenteeism")) {
-            if (existingFines.stream().filter(each -> each.getFineCategory().getFineName().equals("latenes"))
-                    .collect(Collectors.toList()).size() > 0) {
+            if (existingFines.stream().anyMatch(each -> each.getFineCategory().getFineName().equals("lateness"))) {
+                return FineRes.builder().code(403).message("Fine cannot be applied, member is already marked as late")
+                        .build();
+
+            }
+        }
+        if (fineCategory.equals("language")) {
+            if (existingFines.stream().anyMatch(each -> each.getFineCategory().getFineName().equals("absenteeism"))) {
+                return FineRes.builder().code(403).message("Fine cannot be applied. The member is already marked as absent")
+                        .build();
+
+            }
+        }
+        if (fineCategory.equals("absenteeism")) {
+            if (existingFines.stream().anyMatch(each -> each.getFineCategory().getFineName().equals("lateness"))) {
                 return FineRes.builder().code(403).message("A member cannot be late and absent at the same tme")
                         .build();
 
             }
         }
+
+
 
         FinePrimaryKey finePrimaryKey = FinePrimaryKey.builder()
                 .memberId(memberId)

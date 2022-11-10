@@ -20,20 +20,17 @@ public class MeetingService {
         this.utility = utility;
     }
 
-    public Boolean startNewMeeting(String month) {
+    public Boolean startNewMeeting() {
         // prevent a meeting start if there is already one active
         // Find the meeting first
-        Meeting existingMeeting = meetingRepository.findByStatus("ON");
-        Meeting monthTaken = meetingRepository.findByMonth(month);
 
-        if (Objects.nonNull(existingMeeting)|| Objects.nonNull(monthTaken)) {
-            return false;
-        }
+        String[] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct", "Nov","Dec"};
         Meeting meeting = Meeting
                 .builder()
                 .meetingDate(LocalDateTime.now())
-                .month(month)
+                .month(months[LocalDateTime.now().getMonthValue()])
                 .meetingId("MEET" + utility.randomApplicationID().substring(6))
+
                 .status("ON")
                 .build();
         try {
