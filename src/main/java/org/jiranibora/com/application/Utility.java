@@ -50,7 +50,7 @@ public String randomApplicationID() {
      HttpStatus resposestatus  = mpesaService.sendMoney(String.valueOf(transactionDto.getAmount().intValue()),
              "254"+transactionDto.getMemberId().getPrevRef().getPhoneNumber());
      if (!resposestatus.is2xxSuccessful()){
-       throw new TransactionalException("Failed", new Throwable());
+        throw new IllegalStateException("MPESA transactionnn fail");
      }
     Transactions transaction = Transactions.builder()
         .amount(transactionDto.getAmount())

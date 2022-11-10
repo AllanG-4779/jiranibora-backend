@@ -42,8 +42,18 @@ public class MpesaService {
     public HttpStatus sendMoney(String amount, String sender) throws JsonProcessingException {
         int businessShortCode = 174379;
         HttpHeaders httpHeaders = new HttpHeaders();
+        String accessToken = getAccessToken();
+        if(accessToken == null){
+
+            System.out.println("access token is null");
+            throw new IllegalStateException("Could not fetch access token from Safaricom");
+        }
+        else{
+            System.out.println(accessToken);
+        }
         httpHeaders.setBearerAuth(getAccessToken());
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timeStamp = dateFormat.format(new Date());
         String password = String.valueOf(Base64.getEncoder()
