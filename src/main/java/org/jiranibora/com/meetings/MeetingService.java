@@ -28,7 +28,7 @@ public class MeetingService {
         Meeting meeting = Meeting
                 .builder()
                 .meetingDate(LocalDateTime.now())
-                .month(months[LocalDateTime.now().getMonthValue()])
+                .month(months[LocalDateTime.now().getMonthValue()-1])
                 .meetingId("MEET" + utility.randomApplicationID().substring(6))
 
                 .status("ON")
