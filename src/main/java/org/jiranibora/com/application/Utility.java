@@ -46,12 +46,12 @@ public String randomApplicationID() {
   }
 
   public Boolean addTransaction(TransactionDto transactionDto) throws JsonProcessingException {
-  //  // mpesa payment is added here
-  //   HttpStatus resposestatus  = mpesaService.sendMoney(String.valueOf(transactionDto.getAmount().intValue()),
-  //           "254"+transactionDto.getMemberId().getPrevRef().getPhoneNumber());
-  //   if (!resposestatus.is2xxSuccessful()){
-  //     throw new TransactionalException("Failed", new Throwable());
-  //   }
+    // mpesa payment is added here
+     HttpStatus resposestatus  = mpesaService.sendMoney(String.valueOf(transactionDto.getAmount().intValue()),
+             "254"+transactionDto.getMemberId().getPrevRef().getPhoneNumber());
+     if (!resposestatus.is2xxSuccessful()){
+       throw new TransactionalException("Failed", new Throwable());
+     }
     Transactions transaction = Transactions.builder()
         .amount(transactionDto.getAmount())
         .trxCode("TRX" + this.randomApplicationID().substring(4) + "_" + transactionDto.getServiceId())
