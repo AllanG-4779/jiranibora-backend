@@ -34,7 +34,7 @@ public class ApplicationController {
         }
 //        check if national Id exists
         if(applicationRepository.findApplicationByNationalId(applicationRequest.getNationalId()).isPresent()){
-            response.put("message", "Phone number is taken, try another one");
+            response.put("message", "National ID is already registered, try another one");
             return ResponseEntity.status(611).body(response);
         }
         ApplicationResponse applicationRes = applicationService.addApplication(applicationRequest);
