@@ -40,6 +40,36 @@ public class ApplicationController {
         ApplicationResponse applicationRes = applicationService.addApplication(applicationRequest);
          return ResponseEntity.status(201).body(applicationRes);
     }
+    @PutMapping("/update")
+    public ResponseEntity<?> updateField(@RequestBody UpdateDto updateDto){
+
+          Application applicationTochange  =  applicationRepository.findApplicationByApplicationRef(updateDto.getMemberId());
+        switch (updateDto.getParam()) {
+            case "name":
+                applicationTochange.setFirstName(updateDto.getValue().split(" ")[0]);
+                applicationTochange.setLastName(updateDto.getValue().split(" ")[1]);
+                break;
+            case "emailAddress":
+                applicationTochange.setEmailAddress(updateDto.getValue());
+
+                break;
+            case "residential":
+                applicationTochange.setResidential(updateDto.getValue());
+                break;
+            default:
+                applicationTochange.setPhoneNumber(updateDto.getValue());
+
+                break;
+        }
+
+          applicationRepository.save(applicationTochange);
+
+          return ResponseEntity.status(200).body("Success ");
+
+
+
+    }
+
 
 //    approve a member
 
