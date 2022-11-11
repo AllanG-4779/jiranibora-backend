@@ -272,7 +272,7 @@ public class TreasurerService {
                         .mapToDouble(each->each.getFineCategory().getChargeableAmount()).sum();
                 double totalContribution = memberContributionRepository.findByMemberId(member)
                         .stream().mapToDouble(each-> Double.parseDouble(each.getMemberId().getPrevRef().getAmount())).sum();
-            return (totalContribution - (unPaidLoans + unPaidPenalties + fineUnPaid)) > 1;
+            return (totalContribution - (unPaidLoans + unPaidPenalties + fineUnPaid)) < 1;
         }
 
 
