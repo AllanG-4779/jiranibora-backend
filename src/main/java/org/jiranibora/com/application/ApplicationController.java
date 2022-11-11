@@ -18,9 +18,25 @@ import java.util.Optional;
 
 public class ApplicationController {
     private ApplicationService applicationService;
+    private ApplicationRepository applicationRepository;
     @PostMapping("/apply")
-    public ResponseEntity< ApplicationResponse> saveApplication(@Valid @RequestBody  ApplicationRequest applicationRequest){
-
+    public ResponseEntity<?> saveApplication(@Valid @RequestBody  ApplicationRequest applicationRequest){
+//       check if email exist
+        LinkedHashMap<String, String> response = new LinkedHashMap<>();
+        if(applicationRepository.findApplicationByEmailAddress(applicationRequest.getEmailAddress()).isPresent()){
+           response.put("message", "Email is taken, try another one");
+            return ResponseEntity.status(611).body(response);
+        }
+//        check if phone exists
+        if(applicationRepository.findApplicationByPhoneNumber(applicationRequest.getPhoneNumber()).isPresent()){
+            response.put("message", "Phone number is taken, try another one");
+            return ResponseEntity.status(611).body(response);
+        }
+//        check if national Id exists
+        if(applicationRepository.findApplicationByPhoneNumber(applicationRequest.getNationalId()).isPresent()){
+            response.put("message", "Phone number is taken, try another one");
+            return ResponseEntity.status(611).body(response);
+        }
         ApplicationResponse applicationRes = applicationService.addApplication(applicationRequest);
          return ResponseEntity.status(201).body(applicationRes);
     }
@@ -37,7 +53,7 @@ public class ApplicationController {
 
         Map<String, String> map = new LinkedHashMap<>();
 
-        if(status==true){
+        if(status){
             map.put("approve", "successful");
             return ResponseEntity.status(200).body(map);
         }
