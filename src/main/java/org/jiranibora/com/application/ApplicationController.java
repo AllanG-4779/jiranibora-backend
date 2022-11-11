@@ -46,12 +46,16 @@ public class ApplicationController {
     @PostMapping("/exec/{memberId}")
     public ResponseEntity<?> approveMember(@PathVariable String memberId,
                                            @RequestParam String action, @RequestBody Optional<Reason> reason) throws Exception{
+
+        Map<String, String> map = new LinkedHashMap<>();
+        if(applicationRepository.findApplicationByApplicationRef(memberId).getViewed()){
+            return ResponseEntity.status(401).body(map.put("messsage", "The application has already been acted upon"));
+        }
 // The third parameter is used to set the reason if any for declining
         String reason2 = "";
         if(reason.isPresent()) reason2 = reason.get().getReason();
         Boolean status = applicationService.takeAction(memberId, action,reason2);
 
-        Map<String, String> map = new LinkedHashMap<>();
 
         if(status){
             map.put("approve", "successful");
