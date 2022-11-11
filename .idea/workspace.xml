@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="changed the authentication">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="authentication validation">
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/ApplicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/ApplicationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/ApplicationRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +181,7 @@
       <workItem from="1667965704224" duration="1159000" />
       <workItem from="1668075317860" duration="11337000" />
       <workItem from="1668145721580" duration="2039000" />
-      <workItem from="1668153700537" duration="2249000" />
+      <workItem from="1668153700537" duration="2551000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -416,7 +414,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668154097128</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="authentication validation">
+      <created>1668156022048</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1668156022048</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -459,7 +464,8 @@
     <MESSAGE value="debugging mpesa" />
     <MESSAGE value="changed the liability method return type" />
     <MESSAGE value="changed the authentication" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed the authentication" />
+    <MESSAGE value="authentication validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="authentication validation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

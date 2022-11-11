@@ -33,7 +33,7 @@ public class ApplicationController {
             return ResponseEntity.status(611).body(response);
         }
 //        check if national Id exists
-        if(applicationRepository.findApplicationByPhoneNumber(applicationRequest.getNationalId()).isPresent()){
+        if(applicationRepository.findApplicationByNationalId(applicationRequest.getNationalId()).isPresent()){
             response.put("message", "Phone number is taken, try another one");
             return ResponseEntity.status(611).body(response);
         }
