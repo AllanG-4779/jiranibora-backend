@@ -128,6 +128,7 @@ public class ContributionService {
                                 .status("Pending")
                                 .contributionId(currenContribution)
                                 .penCode("PEN" + utility.randomApplicationID().substring(0, 6))
+                                .status("Pending")
                                 .datePenalized(LocalDateTime.now())
                                 .build();
 
