@@ -15,4 +15,5 @@ public class AuthenticationResponse {
     private String memberId;
     private String fullName;
     private String phone;
+    private String monthlyCont;
 }

@@ -17,6 +17,7 @@ public class AppUser implements UserDetails {
     private final String fullName;
     private final String roles;
     private final String phone;
+    private final String monthlyContribution;
 
 
 
@@ -29,6 +30,7 @@ public class AppUser implements UserDetails {
                 .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         this.roles = member.getRole();
         this.phone   = member.getPrevRef().getPhoneNumber();
+        this.monthlyContribution = member.getPrevRef().getAmount();
 
     }
 
@@ -45,6 +47,10 @@ public class AppUser implements UserDetails {
     @Override
     public String getUsername() {
         return  username;
+    }
+
+    public String getMonthlyContribution(){
+        return monthlyContribution;
     }
 
     public String getFullName() {

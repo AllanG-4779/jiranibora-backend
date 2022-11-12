@@ -45,6 +45,7 @@ public class AuthenticationController {
                         .access_token(token)
                         .phone(appUser.getPhone())
                         .memberId(appUser.getUsername())
+                        .monthlyCont(appUser.getMonthlyContribution())
                         .fullName(appUser.getFullName())
                         .build();
 
