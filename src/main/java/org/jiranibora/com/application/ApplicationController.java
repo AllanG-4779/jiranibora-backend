@@ -40,7 +40,7 @@ public class ApplicationController {
         ApplicationResponse applicationRes = applicationService.addApplication(applicationRequest);
          return ResponseEntity.status(201).body(applicationRes);
     }
-    @PutMapping("/update")
+    @PatchMapping("/update")
     public ResponseEntity<?> updateField(@RequestBody UpdateDto updateDto){
 
           Application applicationTochange  =  applicationRepository.findApplicationByApplicationRef(updateDto.getMemberId());
