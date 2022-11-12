@@ -125,6 +125,7 @@ public class ContributionService {
                         Penalty penalty = Penalty.builder()
                                 .amount(Double.valueOf(member.getPrevRef().getAmount()) * .2)
                                 .memberId(member)
+                                .status("Pending")
                                 .contributionId(currenContribution)
                                 .penCode("PEN" + utility.randomApplicationID().substring(0, 6))
                                 .datePenalized(LocalDateTime.now())

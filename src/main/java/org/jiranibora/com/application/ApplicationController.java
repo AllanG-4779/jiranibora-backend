@@ -48,13 +48,17 @@ public class ApplicationController {
             case "name":
                 applicationTochange.setFirstName(updateDto.getValue().split(" ")[0]);
                 applicationTochange.setLastName(updateDto.getValue().split(" ")[1]);
+                applicationRepository.save(applicationTochange);
+
                 break;
             case "emailAddress":
                 applicationTochange.setEmailAddress(updateDto.getValue());
+                applicationRepository.save(applicationTochange);
 
                 break;
             case "residential":
                 applicationTochange.setResidential(updateDto.getValue());
+                applicationRepository.save(applicationTochange);
                 break;
             default:
                 applicationTochange.setPhoneNumber(updateDto.getValue());
@@ -62,7 +66,7 @@ public class ApplicationController {
                 break;
         }
 
-          applicationRepository.save(applicationTochange);
+
 
           return ResponseEntity.status(200).body("Success ");
 
