@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="app user detials">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/ChangePasswordDto.java" afterDir="false" />
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="passwor change">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/AppUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/AppUserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +186,7 @@
       <workItem from="1668229782314" duration="4309000" />
       <workItem from="1668248928796" duration="4592000" />
       <workItem from="1668271099051" duration="569000" />
-      <workItem from="1668334027724" duration="2356000" />
+      <workItem from="1668334027724" duration="4574000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -477,7 +475,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668271629105</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="passwor change">
+      <created>1668345951681</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1668345951681</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -496,7 +501,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="build was completed for production" />
     <MESSAGE value="matched the frontend session expiry with the backend" />
     <MESSAGE value="Changed the token expiry time" />
     <MESSAGE value="changed the user roles" />
@@ -521,7 +525,8 @@
     <MESSAGE value="automatic penalizing correction" />
     <MESSAGE value="partial update" />
     <MESSAGE value="app user detials" />
-    <option name="LAST_COMMIT_MESSAGE" value="app user detials" />
+    <MESSAGE value="passwor change" />
+    <option name="LAST_COMMIT_MESSAGE" value="passwor change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

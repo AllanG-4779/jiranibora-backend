@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 @RestController
 @Slf4j
 @AllArgsConstructor
+@CrossOrigin(origins={"*"})
 public class AuthenticationController {
 
     private  final AuthenticationManager authenticationManager;
