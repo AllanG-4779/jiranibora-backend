@@ -26,4 +26,5 @@ public class AppUserService implements UserDetailsService {
 
         return new AppUser(member);
     }
+
 }

@@ -1,31 +1,27 @@
 package org.jiranibora.com.auth;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.LinkedHashMap;
 
 @RestController
 @Slf4j
+@AllArgsConstructor
 public class AuthenticationController {
 
     private  final AuthenticationManager authenticationManager;
     private final JWT jwt;
     private final AppUserService appUserService;
-     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager,
-              JWT jwt, AppUserService appUserService) {
-         this.authenticationManager = authenticationManager;
+    private final AuthenticationService authenticationService;
 
-         this.jwt = jwt;
-         this.appUserService = appUserService;
-     }
 
     @PostMapping("/auth/login")
 
@@ -58,6 +54,15 @@ public class AuthenticationController {
                 .role("NOT authenticated")
                 .build();
     }
+    @PatchMapping("/password/change")
+    public ResponseEntity<?> changePassword (@RequestBody ChangePasswordDto changePasswordDto){
+        LinkedHashMap<String, String > map = new LinkedHashMap<>();
+       String message = authenticationService.changePassword(changePasswordDto);
+       map.put("message", message);
+
+       return  ResponseEntity.status(message.startsWith("Update")?200:403).body(map);
+    }
+
 
 
 
