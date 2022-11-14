@@ -56,7 +56,7 @@ public class LoanService {
         LoanApplication alreadyApplied = loanRepository.findByMemberId(member);
         if (alreadyApplied != null) {
             return LoanRes.builder().code(403).message("You have an existing loan please wait for it to be approved.")
-                    .build();
+                       .build();
         }
         // Check if the applicant has a loan that has not been repaid;
         Optional<LoanStatement> loanStatement = loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
@@ -265,27 +265,32 @@ public class LoanService {
 
     public MemberLoanProfileDto getAllStatementsforUser() {
         Member member = utility.getAuthentication();
+        if (member == null){
+            log.error("User access token was not provided");
+        }else {
 
-        List<LoanStatement> individualStatement = loanStatementRepo.findAllByMemberId(member.getMemberId());
 
-        List<LoanResponseDto> loanResList = individualStatement.stream().map(each -> buildLoanDto(each))
-                .collect(Collectors.toList());
+            List<LoanStatement> individualStatement = loanStatementRepo.findAllByMemberId(member.getMemberId());
 
-        LoanSummaryDto loanSummary = LoanSummaryDto.builder()
-                // Take all time overdue charges plus the initial interest for each loan.
-                .allTimeInterest(overdueChargesRepository.findAllTimeInterestCharged(member.getMemberId())
-                        + loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
-                                .mapToDouble(
-                                        each -> each.getLoanId().getOwner() ? each.getLoanId().getAmount() * 0.2
-                                                * each.getLoanId().duration
-                                                : each.getLoanId().getAmount() * 0.3 * each.getLoanId().duration)
-                                .sum())
+            List<LoanResponseDto> loanResList = individualStatement.stream().map(each -> buildLoanDto(each))
+                    .collect(Collectors.toList());
 
-                .allTimeBorrowing(loanRepository.findTotalLoanDisbursedToMember(member.getMemberId()))
-                .declined(loanRepository.findByStatusAndMemberId("Declined", member).size())
-                .build();
-        return MemberLoanProfileDto.builder().loanResponseList(loanResList).loanSummary(loanSummary).build();
+            LoanSummaryDto loanSummary = LoanSummaryDto.builder()
+                    // Take all time overdue charges plus the initial interest for each loan.
+                    .allTimeInterest(overdueChargesRepository.findAllTimeInterestCharged(member.getMemberId())
+                            + loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
+                            .mapToDouble(
+                                    each -> each.getLoanId().getOwner() ? each.getLoanId().getAmount() * 0.2
+                                            * each.getLoanId().duration
+                                            : each.getLoanId().getAmount() * 0.3 * each.getLoanId().duration)
+                            .sum())
 
+                    .allTimeBorrowing(loanRepository.findTotalLoanDisbursedToMember(member.getMemberId()))
+                    .declined(loanRepository.findByStatusAndMemberId("Declined", member).size())
+                    .build();
+            return MemberLoanProfileDto.builder().loanResponseList(loanResList).loanSummary(loanSummary).build();
+        }
+      return  null;
     }
 
     public LoanResponseDto buildLoanDto(LoanStatement loanStatement) {
