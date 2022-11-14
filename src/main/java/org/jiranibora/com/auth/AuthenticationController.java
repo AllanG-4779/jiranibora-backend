@@ -83,9 +83,9 @@ public class AuthenticationController {
 
     }
 
-    @GetMapping("/members/{active}")
-    public List<User>  getActiveMembers(@PathVariable String active){
-         return authenticationService.getAllMembersByActive(active.equals("active"));
+    @GetMapping("/members")
+    public List<User>  getActiveMembers(){
+         return authenticationService.getAllMembersByActive();
          //        get all Members
 
     }

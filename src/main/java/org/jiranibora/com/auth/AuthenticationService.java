@@ -59,8 +59,8 @@ public class AuthenticationService {
         return true;
    }
 //   Return all active members;
-    public List<User> getAllMembersByActive(Boolean status){
-        List<Member> allActiveMembers = authenticationRepository.findAllByIsActive(status);
+    public List<User> getAllMembersByActive(){
+        List<Member> allActiveMembers = authenticationRepository.findAll();
         return allActiveMembers.stream().map(each->User.builder().memberId(each.getMemberId())
                 .fullName(each.getFullName()).role(each.getRole()).status(each.getIsActive()).build()).collect(Collectors.toList());
 
