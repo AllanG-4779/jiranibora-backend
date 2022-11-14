@@ -2,6 +2,7 @@ package org.jiranibora.com.loans;
 
 import java.util.List;
 
+import org.jiranibora.com.models.Member;
 import org.jiranibora.com.models.OverdueCharges;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,7 @@ public interface OverdueChargesRepository extends JpaRepository<OverdueCharges, 
             "= application.application_id where member_id=?1", nativeQuery = true)
 
     Double findAllTimeInterestCharged(String member_id);
+@Query("SELECT  overdue FROM OverdueCharges  overdue WHERE overdue.loanId.memberId=?1")
+    List<OverdueCharges> findOverdueChargesByMemberId(Member memberId);
 
 }

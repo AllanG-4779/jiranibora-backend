@@ -272,12 +272,13 @@ public class LoanService {
 
             List<LoanStatement> individualStatement = loanStatementRepo.findAllByMemberId(member.getMemberId());
 
-            List<LoanResponseDto> loanResList = individualStatement.stream().map(each -> buildLoanDto(each))
+            List<LoanResponseDto> loanResList = individualStatement.stream().map(this::buildLoanDto)
                     .collect(Collectors.toList());
 
             LoanSummaryDto loanSummary = LoanSummaryDto.builder()
                     // Take all time overdue charges plus the initial interest for each loan.
-                    .allTimeInterest(overdueChargesRepository.findAllTimeInterestCharged(member.getMemberId())
+                    .allTimeInterest(overdueChargesRepository.findOverdueChargesByMemberId(member).stream()
+                            .mapToDouble(OverdueCharges::getOverdueCharge).sum()
                             + loanStatementRepo.findAllByMemberId(member.getMemberId()).stream()
                             .mapToDouble(
                                     each -> each.getLoanId().getOwner() ? each.getLoanId().getAmount() * 0.2
