@@ -5,6 +5,9 @@ import org.jiranibora.com.application.Utility;
 import org.jiranibora.com.models.Member;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class AuthenticationService {
@@ -29,5 +32,37 @@ public class AuthenticationService {
 
         }
      return "Update successful";
+    }
+    public Boolean assignRole(String role , String memberId){
+//        The existing role
+        Member currentRoleHolder = authenticationRepository.findByRoleContaining(role);
+        currentRoleHolder.setRole("User");
+        authenticationRepository.saveAndFlush(currentRoleHolder);
+//        update the role of the new user
+        Member newRoleHolder = authenticationRepository.findMemberByMemberId(memberId);
+        newRoleHolder.setRole("User;"+role);
+        authenticationRepository.saveAndFlush(newRoleHolder);
+
+        return true;
+
+    }
+   public Boolean activateDeactivate(String memberId, String action){
+//        Member to be activated
+       Member member = authenticationRepository.findMemberByMemberId(memberId);
+       if(action.equals("activate")){
+           member.setIsActive(true);
+           authenticationRepository.saveAndFlush(member);
+       }else if (action.equals("deactivate")){
+           member.setIsActive(false);
+           authenticationRepository.saveAndFlush(member);
+       }
+        return true;
+   }
+//   Return all active members;
+    public List<User> getAllMembersByActive(Boolean status){
+        List<Member> allActiveMembers = authenticationRepository.findAllByIsActive(status);
+        return allActiveMembers.stream().map(each->User.builder().memberId(each.getMemberId())
+                .fullName(each.getFullName()).role(each.getRole()).build()).collect(Collectors.toList());
+
     }
 }

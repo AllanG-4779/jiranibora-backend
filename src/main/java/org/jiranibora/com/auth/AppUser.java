@@ -18,6 +18,7 @@ public class AppUser implements UserDetails {
     private final String roles;
     private final String phone;
     private final String monthlyContribution;
+    private final Boolean isActive;
 
 
 
@@ -31,6 +32,7 @@ public class AppUser implements UserDetails {
         this.roles = member.getRole();
         this.phone   = member.getPrevRef().getPhoneNumber();
         this.monthlyContribution = member.getPrevRef().getAmount();
+        this.isActive = member.getIsActive();
 
     }
 
@@ -81,6 +83,6 @@ public class AppUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isActive;
     }
 }

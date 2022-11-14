@@ -2,6 +2,7 @@ package org.jiranibora.com.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jiranibora.com.models.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -64,6 +66,29 @@ public class AuthenticationController {
        return  ResponseEntity.status(message.startsWith("Update")?200:403).body(map);
     }
 
+    @PatchMapping("/update/role")
+    public  ResponseEntity<?> updateRole(@RequestBody RoleUpdateDto role){
+
+        boolean result = authenticationService.assignRole(role.getRole(), role.getMemberId());
+
+        return ResponseEntity.status(200).body("Success");
+
+    }
+    @PatchMapping("/update/status/{action}")
+    public  ResponseEntity<?> activateDeactivate(@PathVariable String action, @RequestParam String user){
+
+        boolean result = authenticationService.activateDeactivate(user,action);
+
+        return ResponseEntity.status(200).body("Success");
+
+    }
+
+    @GetMapping("/members/{active}")
+    public List<User>  getActiveMembers(@PathVariable String active){
+         return authenticationService.getAllMembersByActive(active.equals("active"));
+         //        get all Members
+
+    }
 
 
 
