@@ -19,13 +19,13 @@ public class Application {
     private Integer Id;
     @Column(unique = true, nullable = false)
     private String applicationRef;
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private String firstName;
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private String lastName;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String phoneNumber;
-    @Column(unique = true, nullable = false,updatable = false)
+    @Column(unique = true, nullable = false)
     private String emailAddress;
     @Column(nullable = false, updatable = false)
     private String amount;

@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="changed the query for getting approved loans">
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="Outstanding amount added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/OverdueChargesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/OverdueChargesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/dto/LoanResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/dto/LoanResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Application.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +186,7 @@
       <workItem from="1668248928796" duration="4592000" />
       <workItem from="1668271099051" duration="569000" />
       <workItem from="1668334027724" duration="5510000" />
-      <workItem from="1668414558670" duration="8257000" />
+      <workItem from="1668414558670" duration="11766000" />
     </task>
     <task id="LOCAL-00001" summary="minor change">
       <created>1663409104650</created>
@@ -512,7 +510,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668423737561</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Outstanding amount added">
+      <created>1668426642488</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1668426642488</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -531,7 +536,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="reformatting the authentication result" />
     <MESSAGE value="bug-the double penalizing members both when the application is closed and when they make a late contribution" />
     <MESSAGE value="treasurer report" />
     <MESSAGE value="bg-number-format exception" />
@@ -556,7 +560,8 @@
     <MESSAGE value="user loan service" />
     <MESSAGE value="changed how loan is calculated" />
     <MESSAGE value="changed the query for getting approved loans" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed the query for getting approved loans" />
+    <MESSAGE value="Outstanding amount added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Outstanding amount added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
