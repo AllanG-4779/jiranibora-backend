@@ -286,7 +286,8 @@ public class LoanService {
                                             : each.getLoanId().getAmount() * 0.3 * each.getLoanId().duration)
                             .sum())
 
-                    .allTimeBorrowing(loanRepository.findTotalLoanDisbursedToMember(member.getMemberId()))
+                    .allTimeBorrowing(loanRepository.findTotalLoanDisbursedToMember(member, "Approved")
+                            .stream().mapToDouble(LoanApplication::getAmount).sum())
                     .declined(loanRepository.findByStatusAndMemberId("Declined", member).size())
                     .build();
             return MemberLoanProfileDto.builder().loanResponseList(loanResList).loanSummary(loanSummary).build();

@@ -13,8 +13,8 @@ public interface LoanRepository extends JpaRepository<LoanApplication, String> {
     @Query("SELECT loan FROM LoanApplication  loan WHERE  loan.memberId=?1 AND loan.status='Pending'")
     LoanApplication findByMemberId(Member member);
 
-    @Query(value = "SELECT SUM(amount) from loan_application where status='Approved' AND member_id=?1", nativeQuery = true)
-    Double findTotalLoanDisbursedToMember(String memberId);
+    @Query("SELECT loans from LoanApplication loans WHERE loans.memberId=?1 AND loans.status=?2")
+    List<LoanApplication> findTotalLoanDisbursedToMember(Member member, String status);
 
     List<LoanApplication> findByViewed(Boolean viewed);
 
