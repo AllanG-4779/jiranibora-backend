@@ -62,7 +62,7 @@ public class AuthenticationService {
     public List<User> getAllMembersByActive(Boolean status){
         List<Member> allActiveMembers = authenticationRepository.findAllByIsActive(status);
         return allActiveMembers.stream().map(each->User.builder().memberId(each.getMemberId())
-                .fullName(each.getFullName()).role(each.getRole()).build()).collect(Collectors.toList());
+                .fullName(each.getFullName()).role(each.getRole()).status(each.getIsActive()).build()).collect(Collectors.toList());
 
     }
 }
