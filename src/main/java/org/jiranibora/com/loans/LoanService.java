@@ -301,7 +301,7 @@ public class LoanService {
                 * (loanStatement.getLoanId().getOwner() ? 0.2 : .3);
 
         Double totalInterestCharged = (overdueChargesRepository
-                .findInterestCharged(loanStatement.getLoanId().getApplicationId()));
+                .findInterestCharged(loanStatement.getLoanId()).stream().mapToDouble(OverdueCharges::getOverdueCharge).sum());
 
         Double outStandingAmount = loanStatement.getInterest() + loanStatement.getPrinciple();
 
@@ -312,6 +312,7 @@ public class LoanService {
                 .dateApproved(loanStatement.getLoanId().getDateViewed())
                 .initialDuration(loanStatement.getLoanId().getDuration())
                 .initialInterest(initialInterest)
+                .outstandingAmount(outStandingAmount)
 
                 .extraInterest(totalInterestCharged)
                 .status(outStandingAmount > 0 ? "In progress" : "Completed")

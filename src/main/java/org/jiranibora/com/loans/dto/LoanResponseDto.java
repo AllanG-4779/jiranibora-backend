@@ -16,6 +16,7 @@ public class LoanResponseDto {
     private Integer initialDuration;
     private Double initialInterest;
     private Double extraInterest;
+    private Double outstandingAmount;
     private String status;
    
     
