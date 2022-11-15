@@ -43,7 +43,7 @@ public class LoanService {
     private final LoanStatementRepo loanStatementRepo;
     private final OverdueChargesRepository overdueChargesRepository;
     private final MemberContributionRepository memberContributionRepository;
-    final int updateTimeline = 10;
+    final int updateTimeline = 1;
 
     public LoanRes addLoan(LoanApplicationDto loanApplicationDto) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -94,9 +94,9 @@ public class LoanService {
                     loanApplication.get().setStatus("Approved");
                     Double interest = 0.0;
                     if (loanApplication.get().owner) {
-                        interest = .2;
+                        interest = .02;
                     } else {
-                        interest = .3;
+                        interest = .03;
                     }
                     LoanStatement loanStatement = LoanStatement.builder()
 
@@ -206,7 +206,7 @@ public class LoanService {
                 .collect(Collectors.toList());
 
         if (overdue.size() > 0) {
-            Double loanIterestPercentage = 0.0;
+            Double loanIterestPercentage;
             double timeElapsedSinceLastUpdate;
 
             for (LoanStatement loanStatement : overdue) {

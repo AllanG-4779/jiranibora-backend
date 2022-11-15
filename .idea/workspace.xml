@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="handle the nullpointer exception in the assign role">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,14 +189,7 @@
       <workItem from="1668414558670" duration="12389000" />
       <workItem from="1668440748790" duration="347000" />
       <workItem from="1668441416018" duration="9402000" />
-      <workItem from="1668487121043" duration="854000" />
-    </task>
-    <task id="LOCAL-00005" summary="connection url">
-      <created>1663595374362</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1663595374362</updated>
+      <workItem from="1668487121043" duration="2030000" />
     </task>
     <task id="LOCAL-00006" summary="maven compiler versoin">
       <created>1663597055597</created>
@@ -534,7 +527,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668455800628</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="handle the nullpointer exception in the assign role">
+      <created>1668488727338</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1668488727339</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
