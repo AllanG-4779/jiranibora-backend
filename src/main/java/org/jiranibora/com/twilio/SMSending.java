@@ -26,7 +26,7 @@ public class SMSending {
                 new PhoneNumber("+254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
                 String.format("\nHello %s. %s Confirmed on %s at %s. Ksh %.2f has been received for %s Payment. " +
                                 "Log into your account to learn more."
-                        , name, reference, time.split(" ")[0], time.split("_")[1], amount, reason.split(" ")[0]
+                        , name, reference, time.split("_")[0], time.split("_")[1], amount, reason.split(" ")[0]
                 )
         ).create();
 
