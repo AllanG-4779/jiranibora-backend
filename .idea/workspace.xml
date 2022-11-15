@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="update changed to per minute">
-      <change afterPath="$PROJECT_DIR$/src/main/java/twilio/SMSending.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/Twilio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/twilio/TwilioConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/twilio/SMSending.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/twilio/SMSending.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/twilio/TwilioConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/twilio/TwilioConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,14 +195,7 @@
       <workItem from="1668440748790" duration="347000" />
       <workItem from="1668441416018" duration="9402000" />
       <workItem from="1668487121043" duration="2079000" />
-      <workItem from="1668500754845" duration="10357000" />
-    </task>
-    <task id="LOCAL-00007" summary="maven compiler versoin">
-      <created>1663599058351</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1663599058351</updated>
+      <workItem from="1668500754845" duration="11276000" />
     </task>
     <task id="LOCAL-00008" summary="maven compiler versoin">
       <created>1663599544688</created>
@@ -540,7 +533,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668493246509</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="update changed to per minute">
+      <created>1668517462910</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1668517462912</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

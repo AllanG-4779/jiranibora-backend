@@ -3,7 +3,7 @@ package org.jiranibora.com.contributions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import twilio.SMSending;
+import org.jiranibora.com.twilio.SMSending;
 
 import java.util.LinkedHashMap;
 import java.util.List;

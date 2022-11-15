@@ -1,4 +1,4 @@
-package twilio;
+package org.jiranibora.com.twilio;
 
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;

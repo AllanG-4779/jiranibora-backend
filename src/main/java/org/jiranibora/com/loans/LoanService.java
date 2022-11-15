@@ -11,22 +11,18 @@ import org.jiranibora.com.models.LoanApplication;
 import org.jiranibora.com.models.LoanStatement;
 import org.jiranibora.com.models.Member;
 import org.jiranibora.com.models.OverdueCharges;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice.Return;
-import twilio.SMSending;
+import org.jiranibora.com.twilio.SMSending;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

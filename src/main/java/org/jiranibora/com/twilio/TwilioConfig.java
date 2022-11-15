@@ -1,4 +1,4 @@
-package twilio;
+package org.jiranibora.com.twilio;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

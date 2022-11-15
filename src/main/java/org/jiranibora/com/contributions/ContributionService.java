@@ -11,7 +11,7 @@ import org.jiranibora.com.payment.PenaltyRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import twilio.SMSending;
+import org.jiranibora.com.twilio.SMSending;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
