@@ -3,6 +3,7 @@ package org.jiranibora.com.contributions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import twilio.SMSending;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ public class ContributionController {
     private ContributionService contributionService;
     private LinkedHashMap<String, String> contributionMap;
     private ContributionRepository contributionRepository;
+    private SMSending smSending;
 
     @PostMapping("/new")
     public ResponseEntity<?> startNewContribution(@RequestParam(required = true) Integer duration)

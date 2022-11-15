@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="handle the nullpointer exception in the assign role">
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="update changed to per minute">
+      <change afterPath="$PROJECT_DIR$/src/main/java/twilio/SMSending.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/Twilio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/twilio/TwilioConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -189,14 +194,8 @@
       <workItem from="1668414558670" duration="12389000" />
       <workItem from="1668440748790" duration="347000" />
       <workItem from="1668441416018" duration="9402000" />
-      <workItem from="1668487121043" duration="2030000" />
-    </task>
-    <task id="LOCAL-00006" summary="maven compiler versoin">
-      <created>1663597055597</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1663597055597</updated>
+      <workItem from="1668487121043" duration="2079000" />
+      <workItem from="1668500754845" duration="10357000" />
     </task>
     <task id="LOCAL-00007" summary="maven compiler versoin">
       <created>1663599058351</created>
@@ -534,7 +533,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668488727339</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="update changed to per minute">
+      <created>1668493246509</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1668493246509</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -553,7 +559,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="member earning completed" />
     <MESSAGE value="bug-loan statement repository" />
     <MESSAGE value="tiny model dto tweak" />
     <MESSAGE value="worked on the fine and meeting done by the treasurer" />
@@ -578,7 +583,8 @@
     <MESSAGE value="authentication" />
     <MESSAGE value="authorization update" />
     <MESSAGE value="handle the nullpointer exception in the assign role" />
-    <option name="LAST_COMMIT_MESSAGE" value="handle the nullpointer exception in the assign role" />
+    <MESSAGE value="update changed to per minute" />
+    <option name="LAST_COMMIT_MESSAGE" value="update changed to per minute" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

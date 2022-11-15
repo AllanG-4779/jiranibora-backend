@@ -11,6 +11,7 @@ import org.jiranibora.com.payment.PenaltyRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import twilio.SMSending;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -32,6 +33,7 @@ public class ContributionService {
     private final MemberContributionRepository memberContributionRepository;
     private final PenaltyRepository penaltyRepository;
     private final TransactionRepository transactionRepository;
+    private final SMSending smSending;
     public final String[] months = { "January", "February", "March", "April", "May", "June", "July", "August",
             "September", "October", "November", "December" };
 
@@ -153,6 +155,10 @@ public class ContributionService {
                 memberContributionRepository.saveAndFlush(memberContribution);
                 contRes.setCode(200);
                 contRes.setMessage("Contribution made successfully");
+//                Send SMS
+                 smSending.sendContributionSMS(member.getPrevRef().getPhoneNumber(),
+                         Double.parseDouble( member.getPrevRef().getAmount())
+                         ,currenContribution.getMonth(),member.getFullName().split("ID")[0]);
 
                 // Register that transaction in a transaction table;
                 TransactionDto transactionDto = TransactionDto.builder()

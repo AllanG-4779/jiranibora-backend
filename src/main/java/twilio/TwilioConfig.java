@@ -1,4 +1,4 @@
-package org.jiranibora.com;
+package twilio;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Twilio {
+public class TwilioConfig {
     private String accountSid;
     private String authToken;
     private String trialNumber;

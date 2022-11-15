@@ -1,11 +1,12 @@
 package org.jiranibora.com;
 
+import com.twilio.Twilio;
 import lombok.AllArgsConstructor;
-import org.jiranibora.com.mpesa.MpesaService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+import twilio.TwilioConfig;
 
 
 import javax.annotation.PostConstruct;
@@ -17,10 +18,11 @@ import javax.annotation.PostConstruct;
 @SpringBootApplication
 @AllArgsConstructor
 public class JiraniBoraApplication {
-
+private final TwilioConfig twilioConfig;
+//Initialize the Twilio Account
     @PostConstruct
     public void initTwilio() {
-        // Twilio.init();
+        Twilio.init(twilioConfig.getAccountSid(), twilioConfig.getAuthToken());
 
     }
 

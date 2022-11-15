@@ -14,6 +14,7 @@ import org.jiranibora.com.models.OverdueCharges;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.asm.Advice.Return;
+import twilio.SMSending;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -41,6 +43,7 @@ public class LoanService {
     private final AuthenticationRepository authRepository;
     private final Utility utility;
     private final LoanStatementRepo loanStatementRepo;
+    private final SMSending smsSending;
     private final OverdueChargesRepository overdueChargesRepository;
     private final MemberContributionRepository memberContributionRepository;
     final int updateTimeline = 1;
@@ -182,7 +185,9 @@ public class LoanService {
         existingLoan.setPrinciple(newPrincipal);
         loanStatementRepo.saveAndFlush(existingLoan);
         // Record the transaction here
-
+        double pending =newPrincipal+newInterest;
+         smsSending.loanRepayment(member.getPrevRef().getPhoneNumber(),amount,pending
+                 ,member.getFullName().split("ID")[0],pending>0?"Partially":"Fully",existingLoan.getExpectedOn().toString());
         TransactionDto transactionDto = TransactionDto.builder()
                 .amount(amount)
                 .memberId(member)
@@ -191,6 +196,7 @@ public class LoanService {
                 .transactionDate(LocalDateTime.now())
 
                 .build();
+
 
         utility.addTransaction(transactionDto);
 
