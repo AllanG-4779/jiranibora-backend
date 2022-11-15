@@ -190,14 +190,7 @@
       <workItem from="1668440748790" duration="347000" />
       <workItem from="1668441416018" duration="9402000" />
       <workItem from="1668487121043" duration="2079000" />
-      <workItem from="1668500754845" duration="15664000" />
-    </task>
-    <task id="LOCAL-00011" summary="Changed the token expiry time">
-      <created>1663754309207</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1663754309207</updated>
+      <workItem from="1668500754845" duration="16293000" />
     </task>
     <task id="LOCAL-00012" summary="Changed the token expiry time">
       <created>1663759146129</created>
@@ -535,7 +528,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668524219466</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="added sms">
+      <created>1668525093859</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1668525093859</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

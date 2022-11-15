@@ -20,13 +20,13 @@ public class SMSending {
 //    Penalty Payment
 //
     public void transactionSMS(String phone, double amount, String reason, String name,String reference) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_hh:mm a");
         String time = dateTimeFormatter.format(LocalDateTime.now().plusHours(3));
         Message message = Message.creator(
                 new PhoneNumber("+254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
                 String.format("\nHello %s. %s Confirmed on %s at %s. Ksh %.2f has been received for %s Payment. " +
                                 "Log into your account to learn more."
-                        , name, reference, time.split(" ")[0], time.split(" ")[1], amount, reason
+                        , name, reference, time.split(" ")[0], time.split("_")[1], amount, reason.split(" ")[0]
                 )
         ).create();
 
