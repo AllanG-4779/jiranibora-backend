@@ -37,13 +37,13 @@ public class AuthenticationService {
 //        The existing role
         Member currentRoleHolder = authenticationRepository.findByRoleContaining(role);
         if(currentRoleHolder!=null){
-            currentRoleHolder.setRole("User");
+            currentRoleHolder.setRole("USER");
             authenticationRepository.saveAndFlush(currentRoleHolder);
         }
 
 //        update the role of the new user
         Member newRoleHolder = authenticationRepository.findMemberByMemberId(memberId);
-        newRoleHolder.setRole("User;"+role);
+        newRoleHolder.setRole("USER;"+role);
         authenticationRepository.saveAndFlush(newRoleHolder);
 
         return true;
