@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class SMSending {
     private final TwilioConfig twilioConfig;
-    private Utility utility;
+
 
     //    Contribution
 //    Fine payment
