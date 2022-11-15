@@ -23,7 +23,7 @@ public class SMSending {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
         String time = dateTimeFormatter.format(LocalDateTime.now());
         Message message = Message.creator(
-                new PhoneNumber("254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
+                new PhoneNumber("+254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
                 String.format("Hello %s. %s Confirmed on %s at %s.\n Ksh %f has been recorded for %s Contribution payment."
                         , name, utility.randomApplicationID().substring(0, 6), time.split(" ")[0], time.split(" ")[1], amount, month
                 )
@@ -36,7 +36,7 @@ public class SMSending {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
         String time = dateTimeFormatter.format(LocalDateTime.now());
         Message message = Message.creator(
-                new PhoneNumber("254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
+                new PhoneNumber("+254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
                 String.format("Hello %s. %s Confirmed on %s at %s.\n Ksh %f has been used to %s pay" +
                                 " your outstanding loan. Outstanding Loan balance is Ksh %f. To be paid before %s."
                         , name, utility.randomApplicationID().substring(0, 6), time.split(" ")[0], time.split(" ")[1],
@@ -48,7 +48,7 @@ public class SMSending {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
         String time = dateTimeFormatter.format(LocalDateTime.now());
         Message message = Message.creator(
-                new PhoneNumber("254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
+                new PhoneNumber("+254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
                 String.format("Hello %s. %s Confirmed on %s at %s.\n Ksh %f has been used to pay" +
                                 " for your %s. Outstanding Fines and Penalties to Pay is Ksh %f."
                         , name, utility.randomApplicationID().substring(0, 6), time.split(" ")[0], time.split(" ")[1],
