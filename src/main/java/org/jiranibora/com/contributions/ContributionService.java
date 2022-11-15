@@ -156,9 +156,7 @@ public class ContributionService {
                 contRes.setCode(200);
                 contRes.setMessage("Contribution made successfully");
 //                Send SMS
-                 smSending.sendContributionSMS(member.getPrevRef().getPhoneNumber(),
-                         Double.parseDouble( member.getPrevRef().getAmount())
-                         ,currenContribution.getMonth(),member.getFullName().split("ID")[0]);
+
 
                 // Register that transaction in a transaction table;
                 TransactionDto transactionDto = TransactionDto.builder()

@@ -182,8 +182,7 @@ public class LoanService {
         loanStatementRepo.saveAndFlush(existingLoan);
         // Record the transaction here
         double pending =newPrincipal+newInterest;
-         smsSending.loanRepayment(member.getPrevRef().getPhoneNumber(),amount,pending
-                 ,member.getFullName().split("ID")[0],pending>0?"Partially":"Fully",existingLoan.getExpectedOn().toString());
+
         TransactionDto transactionDto = TransactionDto.builder()
                 .amount(amount)
                 .memberId(member)

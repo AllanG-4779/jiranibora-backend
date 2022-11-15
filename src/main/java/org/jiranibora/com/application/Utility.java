@@ -7,6 +7,7 @@ import org.jiranibora.com.contributions.TransactionRepository;
 import org.jiranibora.com.models.Member;
 import org.jiranibora.com.models.Transactions;
 import org.jiranibora.com.mpesa.MpesaService;
+import org.jiranibora.com.twilio.SMSending;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -26,6 +27,7 @@ public class Utility {
   private final AuthenticationRepository authenticationRepository;
 
   private final MpesaService mpesaService;
+  private final SMSending smSending;
 
 
 public String randomApplicationID() {
@@ -52,6 +54,9 @@ public String randomApplicationID() {
      if (!resposestatus.is2xxSuccessful()){
         throw new IllegalStateException("MPESA transactionnn fail");
      }
+//     Send SMS
+
+
     Transactions transaction = Transactions.builder()
         .amount(transactionDto.getAmount())
         .trxCode("TRX" + this.randomApplicationID().substring(4) + "_" + transactionDto.getServiceId())
@@ -59,8 +64,17 @@ public String randomApplicationID() {
         .paymentCategory(transactionDto.getPaymentCategory())
         .transactionDate(transactionDto.getTransactionDate())
         .build();
+     try{
+         smSending.transactionSMS(transactionDto.getMemberId().getPrevRef().getPhoneNumber()
+                 ,transactionDto.getAmount(),transactionDto.getPaymentCategory(),
+                 transactionDto.getMemberId().getFullName().split("ID")[0], transaction.getTrxCode());
+     }catch (Exception e){
+         System.out.println("SMS sending error occurred");
+     }
     try {
+
       transactionRepository.saveAndFlush(transaction);
+
       return true;
     } catch (Exception e) {
       System.out.println(e.getMessage());
