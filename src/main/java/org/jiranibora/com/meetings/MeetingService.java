@@ -20,7 +20,7 @@ public class MeetingService {
         this.utility = utility;
     }
 
-    public Boolean startNewMeeting() throws Exception {
+    public Boolean startNewMeeting() {
         // prevent a meeting start if there is already one active
         // Find the meeting first
 
@@ -35,7 +35,8 @@ public class MeetingService {
         try {
             meetingRepository.saveAndFlush(meeting);
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new IllegalStateException(
+                    "Internal Server Error");
 
         }
 
