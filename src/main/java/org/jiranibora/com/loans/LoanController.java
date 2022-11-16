@@ -83,6 +83,12 @@ public class LoanController {
        List<LoanApplicationDto> newApplications =  loanService.findAllNewApplications();
         return ResponseEntity.status(200).body(newApplications);
     }
+//    Get all loans
+     @GetMapping("/loan/all")
+    public  ResponseEntity<?> getAllTimeLoans(){
+        List<LoanResponseDto> listOfLoans = loanService.getAllLoans();
+        return ResponseEntity.status(200).body(listOfLoans);
+     }
 
 
 

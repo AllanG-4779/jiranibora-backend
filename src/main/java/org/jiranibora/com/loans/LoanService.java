@@ -263,6 +263,12 @@ public class LoanService {
             }
         }
     }
+//    Get all loans applied
+    public List<LoanResponseDto> getAllLoans(){
+        List<LoanStatement> loanStatements = loanStatementRepo.findAll();
+        return loanStatements.stream().map(this::buildLoanDto).collect(Collectors.toList());
+    }
+
 
     public MemberLoanProfileDto getAllStatementsforUser() {
         Member member = utility.getAuthentication();
