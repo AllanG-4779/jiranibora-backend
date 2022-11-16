@@ -34,9 +34,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login", "/**/login", "/application/apply").permitAll()
                 .antMatchers("/application/**", "/update/role", "/update/status/**", "/members/**").hasAnyAuthority("CHAIR")
 
+
+
                 .antMatchers("/member/earning").hasAnyAuthority("USER").
                  antMatchers("/admin/treasurer/**").hasAuthority("TRE")
-                .antMatchers("/fine/apply", "/fine/get/**", "/meeting/**", "/member/to/**", "/fine-category/add",
+                .antMatchers("/fine/apply","/sms/**", "/fine/get/**", "/meeting/**", "/member/to/**", "/fine-category/add",
                         "/fine-category/get")
                 .hasAuthority("SEC")
                 .antMatchers("/loan/**").hasAnyAuthority("USER", "TRE")
