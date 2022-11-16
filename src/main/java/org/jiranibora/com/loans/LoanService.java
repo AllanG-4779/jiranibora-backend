@@ -93,9 +93,9 @@ public class LoanService {
                     loanApplication.get().setStatus("Approved");
                     Double interest = 0.0;
                     if (loanApplication.get().owner) {
-                        interest = .02;
+                        interest = .2;
                     } else {
-                        interest = .03;
+                        interest = .3;
                     }
                     LoanStatement loanStatement = LoanStatement.builder()
 
@@ -213,9 +213,9 @@ public class LoanService {
             for (LoanStatement loanStatement : overdue) {
                 Double overdueCharge = 0.0;
                 if (loanStatement.getLoanId().getOwner()) {
-                    loanIterestPercentage = .2;
+                    loanIterestPercentage = .02;
                 } else {
-                    loanIterestPercentage = .3;
+                    loanIterestPercentage = .03;
                 }
                 // Incase of a system downtime and the update is not recorded please get the
                 // elapsed time
