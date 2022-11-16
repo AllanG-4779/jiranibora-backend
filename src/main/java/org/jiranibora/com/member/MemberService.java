@@ -1,6 +1,7 @@
 package org.jiranibora.com.member;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.jiranibora.com.application.Utility;
@@ -11,11 +12,9 @@ import org.jiranibora.com.loans.LoanRepository;
 import org.jiranibora.com.loans.LoanStatementRepo;
 import org.jiranibora.com.meetings.MeetingRepository;
 import org.jiranibora.com.member.dto.*;
-import org.jiranibora.com.models.Fine;
-import org.jiranibora.com.models.Meeting;
-import org.jiranibora.com.models.Member;
-import org.jiranibora.com.models.MemberContribution;
+import org.jiranibora.com.models.*;
 import org.jiranibora.com.payment.FineRepository;
+import org.jiranibora.com.payment.PenaltyRepository;
 import org.jiranibora.com.treasurer.TreasurerService;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +32,7 @@ public class MemberService {
     private LoanRepository loanRepository;
     private LoanStatementRepo loanStatementRepo;
     private TreasurerService treasurerService;
+    private PenaltyRepository penaltyRepository;
     private Utility utility;
 
 
@@ -52,7 +52,13 @@ public class MemberService {
                 .memberName(member.getPrevRef().getFirstName() + " " + member.getPrevRef().getLastName())
                 .memberId(member.getMemberId()).build();
     }
+    public Penalty getPenaltyByMemberAndContribution(Contribution contribution, Member member){
 
+        Optional<Penalty> penalty = penaltyRepository.findPenaltyByContributionIdAndMemberId(contribution,member);
+        return penalty.orElse(null);
+
+
+    }
     public MemberEarningDto getMemberStatement(){
      Member member = utility.getAuthentication();
      List<Fines> finesList = fineRepository.findAllByMemberId(member).stream().map(each->Fines.builder()
@@ -64,7 +70,10 @@ public class MemberService {
                       Contributions.builder().contributionId(each.getContributionId().getContId())
                      .contributionMonth(each.getContributionId().getMonth())
                      .penalty(each.getStatus().equals("LATE")?Double.parseDouble(each.getMemberId().getPrevRef().getAmount()) *.2:0.0)
-                     .build()).collect(Collectors.toList());
+                              .amount(Double.parseDouble(each.getMemberId().getPrevRef().getAmount()))
+                     .status(getPenaltyByMemberAndContribution(each.getContributionId(),member)!=null?
+                                      getPenaltyByMemberAndContribution(each.getContributionId(), member).getStatus():"No Penalty")
+                              .build()).collect(Collectors.toList());
      List<Loans> loans = loanRepository.findByStatusAndMemberId("Approved", member).stream().map(each->
              Loans.builder()
                      .dateApproved(each.dateViewed)

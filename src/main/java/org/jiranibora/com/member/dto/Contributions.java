@@ -11,5 +11,7 @@ public class Contributions {
     private String contributionId;
     private Double penalty;
     private String contributionMonth;
+    private Double amount;
+    private String status;
 
 }

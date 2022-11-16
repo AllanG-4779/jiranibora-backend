@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="Modified the time and added the time">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/twilio/SMSending.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/twilio/SMSending.java" afterDir="false" />
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="Modified the date">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/dto/Contributions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/member/dto/Contributions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,14 +191,8 @@
       <workItem from="1668440748790" duration="347000" />
       <workItem from="1668441416018" duration="9402000" />
       <workItem from="1668487121043" duration="2079000" />
-      <workItem from="1668500754845" duration="16595000" />
-    </task>
-    <task id="LOCAL-00013" summary="changed the user roles">
-      <created>1666725355560</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1666725355560</updated>
+      <workItem from="1668500754845" duration="17757000" />
+      <workItem from="1668579787021" duration="1393000" />
     </task>
     <task id="LOCAL-00014" summary="reformatting the authentication result">
       <created>1667280113886</created>
@@ -534,7 +530,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668525693544</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Modified the date">
+      <created>1668525998885</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1668525998886</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -553,7 +556,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="worked on the fine and meeting done by the treasurer" />
     <MESSAGE value="month count changed" />
     <MESSAGE value="added the mpesa" />
     <MESSAGE value="debugging mpesa" />
@@ -578,7 +580,8 @@
     <MESSAGE value="update changed to per minute" />
     <MESSAGE value="added sms" />
     <MESSAGE value="Modified the time and added the time" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modified the time and added the time" />
+    <MESSAGE value="Modified the date" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modified the date" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
