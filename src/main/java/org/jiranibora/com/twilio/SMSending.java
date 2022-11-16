@@ -31,6 +31,7 @@ public class SMSending {
         ).create();
 
 
+
 //    }
 //
 //    public void loanRepayment(String phone, double amount, double outstanding, String name, String status,String expectedOn) {
@@ -57,5 +58,12 @@ public class SMSending {
 //                )
 //        ).create();
     }
+    public void fineReminder(String phone, String name ){
+        Message message = Message.creator(
+                new PhoneNumber("+254" + phone), new PhoneNumber(twilioConfig.getTrialNumber()),
+                String.format("Hi %s. Please login to your account and resolve your fines to increase your earnings at the end of the year\n" +
+                        "Thank You.", name)
 
+        ).create();
+    }
 }

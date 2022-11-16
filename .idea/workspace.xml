@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="modified the earning dto">
+    <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="changed the meeting definition">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/twilio/SMSController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/meetings/MeetingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/twilio/SMSending.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/twilio/SMSending.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,14 +193,7 @@
       <workItem from="1668487121043" duration="2079000" />
       <workItem from="1668500754845" duration="17757000" />
       <workItem from="1668579787021" duration="2279000" />
-      <workItem from="1668595645956" duration="1597000" />
-    </task>
-    <task id="LOCAL-00016" summary="bug-the double penalizing members both when the application is closed and when they make a late contribution">
-      <created>1667321408419</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1667321408419</updated>
+      <workItem from="1668595645956" duration="5704000" />
     </task>
     <task id="LOCAL-00017" summary="treasurer report">
       <created>1667502536577</created>
@@ -537,7 +531,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668596862008</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="changed the meeting definition">
+      <created>1668597490837</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1668597490837</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -556,7 +557,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added the mpesa" />
     <MESSAGE value="debugging mpesa" />
     <MESSAGE value="changed the liability method return type" />
     <MESSAGE value="changed the authentication" />
@@ -581,7 +581,8 @@
     <MESSAGE value="Modified the time and added the time" />
     <MESSAGE value="Modified the date" />
     <MESSAGE value="modified the earning dto" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified the earning dto" />
+    <MESSAGE value="changed the meeting definition" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed the meeting definition" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
