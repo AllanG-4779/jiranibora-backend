@@ -39,7 +39,7 @@ public class SMSController {
             return ResponseEntity.status(200).body(map);
 
         }catch(Exception e){
-            map.put("success", "Message sent successfully");
+            map.put("success", "Twilio number is required");
             return ResponseEntity.status(403).body(map);
         }
     }
