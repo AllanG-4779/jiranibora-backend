@@ -320,7 +320,8 @@ public class LoanService {
                 .initialDuration(loanStatement.getLoanId().getDuration())
                 .initialInterest(initialInterest)
                 .outstandingAmount(outStandingAmount)
-
+                .member(loanStatement.getLoanId().getMemberId().getFullName().split("ID")[0])
+                .memberId(loanStatement.getLoanId().getMemberId().getMemberId())
                 .extraInterest(totalInterestCharged)
                 .status(outStandingAmount > 0 ? "In progress" : "Completed")
                 .build();
