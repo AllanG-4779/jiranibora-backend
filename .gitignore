@@ -12,6 +12,8 @@ target/
 *.iml
 *.ipr
 /src/main/resources/secrets.yaml
+/src/main/resources/application-dev.yaml
+/src/main/resources/application-prod.yaml
 
 ### Eclipse ###
 .apt_generated
@@ -38,3 +40,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+application.yml
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

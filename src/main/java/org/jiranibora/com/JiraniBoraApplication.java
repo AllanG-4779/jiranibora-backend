@@ -18,13 +18,13 @@ import javax.annotation.PostConstruct;
 @SpringBootApplication
 @AllArgsConstructor
 public class JiraniBoraApplication {
-private final TwilioConfig twilioConfig;
+//private final TwilioConfig twilioConfig;
 //Initialize the Twilio Account
-    @PostConstruct
-    public void initTwilio() {
-        Twilio.init(twilioConfig.getAccountSid(), twilioConfig.getAuthToken());
+    // @PostConstruct
+    // public void initTwilio() {
+    //     Twilio.init(twilioConfig.getAccountSid(), twilioConfig.getAuthToken());
 
-    }
+    // }
 
     public static void main(String[] args) {
         SpringApplication.run(JiraniBoraApplication.class, args);

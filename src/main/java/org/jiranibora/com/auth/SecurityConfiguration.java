@@ -31,8 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
 
-                .antMatchers("/login", "/**/login", "/application/apply").permitAll()
-                .antMatchers("/application/**", "/update/role", "/update/status/**", "/members/**").hasAnyAuthority("CHAIR")
+                .antMatchers("/login", "/auth/login", "/application/apply").permitAll()
+                .antMatchers("/application/**", "/update/role", "/update/status/**", "/members/**").permitAll()
 
 
 

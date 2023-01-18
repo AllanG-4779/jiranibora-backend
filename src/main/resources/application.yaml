@@ -1,0 +1,19 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  # profiles:
+  #   active:
+  #     - prod
+
+  application:
+    name: jiranibora
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL}
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
