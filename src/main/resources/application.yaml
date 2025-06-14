@@ -11,7 +11,6 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-   
 
   jpa:
     generate-ddl: true
