@@ -1,112 +1,61 @@
 package org.jiranibora.com.auth;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import lombok.AllArgsConstructor;
-
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = false, securedEnabled = false, jsr250Enabled = true)
-@AllArgsConstructor
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@RequiredArgsConstructor
+@EnableMethodSecurity(jsr250Enabled = true)
+public class SecurityConfiguration {
+
     private final PasswordEncoderConfig passwordEncoderConfig;
     private final AppUserService appUserService;
     private final JwtFilter filter;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable().cors().and()
-
-                .authorizeRequests()
-
-                .antMatchers("/login", "/auth/login", "/application/apply").permitAll()
-                .antMatchers("/application/**", "/update/role", "/update/status/**", "/members/**").permitAll()
-
-
-
-                .antMatchers("/member/earning").hasAnyAuthority("USER").
-                 antMatchers("/admin/treasurer/**").hasAuthority("TRE")
-                .antMatchers("/fine/apply","/sms/**", "/fine/get/**", "/meeting/**", "/member/to/**", "/fine-category/add",
-                        "/fine-category/get")
-                .hasAuthority("SEC")
-                .antMatchers("/loan/**").hasAnyAuthority("USER", "TRE")
-                .antMatchers("/pay/**").hasAnyAuthority("TRE", "USER", "SEC")
-                .anyRequest().authenticated()
-                .and()
-
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/auth/login", "/application/apply").permitAll()
+                        .requestMatchers("/application/**", "/update/role", "/update/status/**", "/members/**").permitAll()
+                        .requestMatchers("/member/earning").hasAuthority("USER")
+                        .requestMatchers("/admin/treasurer/**").hasAuthority("TRE")
+                        .requestMatchers("/fine/apply", "/sms/**", "/fine/get/**", "/meeting/**", "/member/to/**", "/fine-category/add", "/fine-category/get").hasAuthority("SEC")
+                        .requestMatchers("/loan/**").hasAnyAuthority("USER", "TRE")
+                        .requestMatchers("/pay/**").hasAnyAuthority("TRE", "USER", "SEC")
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
+        return http.build();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
 
-    @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(appUserService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoderConfig.passwordEncoder());
-        return daoAuthenticationProvider;
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(appUserService);
+        provider.setPasswordEncoder(passwordEncoderConfig.passwordEncoder());
+        return provider;
     }
 
     @Bean
-    @Override
-    public AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
+    public AuthenticationManager authenticationManager()  {
+        ProviderManager providerManager = new ProviderManager(authenticationProvider());
+        providerManager.setEraseCredentialsAfterAuthentication(false);
+        return providerManager;
     }
-    // @Bean
-    // public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    // http
-    // .csrf(AbstractHttpConfigurer::disable)
-    // .cors(AbstractHttpConfigurer::disable)
-    // .authorizeRequests((auth)-> {
-    // auth
-    // .mvcMatchers("/auth/login", "/register").permitAll()
-    // .mvcMatchers("/application/**").hasAnyAuthority("ROLE_CHAIR")
-    //
-    // .and();
-    // }
-    // )
-    //
-    // .sessionManagement()
-    // .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-    // .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-    //
-    //
-    // return http.build();
-    // }
-    // @Bean
-    // public AuthenticationProvider authenticationProvider(){
-    // DaoAuthenticationProvider daoAuthenticationProvider = new
-    // DaoAuthenticationProvider();
-    // daoAuthenticationProvider.setPasswordEncoder(passwordEncoderConfig.passwordEncoder());
-    // daoAuthenticationProvider.setUserDetailsService(appUserService);
-    //
-    // return daoAuthenticationProvider;
-    // }
-    // @Bean
-    //
-    //
-    // public AuthenticationManager
-    // authenticationManager(AuthenticationConfiguration
-    // authenticationConfiguration) throws Exception {
-    // return authenticationConfiguration.getAuthenticationManager();
-    // }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.jiranibora.com.twilio.TwilioConfig;
 
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Hello world!+

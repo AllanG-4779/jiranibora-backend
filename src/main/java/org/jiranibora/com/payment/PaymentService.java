@@ -3,7 +3,7 @@ package org.jiranibora.com.payment;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.jiranibora.com.application.TransactionDto;

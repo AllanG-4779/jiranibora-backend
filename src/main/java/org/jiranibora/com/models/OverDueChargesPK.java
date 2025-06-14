@@ -2,7 +2,7 @@ package org.jiranibora.com.models;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 import lombok.*;
 
 @Embeddable

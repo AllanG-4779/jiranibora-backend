@@ -78,7 +78,7 @@ public class MpesaService {
        ResponseEntity<?>response = restTemplate.exchange("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest", HttpMethod.POST, request, String.class);
 
        if(response.getStatusCode().is2xxSuccessful()){
-           return  response.getStatusCode();
+           return (HttpStatus) response.getStatusCode();
        }
        else{
            return null;

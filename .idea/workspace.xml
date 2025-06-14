@@ -5,10 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78547d82-1a0c-483e-86ec-7b396a69ac93" name="Changes" comment="added an endpoint for loans">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/65f5ff0a-32ae-4721-baf0-e58d684d45f2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/65f5ff0a-32ae-4721-baf0-e58d684d45f2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/JiraniBoraApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/ApplicationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/ApplicationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/ApplicationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/application/Utility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/auth/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/contributions/ContributionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/LoanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/dto/LoanApplicationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/loans/dto/LoanApplicationDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Contribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Contribution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Fine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Fine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/FineCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/FineCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/FinePrimaryKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/FinePrimaryKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/LoanApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/LoanApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/LoanStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/LoanStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Meeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Meeting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/MemberContribution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/MemberContribution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/MemberContributionPK.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/MemberContributionPK.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/OverDueChargesPK.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/OverDueChargesPK.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/OverdueCharges.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/OverdueCharges.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/PaymentCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/PaymentCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Penalty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Penalty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Transactions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/models/Transactions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/MpesaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/mpesa/MpesaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jiranibora/com/payment/PaymentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,6 +106,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.JiraniBoraApplication (1).executor": "Run",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
@@ -108,10 +135,11 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Docker.Dockerfile">
+  <component name="RunManager" selected="Spring Boot.JiraniBoraApplication (1)">
     <configuration name="JiraniBoraApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <option name="ACTIVE_PROFILES" />
-      <module name="jirani_bora_backend" />
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <module name="jiranibora" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.jiranibora.com.JiraniBoraApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -242,7 +270,7 @@
       <workItem from="1668500754845" duration="17757000" />
       <workItem from="1668579787021" duration="2279000" />
       <workItem from="1668595645956" duration="15902000" />
-      <workItem from="1749926849855" duration="523000" />
+      <workItem from="1749926849855" duration="2629000" />
     </task>
     <task id="LOCAL-00024" summary="member earning completed">
       <created>1667848176292</created>
